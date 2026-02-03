@@ -4,7 +4,7 @@ version = 4
 
 [[package]]
 name = "metal"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "metal-foundation",
  "metal-sys",
@@ -12,14 +12,14 @@ dependencies = [
 
 [[package]]
 name = "metal-foundation"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "metal-sys",
 ]
 
 [[package]]
 name = "metal-fx"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "metal",
  "metal-foundation",
@@ -28,11 +28,11 @@ dependencies = [
 
 [[package]]
 name = "metal-sys"
-version = "0.1.0"
+version = "1.0.0"
 
 [[package]]
 name = "quartz-core"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "metal",
  "metal-foundation",

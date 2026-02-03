@@ -1,13 +1,19 @@
 [package]
 name = "metal"
-version = "0.1.0"
-edition = "2024"
 description = "Rust bindings to Apple's Metal framework"
-license = "Apache-2.0"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+documentation.workspace = true
+rust-version.workspace = true
+keywords.workspace = true
+categories.workspace = true
 
 [dependencies]
-metal-sys = { path = "../metal-sys" }
-metal-foundation = { path = "../metal-foundation" }
+metal-sys.workspace = true
+metal-foundation.workspace = true
 
 [dev-dependencies]
 

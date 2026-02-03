@@ -9,19 +9,22 @@ members = [
 ]
 
 [workspace.package]
-version = "0.1.0"
+version = "1.0.0"
 edition = "2024"
-authors = ["Metal.rs Contributors"]
+authors = ["Jason Herald <jason.herald@gmail.com>"]
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/user/metal.rs"
+repository = "https://github.com/jasonherald/metal.rs"
+documentation = "https://jasonherald.github.io/metal.rs/metal/"
 rust-version = "1.85"
+keywords = ["metal", "gpu", "graphics", "apple", "macos"]
+categories = ["api-bindings", "rendering", "graphics"]
 
 [workspace.dependencies]
-metal-sys = { path = "crates/metal-sys" }
-metal-foundation = { path = "crates/metal-foundation" }
-metal = { path = "crates/metal" }
-metal-fx = { path = "crates/metal-fx" }
-quartz-core = { path = "crates/quartz-core" }
+metal-sys = { path = "crates/metal-sys", version = "1.0.0" }
+metal-foundation = { path = "crates/metal-foundation", version = "1.0.0" }
+metal = { path = "crates/metal", version = "1.0.0" }
+metal-fx = { path = "crates/metal-fx", version = "1.0.0" }
+quartz-core = { path = "crates/quartz-core", version = "1.0.0" }
 
 [profile.release]
 lto = true
