@@ -1,93 +1,112 @@
 # metal.rs
 
+[![Documentation](https://img.shields.io/badge/docs-github.io-blue)](https://jasonherald.github.io/metal.rs/metal/)
 
+Rust bindings to Apple's Metal framework. This is a direct conversion of [metal-cpp](https://developer.apple.com/metal/cpp/) to Rust, preserving the same API structure and naming conventions where possible.
 
-## Getting started
+## Requirements
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- macOS or iOS with Metal-capable hardware
+- Rust 1.85+
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Crates
 
-## Add your files
-
-* [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://git.aaru.network/jherald/metal.rs.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-* [Set up project integrations](https://git.aaru.network/jherald/metal.rs/-/settings/integrations)
-
-## Collaborate with your team
-
-* [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+| Crate | Description |
+|-------|-------------|
+| `metal` | Safe Metal bindings - devices, resources, commands, pipelines, encoders |
+| `metal-sys` | Low-level Objective-C FFI (zero external dependencies) |
+| `metal-foundation` | Foundation framework bindings (NSObject, NSString, NSArray, etc.) |
+| `metal-fx` | MetalFX bindings (SpatialScaler, TemporalScaler, FrameInterpolator) |
+| `quartz-core` | CAMetalLayer/CAMetalDrawable for display integration |
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Add to your `Cargo.toml`:
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+```toml
+[dependencies]
+metal = { git = "https://github.com/jasonherald/metal.rs" }
+```
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+### Example: Query device info
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+```rust
+use metal::device;
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+fn main() {
+    let device = device::system_default().expect("No Metal device");
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+    println!("Device: {}", device.name());
+    println!("Unified memory: {}", device.has_unified_memory());
+    println!("Max buffer length: {} bytes", device.max_buffer_length());
+}
+```
+
+### Example: Run a compute shader
+
+```rust
+use metal::{device, ComputeCommandEncoder, ResourceOptions, Size};
+
+const SHADER: &str = r#"
+#include <metal_stdlib>
+using namespace metal;
+
+kernel void double_values(device float* data [[buffer(0)]], uint id [[thread_position_in_grid]]) {
+    data[id] = data[id] * 2.0;
+}
+"#;
+
+fn main() {
+    let device = device::system_default().expect("No Metal device");
+
+    // Create buffer with data
+    let data: Vec<f32> = (0..16).map(|i| i as f32).collect();
+    let bytes: &[u8] = unsafe {
+        std::slice::from_raw_parts(data.as_ptr() as *const u8, data.len() * 4)
+    };
+    let buffer = device.new_buffer_with_bytes(bytes, ResourceOptions::STORAGE_MODE_SHARED).unwrap();
+
+    // Compile shader and create pipeline
+    let library = device.new_library_with_source(SHADER, None).unwrap();
+    let function = library.new_function_with_name("double_values").unwrap();
+    let pipeline = device.new_compute_pipeline_state_with_function(&function).unwrap();
+
+    // Encode and dispatch
+    let queue = device.new_command_queue().unwrap();
+    let cmd_buffer = queue.command_buffer().unwrap();
+    let encoder = unsafe { ComputeCommandEncoder::from_raw(cmd_buffer.compute_command_encoder()) }.unwrap();
+
+    encoder.set_compute_pipeline_state(&pipeline);
+    encoder.set_buffer(&buffer, 0, 0);
+    encoder.dispatch_threadgroups(Size::new(1, 1, 1), Size::new(16, 1, 1));
+    encoder.end_encoding();
+
+    cmd_buffer.commit();
+    cmd_buffer.wait_until_completed();
+
+    // Read results
+    let result = unsafe { std::slice::from_raw_parts(buffer.contents().unwrap() as *const f32, 16) };
+    println!("{:?}", result); // [0.0, 2.0, 4.0, 6.0, ...]
+}
+```
+
+## Running Examples
+
+```bash
+cargo run --example 01_device_info
+cargo run --example 02_buffer_compute
+cargo run --example 03_render_triangle
+# ... examples 04-10 cover blit operations, async completion, and Metal 4 features
+```
+
+## API Coverage
+
+- 253/253 classes (100%)
+- 2963/3175 methods (93%)
+- 125/125 enums (100%)
+
+See `docs/API_COVERAGE.md` for details.
 
 ## License
-For open source projects, say how it is licensed.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+MIT OR Apache-2.0
