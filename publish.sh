@@ -24,7 +24,7 @@ echo -e "${YELLOW}Checking git status...${NC}"
 if ! git diff --quiet || ! git diff --cached --quiet; then
     echo -e "${RED}Error: You have uncommitted changes.${NC}"
     echo "Please commit all changes before publishing:"
-    echo "  git add -A && git commit -m 'Prepare for v1.0.0 release'"
+    echo "  git add -A && git commit -m 'v1.0.1 - Add README to crates'"
     echo ""
     git status --short
     exit 1
@@ -32,38 +32,34 @@ fi
 echo -e "${GREEN}✓${NC} Git working directory is clean"
 
 # Crates in dependency order (must publish in this order)
-# Note: mtl-sys and mtl-foundation are already published
 CRATES=(
+    "mtl-sys"
+    "mtl-foundation"
     "mtl-gpu"
     "mtl-quartz-core"
     "mtl-fx"
 )
 
-# Step 1: Ask for confirmation
+# Ask for confirmation
 echo ""
 echo "========================================"
 echo "  Ready to publish the following crates:"
 echo "========================================"
 echo ""
-echo "  Already published:"
-echo "    - mtl-sys (v1.0.0) ✓"
-echo "    - mtl-foundation (v1.0.0) ✓"
-echo ""
-echo "  To be published:"
 for crate in "${CRATES[@]}"; do
-    echo "    - $crate (v1.0.0)"
+    echo "  - $crate (v1.0.1)"
 done
 echo ""
 echo -e "${YELLOW}WARNING: Once published, versions cannot be changed or deleted!${NC}"
 echo ""
-read -p "Type 'publish' to confirm and publish remaining crates: " confirmation
+read -p "Type 'publish' to confirm and publish all crates: " confirmation
 
 if [ "$confirmation" != "publish" ]; then
     echo -e "${RED}Aborted.${NC}"
     exit 1
 fi
 
-# Step 2: Publish each crate
+# Publish each crate
 echo ""
 echo -e "${YELLOW}Publishing crates...${NC}"
 echo ""
