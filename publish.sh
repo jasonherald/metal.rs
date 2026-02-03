@@ -40,25 +40,22 @@ CRATES=(
     "metal-fx"
 )
 
-# Step 1: Dry run all crates first
+# Step 1: Dry run first crate only (others will fail because deps aren't on crates.io yet)
 echo ""
-echo -e "${YELLOW}Step 1: Running dry-run for all crates...${NC}"
+echo -e "${YELLOW}Step 1: Running dry-run for metal-sys (base crate)...${NC}"
 echo ""
 
-for crate in "${CRATES[@]}"; do
-    echo -e "  Checking ${GREEN}$crate${NC}..."
-    if ! cargo publish -p "$crate" --dry-run 2>&1 | grep -v "Uploading\|Compiling\|Finished\|Packaged"; then
-        echo -e "${RED}Dry-run failed for $crate${NC}"
-        exit 1
-    fi
-    echo -e "  ${GREEN}✓${NC} $crate passed dry-run"
-done
+if ! cargo publish -p metal-sys --dry-run; then
+    echo -e "${RED}Dry-run failed for metal-sys${NC}"
+    exit 1
+fi
+echo -e "${GREEN}✓${NC} metal-sys passed dry-run"
 
 echo ""
-echo -e "${GREEN}All dry-runs passed!${NC}"
-echo ""
+echo -e "${YELLOW}Note: Skipping dry-run for dependent crates (they can't verify until dependencies are published)${NC}"
 
 # Step 2: Ask for confirmation
+echo ""
 echo "========================================"
 echo "  Ready to publish the following crates:"
 echo "========================================"
