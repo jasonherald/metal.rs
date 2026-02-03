@@ -33,23 +33,23 @@ echo -e "${GREEN}✓${NC} Git working directory is clean"
 
 # Crates in dependency order (must publish in this order)
 CRATES=(
-    "metal-sys"
-    "metal-foundation"
-    "metal"
-    "quartz-core"
-    "metal-fx"
+    "mtl-sys"
+    "mtl-foundation"
+    "mtl"
+    "mtl-quartz-core"
+    "mtl-fx"
 )
 
 # Step 1: Dry run first crate only (others will fail because deps aren't on crates.io yet)
 echo ""
-echo -e "${YELLOW}Step 1: Running dry-run for metal-sys (base crate)...${NC}"
+echo -e "${YELLOW}Step 1: Running dry-run for mtl-sys (base crate)...${NC}"
 echo ""
 
-if ! cargo publish -p metal-sys --dry-run; then
-    echo -e "${RED}Dry-run failed for metal-sys${NC}"
+if ! cargo publish -p mtl-sys --dry-run; then
+    echo -e "${RED}Dry-run failed for mtl-sys${NC}"
     exit 1
 fi
-echo -e "${GREEN}✓${NC} metal-sys passed dry-run"
+echo -e "${GREEN}✓${NC} mtl-sys passed dry-run"
 
 echo ""
 echo -e "${YELLOW}Note: Skipping dry-run for dependent crates (they can't verify until dependencies are published)${NC}"
@@ -87,7 +87,7 @@ for crate in "${CRATES[@]}"; do
     echo -e "${GREEN}✓${NC} $crate published successfully"
 
     # Wait between publishes for crates.io to index
-    if [ "$crate" != "metal-fx" ]; then
+    if [ "$crate" != "mtl-fx" ]; then
         echo "  Waiting 30 seconds for crates.io to index..."
         sleep 30
     fi
@@ -99,9 +99,9 @@ echo -e "${GREEN}  All crates published successfully!${NC}"
 echo "========================================"
 echo ""
 echo "Your crates are now available at:"
-echo "  https://crates.io/crates/metal-sys"
-echo "  https://crates.io/crates/metal-foundation"
-echo "  https://crates.io/crates/metal"
-echo "  https://crates.io/crates/quartz-core"
-echo "  https://crates.io/crates/metal-fx"
+echo "  https://crates.io/crates/mtl-sys"
+echo "  https://crates.io/crates/mtl-foundation"
+echo "  https://crates.io/crates/mtl"
+echo "  https://crates.io/crates/mtl-quartz-core"
+echo "  https://crates.io/crates/mtl-fx"
 echo ""

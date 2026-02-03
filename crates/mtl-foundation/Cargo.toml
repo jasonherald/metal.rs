@@ -1,0 +1,20 @@
+[package]
+name = "mtl-foundation"
+description = "Foundation framework bindings (NSObject, NSString, NSArray, etc.)"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+documentation.workspace = true
+rust-version.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[features]
+default = []
+
+[dependencies]
+mtl-sys.workspace = true
+
+[dev-dependencies]

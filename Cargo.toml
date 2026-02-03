@@ -1,11 +1,11 @@
 [workspace]
 resolver = "2"
 members = [
-    "crates/metal-sys",
-    "crates/metal-foundation",
-    "crates/metal",
-    "crates/metal-fx",
-    "crates/quartz-core",
+    "crates/mtl-sys",
+    "crates/mtl-foundation",
+    "crates/mtl",
+    "crates/mtl-fx",
+    "crates/mtl-quartz-core",
 ]
 
 [workspace.package]
@@ -14,17 +14,17 @@ edition = "2024"
 authors = ["Jason Herald <jason.herald@gmail.com>"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/jasonherald/metal.rs"
-documentation = "https://jasonherald.github.io/metal.rs/metal/"
+documentation = "https://jasonherald.github.io/metal.rs/mtl/"
 rust-version = "1.85"
 keywords = ["metal", "gpu", "graphics", "apple", "macos"]
 categories = ["api-bindings", "rendering", "graphics"]
 
 [workspace.dependencies]
-metal-sys = { path = "crates/metal-sys", version = "1.0.0" }
-metal-foundation = { path = "crates/metal-foundation", version = "1.0.0" }
-metal = { path = "crates/metal", version = "1.0.0" }
-metal-fx = { path = "crates/metal-fx", version = "1.0.0" }
-quartz-core = { path = "crates/quartz-core", version = "1.0.0" }
+mtl-sys = { path = "crates/mtl-sys", version = "1.0.0" }
+mtl-foundation = { path = "crates/mtl-foundation", version = "1.0.0" }
+mtl = { path = "crates/mtl", version = "1.0.0" }
+mtl-fx = { path = "crates/mtl-fx", version = "1.0.0" }
+mtl-quartz-core = { path = "crates/mtl-quartz-core", version = "1.0.0" }
 
 [profile.release]
 lto = true

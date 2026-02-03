@@ -1,0 +1,22 @@
+[package]
+name = "mtl-quartz-core"
+description = "QuartzCore/CoreAnimation bindings (CAMetalLayer, CAMetalDrawable)"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+documentation.workspace = true
+rust-version.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[features]
+default = []
+
+[dependencies]
+mtl-sys.workspace = true
+mtl-foundation.workspace = true
+mtl.workspace = true
+
+[dev-dependencies]

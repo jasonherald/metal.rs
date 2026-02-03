@@ -3,38 +3,38 @@
 version = 4
 
 [[package]]
-name = "metal"
+name = "mtl"
 version = "1.0.0"
 dependencies = [
- "metal-foundation",
- "metal-sys",
+ "mtl-foundation",
+ "mtl-sys",
 ]
 
 [[package]]
-name = "metal-foundation"
+name = "mtl-foundation"
 version = "1.0.0"
 dependencies = [
- "metal-sys",
+ "mtl-sys",
 ]
 
 [[package]]
-name = "metal-fx"
+name = "mtl-fx"
 version = "1.0.0"
 dependencies = [
- "metal",
- "metal-foundation",
- "metal-sys",
+ "mtl",
+ "mtl-foundation",
+ "mtl-sys",
 ]
 
 [[package]]
-name = "metal-sys"
-version = "1.0.0"
-
-[[package]]
-name = "quartz-core"
+name = "mtl-quartz-core"
 version = "1.0.0"
 dependencies = [
- "metal",
- "metal-foundation",
- "metal-sys",
+ "mtl",
+ "mtl-foundation",
+ "mtl-sys",
 ]
+
+[[package]]
+name = "mtl-sys"
+version = "1.0.0"
