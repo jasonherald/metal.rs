@@ -1,7 +1,7 @@
 # metal.rs
 
+[![crates.io](https://img.shields.io/crates/v/mtl-gpu.svg)](https://crates.io/crates/mtl-gpu)
 [![Documentation](https://img.shields.io/badge/docs-github.io-blue)](https://jasonherald.github.io/metal.rs/mtl_gpu/)
-[![Version](https://img.shields.io/badge/version-1.0.0-green)](https://crates.io/crates/mtl-gpu)
 
 Rust bindings to Apple's Metal framework. This is a direct conversion of [metal-cpp](https://developer.apple.com/metal/cpp/) to Rust, preserving the same API structure and naming conventions where possible.
 
@@ -16,11 +16,11 @@ Rust bindings to Apple's Metal framework. This is a direct conversion of [metal-
 
 | Crate | Description |
 |-------|-------------|
-| `mtl-gpu` | Safe Metal bindings - devices, resources, commands, pipelines, encoders |
-| `mtl-sys` | Low-level Objective-C FFI (zero external dependencies) |
-| `mtl-foundation` | Foundation framework bindings (NSObject, NSString, NSArray, etc.) |
-| `mtl-fx` | MetalFX bindings (SpatialScaler, TemporalScaler, FrameInterpolator) |
-| `mtl-quartz-core` | CAMetalLayer/CAMetalDrawable for display integration |
+| [`mtl-gpu`](https://crates.io/crates/mtl-gpu) | Safe Metal bindings - devices, resources, commands, pipelines, encoders |
+| [`mtl-sys`](https://crates.io/crates/mtl-sys) | Low-level Objective-C FFI (zero external dependencies) |
+| [`mtl-foundation`](https://crates.io/crates/mtl-foundation) | Foundation framework bindings (NSObject, NSString, NSArray, etc.) |
+| [`mtl-fx`](https://crates.io/crates/mtl-fx) | MetalFX bindings (SpatialScaler, TemporalScaler, FrameInterpolator) |
+| [`mtl-quartz-core`](https://crates.io/crates/mtl-quartz-core) | CAMetalLayer/CAMetalDrawable for display integration |
 
 ## Usage
 
@@ -28,7 +28,7 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-mtl-gpu = { git = "https://github.com/jasonherald/metal.rs" }
+mtl-gpu = "1.0"
 ```
 
 ### Example: Query device info
