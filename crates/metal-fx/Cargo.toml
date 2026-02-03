@@ -1,0 +1,18 @@
+[package]
+name = "metal-fx"
+description = "MetalFX bindings for AI upscaling and frame interpolation"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[features]
+default = []
+
+[dependencies]
+metal-sys.workspace = true
+metal-foundation.workspace = true
+metal.workspace = true
+
+[dev-dependencies]

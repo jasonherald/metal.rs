@@ -1,0 +1,18 @@
+[package]
+name = "metal"
+version = "0.1.0"
+edition = "2024"
+description = "Rust bindings to Apple's Metal framework"
+license = "Apache-2.0"
+
+[dependencies]
+metal-sys = { path = "../metal-sys" }
+metal-foundation = { path = "../metal-foundation" }
+
+[dev-dependencies]
+
+[features]
+default = []
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "warn"

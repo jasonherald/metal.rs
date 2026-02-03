@@ -1,0 +1,28 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/metal-sys",
+    "crates/metal-foundation",
+    "crates/metal",
+    "crates/metal-fx",
+    "crates/quartz-core",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+authors = ["Metal.rs Contributors"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/user/metal.rs"
+rust-version = "1.85"
+
+[workspace.dependencies]
+metal-sys = { path = "crates/metal-sys" }
+metal-foundation = { path = "crates/metal-foundation" }
+metal = { path = "crates/metal" }
+metal-fx = { path = "crates/metal-fx" }
+quartz-core = { path = "crates/quartz-core" }
+
+[profile.release]
+lto = true
+codegen-units = 1

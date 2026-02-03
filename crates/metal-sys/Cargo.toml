@@ -1,0 +1,16 @@
+[package]
+name = "metal-sys"
+description = "Low-level Objective-C runtime bindings for Metal"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[features]
+default = []
+
+[dependencies]
+# Zero external dependencies
+
+[dev-dependencies]
