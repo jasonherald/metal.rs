@@ -102,8 +102,11 @@ impl ArgumentEncoder {
     /// C++ equivalent: `ArgumentEncoder* newArgumentEncoder(NS::UInteger index)`
     pub fn new_argument_encoder(&self, index: UInteger) -> Option<ArgumentEncoder> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(self.as_ptr(), sel!(newArgumentEncoderForBufferAtIndex:), index);
+            let ptr: *mut c_void = msg_send_1(
+                self.as_ptr(),
+                sel!(newArgumentEncoderForBufferAtIndex:),
+                index,
+            );
             ArgumentEncoder::from_raw(ptr)
         }
     }
@@ -188,7 +191,11 @@ impl ArgumentEncoder {
     /// Set a render pipeline state at the given index.
     ///
     /// C++ equivalent: `void setRenderPipelineState(const MTL::RenderPipelineState*, NS::UInteger)`
-    pub fn set_render_pipeline_state(&self, pipeline: &crate::RenderPipelineState, index: UInteger) {
+    pub fn set_render_pipeline_state(
+        &self,
+        pipeline: &crate::RenderPipelineState,
+        index: UInteger,
+    ) {
         unsafe {
             let _: () = msg_send_2(
                 self.as_ptr(),

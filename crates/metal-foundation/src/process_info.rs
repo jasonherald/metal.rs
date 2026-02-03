@@ -236,7 +236,13 @@ impl ProcessInfo {
     /// C++ equivalent: `bool isOperatingSystemAtLeastVersion(OperatingSystemVersion version) const`
     #[inline]
     pub fn is_operating_system_at_least_version(&self, version: OperatingSystemVersion) -> bool {
-        unsafe { msg_send_1(self.as_ptr(), sel!(isOperatingSystemAtLeastVersion:), version) }
+        unsafe {
+            msg_send_1(
+                self.as_ptr(),
+                sel!(isOperatingSystemAtLeastVersion:),
+                version,
+            )
+        }
     }
 
     /// Get the processor count.
@@ -411,7 +417,13 @@ impl ProcessInfo {
     /// C++ equivalent: `bool hasPerformanceProfile(ProcessPerformanceProfile performanceProfile) const`
     #[inline]
     pub fn has_performance_profile(&self, performance_profile: ProcessPerformanceProfile) -> bool {
-        unsafe { msg_send_1(self.as_ptr(), sel!(hasPerformanceProfile:), performance_profile) }
+        unsafe {
+            msg_send_1(
+                self.as_ptr(),
+                sel!(hasPerformanceProfile:),
+                performance_profile,
+            )
+        }
     }
 
     /// Create a ProcessInfo from a raw pointer.
@@ -437,9 +449,7 @@ unsafe impl Sync for ProcessInfo {}
 
 impl std::fmt::Debug for ProcessInfo {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("ProcessInfo")
-            .field("ptr", &self.0)
-            .finish()
+        f.debug_struct("ProcessInfo").field("ptr", &self.0).finish()
     }
 }
 

@@ -7,8 +7,8 @@ use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
 use crate::enums::{
-    PixelFormat, ResourceOptions, TextureCompressionType, TextureSparseTier, TextureSwizzleChannels,
-    TextureType, TextureUsage,
+    PixelFormat, ResourceOptions, TextureCompressionType, TextureSparseTier,
+    TextureSwizzleChannels, TextureType, TextureUsage,
 };
 use crate::types::ResourceID;
 
@@ -255,11 +255,7 @@ impl Texture {
     pub fn iosurface(&self) -> Option<*mut c_void> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(iosurface));
-            if ptr.is_null() {
-                None
-            } else {
-                Some(ptr)
-            }
+            if ptr.is_null() { None } else { Some(ptr) }
         }
     }
 
@@ -317,8 +313,11 @@ impl Texture {
     /// C++ equivalent: `Texture* newTextureView(PixelFormat)`
     pub fn new_texture_view_with_pixel_format(&self, pixel_format: PixelFormat) -> Option<Texture> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(self.as_ptr(), sel!(newTextureViewWithPixelFormat:), pixel_format);
+            let ptr: *mut c_void = msg_send_1(
+                self.as_ptr(),
+                sel!(newTextureViewWithPixelFormat:),
+                pixel_format,
+            );
             Texture::from_raw(ptr)
         }
     }
@@ -419,7 +418,15 @@ impl Texture {
         slice: UInteger,
     ) {
         unsafe {
-            metal_sys::msg_send_6::<(), *mut c_void, UInteger, UInteger, crate::types::Region, UInteger, UInteger>(
+            metal_sys::msg_send_6::<
+                (),
+                *mut c_void,
+                UInteger,
+                UInteger,
+                crate::types::Region,
+                UInteger,
+                UInteger,
+            >(
                 self.as_ptr(),
                 sel!(getBytes: bytesPerRow: bytesPerImage: fromRegion: mipmapLevel: slice:),
                 pixel_bytes,
@@ -475,7 +482,15 @@ impl Texture {
         bytes_per_image: UInteger,
     ) {
         unsafe {
-            metal_sys::msg_send_6::<(), crate::types::Region, UInteger, UInteger, *const c_void, UInteger, UInteger>(
+            metal_sys::msg_send_6::<
+                (),
+                crate::types::Region,
+                UInteger,
+                UInteger,
+                *const c_void,
+                UInteger,
+                UInteger,
+            >(
                 self.as_ptr(),
                 sel!(replaceRegion: mipmapLevel: slice: withBytes: bytesPerRow: bytesPerImage:),
                 region,

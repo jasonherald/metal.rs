@@ -3,7 +3,7 @@
 //! Provides low-level access to the Objective-C runtime for selector
 //! registration and class lookup.
 
-use std::ffi::{c_char, c_void, CString};
+use std::ffi::{CString, c_char, c_void};
 use std::sync::OnceLock;
 
 /// Objective-C selector.
@@ -99,11 +99,7 @@ impl Class {
     pub fn get(name: &str) -> Option<Self> {
         let c_name = CString::new(name).expect("class name contains null byte");
         let ptr = unsafe { objc_lookUpClass(c_name.as_ptr()) };
-        if ptr.is_null() {
-            None
-        } else {
-            Some(Self(ptr))
-        }
+        if ptr.is_null() { None } else { Some(Self(ptr)) }
     }
 
     /// Look up a class from a null-terminated C string.
@@ -114,11 +110,7 @@ impl Class {
     #[inline]
     pub unsafe fn get_cstr(name: *const c_char) -> Option<Self> {
         let ptr = unsafe { objc_lookUpClass(name) };
-        if ptr.is_null() {
-            None
-        } else {
-            Some(Self(ptr))
-        }
+        if ptr.is_null() { None } else { Some(Self(ptr)) }
     }
 
     /// Returns the raw pointer value.
@@ -187,11 +179,7 @@ impl Protocol {
     pub fn get(name: &str) -> Option<Self> {
         let c_name = CString::new(name).expect("protocol name contains null byte");
         let ptr = unsafe { objc_getProtocol(c_name.as_ptr()) };
-        if ptr.is_null() {
-            None
-        } else {
-            Some(Self(ptr))
-        }
+        if ptr.is_null() { None } else { Some(Self(ptr)) }
     }
 
     /// Check if this protocol declares an instance method with the given selector.
@@ -288,9 +276,9 @@ impl CachedClass {
     /// Panics if the class is not found.
     #[inline]
     pub fn get(&self, name: &str) -> Class {
-        *self.inner.get_or_init(|| {
-            Class::get(name).unwrap_or_else(|| panic!("class {} not found", name))
-        })
+        *self
+            .inner
+            .get_or_init(|| Class::get(name).unwrap_or_else(|| panic!("class {} not found", name)))
     }
 
     /// Get the class if available, initializing it if needed.

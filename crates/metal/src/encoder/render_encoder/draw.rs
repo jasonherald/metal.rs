@@ -8,9 +8,9 @@ use std::ffi::c_void;
 use metal_foundation::{Integer, Referencing, UInteger};
 use metal_sys::{msg_send_1, sel};
 
+use crate::Buffer;
 use crate::enums::{IndexType, PrimitiveType};
 use crate::types::Size;
-use crate::Buffer;
 
 use super::RenderCommandEncoder;
 
@@ -520,7 +520,11 @@ impl RenderCommandEncoder {
     #[inline]
     pub fn dispatch_threads_per_tile(&self, threads_per_tile: Size) {
         unsafe {
-            msg_send_1::<(), Size>(self.as_ptr(), sel!(dispatchThreadsPerTile:), threads_per_tile);
+            msg_send_1::<(), Size>(
+                self.as_ptr(),
+                sel!(dispatchThreadsPerTile:),
+                threads_per_tile,
+            );
         }
     }
 }

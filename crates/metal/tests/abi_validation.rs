@@ -9,14 +9,13 @@
 //! - Field offsets are correct (for packed structs)
 //! - Alignment requirements are met
 
-use std::mem::{size_of, offset_of};
+use std::mem::{offset_of, size_of};
 
 use metal::{
-    Origin, Size, Region, SamplePosition, Viewport, ClearColor, ScissorRect,
-    DrawPrimitivesIndirectArguments, DrawIndexedPrimitivesIndirectArguments,
-    DrawPatchIndirectArguments, DispatchThreadgroupsIndirectArguments,
-    DispatchThreadsIndirectArguments, StageInRegionIndirectArguments,
-    SizeAndAlign, ResourceID,
+    ClearColor, DispatchThreadgroupsIndirectArguments, DispatchThreadsIndirectArguments,
+    DrawIndexedPrimitivesIndirectArguments, DrawPatchIndirectArguments,
+    DrawPrimitivesIndirectArguments, Origin, Region, ResourceID, SamplePosition, ScissorRect, Size,
+    SizeAndAlign, StageInRegionIndirectArguments, Viewport,
 };
 
 // =============================================================================
@@ -26,7 +25,11 @@ use metal::{
 #[test]
 fn test_origin_layout() {
     // Origin has 3 UInteger (usize) fields = 3 * 8 = 24 bytes on 64-bit
-    assert_eq!(size_of::<Origin>(), 24, "Origin should be 24 bytes on 64-bit");
+    assert_eq!(
+        size_of::<Origin>(),
+        24,
+        "Origin should be 24 bytes on 64-bit"
+    );
 
     // Verify field offsets (packed struct, no padding)
     assert_eq!(offset_of!(Origin, x), 0);
@@ -58,7 +61,11 @@ fn test_region_layout() {
 #[test]
 fn test_sample_position_layout() {
     // SamplePosition has 2 f32 fields = 2 * 4 = 8 bytes
-    assert_eq!(size_of::<SamplePosition>(), 8, "SamplePosition should be 8 bytes");
+    assert_eq!(
+        size_of::<SamplePosition>(),
+        8,
+        "SamplePosition should be 8 bytes"
+    );
 
     // Verify field offsets
     assert_eq!(offset_of!(SamplePosition, x), 0);
@@ -98,7 +105,11 @@ fn test_clear_color_layout() {
 #[test]
 fn test_scissor_rect_layout() {
     // ScissorRect has 4 UInteger fields = 4 * 8 = 32 bytes on 64-bit
-    assert_eq!(size_of::<ScissorRect>(), 32, "ScissorRect should be 32 bytes on 64-bit");
+    assert_eq!(
+        size_of::<ScissorRect>(),
+        32,
+        "ScissorRect should be 32 bytes on 64-bit"
+    );
 
     // Verify field offsets
     assert_eq!(offset_of!(ScissorRect, x), 0);
@@ -121,9 +132,15 @@ fn test_draw_primitives_indirect_arguments_layout() {
     );
 
     assert_eq!(offset_of!(DrawPrimitivesIndirectArguments, vertex_count), 0);
-    assert_eq!(offset_of!(DrawPrimitivesIndirectArguments, instance_count), 4);
+    assert_eq!(
+        offset_of!(DrawPrimitivesIndirectArguments, instance_count),
+        4
+    );
     assert_eq!(offset_of!(DrawPrimitivesIndirectArguments, vertex_start), 8);
-    assert_eq!(offset_of!(DrawPrimitivesIndirectArguments, base_instance), 12);
+    assert_eq!(
+        offset_of!(DrawPrimitivesIndirectArguments, base_instance),
+        12
+    );
 }
 
 #[test]
@@ -135,11 +152,26 @@ fn test_draw_indexed_primitives_indirect_arguments_layout() {
         "DrawIndexedPrimitivesIndirectArguments should be 20 bytes"
     );
 
-    assert_eq!(offset_of!(DrawIndexedPrimitivesIndirectArguments, index_count), 0);
-    assert_eq!(offset_of!(DrawIndexedPrimitivesIndirectArguments, instance_count), 4);
-    assert_eq!(offset_of!(DrawIndexedPrimitivesIndirectArguments, index_start), 8);
-    assert_eq!(offset_of!(DrawIndexedPrimitivesIndirectArguments, base_vertex), 12);
-    assert_eq!(offset_of!(DrawIndexedPrimitivesIndirectArguments, base_instance), 16);
+    assert_eq!(
+        offset_of!(DrawIndexedPrimitivesIndirectArguments, index_count),
+        0
+    );
+    assert_eq!(
+        offset_of!(DrawIndexedPrimitivesIndirectArguments, instance_count),
+        4
+    );
+    assert_eq!(
+        offset_of!(DrawIndexedPrimitivesIndirectArguments, index_start),
+        8
+    );
+    assert_eq!(
+        offset_of!(DrawIndexedPrimitivesIndirectArguments, base_vertex),
+        12
+    );
+    assert_eq!(
+        offset_of!(DrawIndexedPrimitivesIndirectArguments, base_instance),
+        16
+    );
 }
 
 #[test]
@@ -166,7 +198,10 @@ fn test_dispatch_threadgroups_indirect_arguments_layout() {
         "DispatchThreadgroupsIndirectArguments should be 12 bytes"
     );
 
-    assert_eq!(offset_of!(DispatchThreadgroupsIndirectArguments, threadgroups_per_grid), 0);
+    assert_eq!(
+        offset_of!(DispatchThreadgroupsIndirectArguments, threadgroups_per_grid),
+        0
+    );
 }
 
 #[test]
@@ -178,8 +213,14 @@ fn test_dispatch_threads_indirect_arguments_layout() {
         "DispatchThreadsIndirectArguments should be 24 bytes"
     );
 
-    assert_eq!(offset_of!(DispatchThreadsIndirectArguments, threads_per_grid), 0);
-    assert_eq!(offset_of!(DispatchThreadsIndirectArguments, threads_per_threadgroup), 12);
+    assert_eq!(
+        offset_of!(DispatchThreadsIndirectArguments, threads_per_grid),
+        0
+    );
+    assert_eq!(
+        offset_of!(DispatchThreadsIndirectArguments, threads_per_threadgroup),
+        12
+    );
 }
 
 #[test]
@@ -191,8 +232,14 @@ fn test_stage_in_region_indirect_arguments_layout() {
         "StageInRegionIndirectArguments should be 24 bytes"
     );
 
-    assert_eq!(offset_of!(StageInRegionIndirectArguments, stage_in_origin), 0);
-    assert_eq!(offset_of!(StageInRegionIndirectArguments, stage_in_size), 12);
+    assert_eq!(
+        offset_of!(StageInRegionIndirectArguments, stage_in_origin),
+        0
+    );
+    assert_eq!(
+        offset_of!(StageInRegionIndirectArguments, stage_in_size),
+        12
+    );
 }
 
 // =============================================================================
@@ -210,7 +257,11 @@ fn test_resource_id_layout() {
 #[test]
 fn test_size_and_align_layout() {
     // SizeAndAlign has 2 UInteger fields = 2 * 8 = 16 bytes on 64-bit
-    assert_eq!(size_of::<SizeAndAlign>(), 16, "SizeAndAlign should be 16 bytes on 64-bit");
+    assert_eq!(
+        size_of::<SizeAndAlign>(),
+        16,
+        "SizeAndAlign should be 16 bytes on 64-bit"
+    );
 
     assert_eq!(offset_of!(SizeAndAlign, size), 0);
     assert_eq!(offset_of!(SizeAndAlign, align), 8);

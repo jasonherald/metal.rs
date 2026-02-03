@@ -442,8 +442,7 @@ impl StageInputOutputDescriptor {
     pub fn new() -> Option<Self> {
         unsafe {
             let class = metal_sys::class!(MTLStageInputOutputDescriptor);
-            let ptr: *mut c_void =
-                msg_send_0(class.as_ptr(), sel!(stageInputOutputDescriptor));
+            let ptr: *mut c_void = msg_send_0(class.as_ptr(), sel!(stageInputOutputDescriptor));
             Self::from_raw(ptr)
         }
     }

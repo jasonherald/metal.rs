@@ -60,35 +60,35 @@
 //! - [`MachineLearningPipelineState`] - Compiled ML pipeline state
 //! - [`MachineLearningPipelineReflection`] - ML pipeline reflection data
 
-mod enums;
+mod acceleration_structure;
+mod archive;
+mod argument_table;
+mod binary_function;
 mod command_allocator;
 mod command_buffer;
+mod command_encoder;
 mod command_queue;
 mod commit_feedback;
-mod command_encoder;
+mod compiler;
+mod compiler_task;
 mod compute_command_encoder;
+mod compute_pipeline;
+mod counters;
+mod enums;
+mod function_descriptor;
+mod library_descriptor;
+mod library_function_descriptor;
+mod linking_descriptor;
+mod machine_learning;
+mod mesh_render_pipeline;
+mod pipeline_data_set_serializer;
+mod pipeline_state;
 mod render_command_encoder;
 mod render_pass;
-mod function_descriptor;
-mod linking_descriptor;
-mod pipeline_state;
-mod compute_pipeline;
 mod render_pipeline;
-mod mesh_render_pipeline;
-mod tile_render_pipeline;
-mod binary_function;
-mod library_descriptor;
-mod pipeline_data_set_serializer;
-mod compiler_task;
-mod compiler;
-mod argument_table;
-mod archive;
-mod library_function_descriptor;
 mod specialized_function_descriptor;
 mod stitched_function_descriptor;
-mod counters;
-mod machine_learning;
-mod acceleration_structure;
+mod tile_render_pipeline;
 
 // Re-export enums
 pub use enums::{
@@ -146,8 +146,8 @@ pub use pipeline_data_set_serializer::{
 };
 
 // Re-export compiler types
-pub use compiler_task::CompilerTask;
 pub use compiler::{Compiler, CompilerDescriptor, CompilerTaskOptions};
+pub use compiler_task::CompilerTask;
 
 // Re-export render pass types
 pub use render_pass::RenderPassDescriptor;

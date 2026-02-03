@@ -433,8 +433,14 @@ mod tests {
 
     #[test]
     fn test_pipeline_data_set_serializer_configuration_values() {
-        assert_eq!(PipelineDataSetSerializerConfiguration::CAPTURE_DESCRIPTORS.0, 1);
-        assert_eq!(PipelineDataSetSerializerConfiguration::CAPTURE_BINARIES.0, 2);
+        assert_eq!(
+            PipelineDataSetSerializerConfiguration::CAPTURE_DESCRIPTORS.0,
+            1
+        );
+        assert_eq!(
+            PipelineDataSetSerializerConfiguration::CAPTURE_BINARIES.0,
+            2
+        );
 
         let combined = PipelineDataSetSerializerConfiguration::CAPTURE_DESCRIPTORS
             | PipelineDataSetSerializerConfiguration::CAPTURE_BINARIES;

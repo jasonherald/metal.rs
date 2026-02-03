@@ -7,9 +7,9 @@ use std::ffi::c_void;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_2, sel};
 
-use crate::enums::{DeviceLocation, ReadWriteTextureTier, ArgumentBuffersTier};
+use super::{Architecture, Device};
+use crate::enums::{ArgumentBuffersTier, DeviceLocation, ReadWriteTextureTier};
 use crate::types::SamplePosition;
-use super::{Device, Architecture};
 
 impl Device {
     /// Get the device name.
@@ -33,9 +33,7 @@ impl Device {
             if c_str.is_null() {
                 return "";
             }
-            std::ffi::CStr::from_ptr(c_str)
-                .to_str()
-                .unwrap_or("")
+            std::ffi::CStr::from_ptr(c_str).to_str().unwrap_or("")
         }
     }
 

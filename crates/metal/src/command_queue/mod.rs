@@ -222,8 +222,11 @@ impl CommandQueue {
         descriptor: *const c_void,
     ) -> Option<crate::command_buffer::CommandBuffer> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(self.as_ptr(), sel!(commandBufferWithDescriptor:), descriptor);
+            let ptr: *mut c_void = msg_send_1(
+                self.as_ptr(),
+                sel!(commandBufferWithDescriptor:),
+                descriptor,
+            );
             if ptr.is_null() {
                 return None;
             }

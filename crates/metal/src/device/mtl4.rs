@@ -10,10 +10,10 @@ use metal_sys::{msg_send_0, msg_send_1, msg_send_2, sel};
 use super::Device;
 use crate::function_table::FunctionHandle;
 use crate::mtl4::{
-    Archive, ArgumentTable, ArgumentTableDescriptor, CommandAllocator,
-    CommandAllocatorDescriptor, CommandQueue, CommandQueueDescriptor, Compiler,
-    CompilerDescriptor, CounterHeap, CounterHeapDescriptor, CounterHeapType,
-    PipelineDataSetSerializer, PipelineDataSetSerializerDescriptor,
+    Archive, ArgumentTable, ArgumentTableDescriptor, CommandAllocator, CommandAllocatorDescriptor,
+    CommandQueue, CommandQueueDescriptor, Compiler, CompilerDescriptor, CounterHeap,
+    CounterHeapDescriptor, CounterHeapType, PipelineDataSetSerializer,
+    PipelineDataSetSerializerDescriptor,
 };
 
 impl Device {
@@ -238,14 +238,11 @@ impl Device {
     /// Get the size of a counter heap entry.
     ///
     /// C++ equivalent: `NS::UInteger sizeOfCounterHeapEntry(MTL4::CounterHeapType type)`
-    pub fn size_of_counter_heap_entry(&self, heap_type: CounterHeapType) -> metal_foundation::UInteger {
-        unsafe {
-            msg_send_1(
-                self.as_ptr(),
-                sel!(sizeOfCounterHeapEntry:),
-                heap_type,
-            )
-        }
+    pub fn size_of_counter_heap_entry(
+        &self,
+        heap_type: CounterHeapType,
+    ) -> metal_foundation::UInteger {
+        unsafe { msg_send_1(self.as_ptr(), sel!(sizeOfCounterHeapEntry:), heap_type) }
     }
 
     // =========================================================================

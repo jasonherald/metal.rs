@@ -76,8 +76,8 @@ use std::ptr::NonNull;
 
 use metal_sys::{class, msg_send_0, msg_send_1, msg_send_2, msg_send_4, sel};
 
-use crate::object::{Copying, Referencing};
 use crate::objc_runtime::ComparisonResult;
+use crate::object::{Copying, Referencing};
 use crate::range::Range;
 use crate::types::UInteger;
 
@@ -386,8 +386,11 @@ impl String {
     #[inline]
     pub fn string_with_string(string: &String) -> Option<Self> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(class!(NSString).as_ptr(), sel!(stringWithString:), string.as_ptr());
+            let ptr: *mut c_void = msg_send_1(
+                class!(NSString).as_ptr(),
+                sel!(stringWithString:),
+                string.as_ptr(),
+            );
             Self::from_ptr(ptr)
         }
     }
@@ -446,7 +449,11 @@ impl String {
     ///
     /// C++ equivalent: `String* init(const char* pString, StringEncoding encoding)`
     #[inline]
-    pub fn init_with_cstring(&self, cstring: *const c_char, encoding: StringEncoding) -> Option<Self> {
+    pub fn init_with_cstring(
+        &self,
+        cstring: *const c_char,
+        encoding: StringEncoding,
+    ) -> Option<Self> {
         unsafe {
             let ptr: *mut c_void = msg_send_2(
                 self.as_ptr(),
@@ -519,7 +526,13 @@ impl String {
     /// C++ equivalent: `UInteger maximumLengthOfBytes(StringEncoding encoding) const`
     #[inline]
     pub fn maximum_length_of_bytes(&self, encoding: StringEncoding) -> UInteger {
-        unsafe { msg_send_1(self.as_ptr(), sel!(maximumLengthOfBytesUsingEncoding:), encoding.0) }
+        unsafe {
+            msg_send_1(
+                self.as_ptr(),
+                sel!(maximumLengthOfBytesUsingEncoding:),
+                encoding.0,
+            )
+        }
     }
 
     /// Get the actual length in bytes for the specified encoding.
@@ -543,7 +556,14 @@ impl String {
     /// C++ equivalent: `Range rangeOfString(const String* pString, StringCompareOptions options) const`
     #[inline]
     pub fn range_of_string(&self, string: &String, options: StringCompareOptions) -> Range {
-        unsafe { msg_send_2(self.as_ptr(), sel!(rangeOfString:options:), string.as_ptr(), options.0) }
+        unsafe {
+            msg_send_2(
+                self.as_ptr(),
+                sel!(rangeOfString:options:),
+                string.as_ptr(),
+                options.0,
+            )
+        }
     }
 
     /// Get the file system representation of the string.
@@ -560,8 +580,11 @@ impl String {
     #[inline]
     pub fn string_by_appending_string(&self, string: &String) -> Option<Self> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(self.as_ptr(), sel!(stringByAppendingString:), string.as_ptr());
+            let ptr: *mut c_void = msg_send_1(
+                self.as_ptr(),
+                sel!(stringByAppendingString:),
+                string.as_ptr(),
+            );
             Self::from_ptr(ptr)
         }
     }
@@ -571,7 +594,13 @@ impl String {
     /// C++ equivalent: `ComparisonResult caseInsensitiveCompare(const String* pString) const`
     #[inline]
     pub fn case_insensitive_compare(&self, string: &String) -> ComparisonResult {
-        unsafe { msg_send_1(self.as_ptr(), sel!(caseInsensitiveCompare:), string.as_ptr()) }
+        unsafe {
+            msg_send_1(
+                self.as_ptr(),
+                sel!(caseInsensitiveCompare:),
+                string.as_ptr(),
+            )
+        }
     }
 
     /// Create a String from a raw pointer.

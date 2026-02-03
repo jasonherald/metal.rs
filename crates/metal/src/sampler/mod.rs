@@ -11,8 +11,8 @@ use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
 use crate::enums::{
-    CompareFunction, SamplerAddressMode, SamplerBorderColor, SamplerMinMagFilter,
-    SamplerMipFilter, SamplerReductionMode,
+    CompareFunction, SamplerAddressMode, SamplerBorderColor, SamplerMinMagFilter, SamplerMipFilter,
+    SamplerReductionMode,
 };
 use crate::types::ResourceID;
 

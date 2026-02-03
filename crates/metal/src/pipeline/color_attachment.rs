@@ -313,11 +313,8 @@ impl RenderPipelineColorAttachmentDescriptorArray {
     /// C++ equivalent: `RenderPipelineColorAttachmentDescriptor* object(NS::UInteger attachmentIndex)`
     pub fn object(&self, index: UInteger) -> Option<RenderPipelineColorAttachmentDescriptor> {
         unsafe {
-            let ptr: *mut c_void = msg_send_1(
-                self.as_ptr(),
-                sel!(objectAtIndexedSubscript:),
-                index,
-            );
+            let ptr: *mut c_void =
+                msg_send_1(self.as_ptr(), sel!(objectAtIndexedSubscript:), index);
             if ptr.is_null() {
                 return None;
             }
@@ -355,4 +352,3 @@ impl Referencing for RenderPipelineColorAttachmentDescriptorArray {
 
 unsafe impl Send for RenderPipelineColorAttachmentDescriptorArray {}
 unsafe impl Sync for RenderPipelineColorAttachmentDescriptorArray {}
-

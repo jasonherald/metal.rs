@@ -9,7 +9,7 @@
 use std::ffi::c_void;
 
 use metal_foundation::Referencing;
-use metal_sys::{create_system_default_device, DeviceObserver as SysDeviceObserver};
+use metal_sys::{DeviceObserver as SysDeviceObserver, create_system_default_device};
 
 #[cfg(target_os = "macos")]
 use metal_sys::copy_all_devices as sys_copy_all_devices;
@@ -160,9 +160,8 @@ where
 
     let mut observer: SysDeviceObserver = std::ptr::null_mut();
 
-    let array_ptr = unsafe {
-        MTLCopyAllDevicesWithObserver(&mut observer as *mut _, block.as_ptr())
-    };
+    let array_ptr =
+        unsafe { MTLCopyAllDevicesWithObserver(&mut observer as *mut _, block.as_ptr()) };
 
     // Transfer block ownership to Metal
     std::mem::forget(block);

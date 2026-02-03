@@ -253,17 +253,11 @@ mod tests {
 
     #[test]
     fn test_dispatch_threads_indirect_arguments_size() {
-        assert_eq!(
-            std::mem::size_of::<DispatchThreadsIndirectArguments>(),
-            24
-        ); // 6 * 4 bytes
+        assert_eq!(std::mem::size_of::<DispatchThreadsIndirectArguments>(), 24); // 6 * 4 bytes
     }
 
     #[test]
     fn test_stage_in_region_indirect_arguments_size() {
-        assert_eq!(
-            std::mem::size_of::<StageInRegionIndirectArguments>(),
-            24
-        ); // 6 * 4 bytes
+        assert_eq!(std::mem::size_of::<StageInRegionIndirectArguments>(), 24); // 6 * 4 bytes
     }
 }

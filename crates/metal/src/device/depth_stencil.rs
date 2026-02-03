@@ -7,8 +7,8 @@ use std::ffi::c_void;
 use metal_foundation::Referencing;
 use metal_sys::{msg_send_1, sel};
 
-use crate::depth_stencil::{DepthStencilDescriptor, DepthStencilState};
 use super::Device;
+use crate::depth_stencil::{DepthStencilDescriptor, DepthStencilState};
 
 impl Device {
     // =========================================================================

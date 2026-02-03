@@ -5,8 +5,8 @@ use std::ffi::c_void;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_1, sel};
 
-use crate::types::{Region, Size};
 use crate::Buffer;
+use crate::types::{Region, Size};
 
 use super::ComputeCommandEncoder;
 

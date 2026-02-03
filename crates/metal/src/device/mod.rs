@@ -16,34 +16,36 @@
 //! println!("Using GPU: {}", device.name());
 //! ```
 
+mod architecture;
 mod creation;
-mod properties;
 mod features;
 mod limits;
-mod architecture;
+mod properties;
 
 // Resource creation modules
+mod acceleration;
+mod binary_archive;
 mod buffer;
 mod command_queue;
 mod depth_stencil;
+mod events;
+mod heap;
+mod indirect;
+mod io;
+mod library;
+mod mtl4;
+mod pipeline;
+mod residency_set;
 mod sampler;
 mod texture;
-mod heap;
-mod library;
-mod pipeline;
-mod events;
-mod acceleration;
-mod io;
-mod binary_archive;
-mod residency_set;
-mod mtl4;
-mod indirect;
 
 // Re-export creation functions at module level
-pub use creation::{system_default, Timestamp};
+pub use creation::{Timestamp, system_default};
 
 #[cfg(target_os = "macos")]
-pub use creation::{copy_all_devices, copy_all_devices_with_observer, remove_device_observer, DeviceObserver};
+pub use creation::{
+    DeviceObserver, copy_all_devices, copy_all_devices_with_observer, remove_device_observer,
+};
 
 // Re-export Architecture
 pub use architecture::Architecture;

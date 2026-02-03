@@ -66,8 +66,11 @@ impl Bundle {
     #[inline]
     pub fn bundle_with_path(path: &String) -> Option<Self> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(class!(NSBundle).as_ptr(), sel!(bundleWithPath:), path.as_ptr());
+            let ptr: *mut c_void = msg_send_1(
+                class!(NSBundle).as_ptr(),
+                sel!(bundleWithPath:),
+                path.as_ptr(),
+            );
             Self::from_ptr(ptr)
         }
     }
@@ -78,8 +81,11 @@ impl Bundle {
     #[inline]
     pub fn bundle_with_url(url: &Url) -> Option<Self> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(class!(NSBundle).as_ptr(), sel!(bundleWithURL:), url.as_ptr());
+            let ptr: *mut c_void = msg_send_1(
+                class!(NSBundle).as_ptr(),
+                sel!(bundleWithURL:),
+                url.as_ptr(),
+            );
             Self::from_ptr(ptr)
         }
     }
@@ -202,7 +208,13 @@ impl Bundle {
     /// C++ equivalent: `class URL* URLForAuxiliaryExecutable(const class String* pExecutableName) const`
     #[inline]
     pub fn url_for_auxiliary_executable(&self, name: &String) -> *mut Url {
-        unsafe { msg_send_1(self.as_ptr(), sel!(URLForAuxiliaryExecutable:), name.as_ptr()) }
+        unsafe {
+            msg_send_1(
+                self.as_ptr(),
+                sel!(URLForAuxiliaryExecutable:),
+                name.as_ptr(),
+            )
+        }
     }
 
     /// Get the private frameworks URL.
@@ -258,7 +270,13 @@ impl Bundle {
     /// Get the path for an auxiliary executable.
     #[inline]
     pub fn path_for_auxiliary_executable(&self, name: &String) -> *mut String {
-        unsafe { msg_send_1(self.as_ptr(), sel!(pathForAuxiliaryExecutable:), name.as_ptr()) }
+        unsafe {
+            msg_send_1(
+                self.as_ptr(),
+                sel!(pathForAuxiliaryExecutable:),
+                name.as_ptr(),
+            )
+        }
     }
 
     /// Get the private frameworks path.
@@ -314,7 +332,13 @@ impl Bundle {
     /// C++ equivalent: `class Object* objectForInfoDictionaryKey(const class String* pKey)`
     #[inline]
     pub fn object_for_info_dictionary_key(&self, key: &String) -> *mut Object {
-        unsafe { msg_send_1(self.as_ptr(), sel!(objectForInfoDictionaryKey:), key.as_ptr()) }
+        unsafe {
+            msg_send_1(
+                self.as_ptr(),
+                sel!(objectForInfoDictionaryKey:),
+                key.as_ptr(),
+            )
+        }
     }
 
     /// Get a localized string.

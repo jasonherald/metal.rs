@@ -10,11 +10,11 @@ use std::ffi::c_void;
 use std::ptr::NonNull;
 
 use metal_foundation::{Range, Referencing, UInteger};
-use metal_sys::{msg_send_0, msg_send_1, msg_send_2, msg_send_3, sel, Class};
+use metal_sys::{Class, msg_send_0, msg_send_1, msg_send_2, msg_send_3, sel};
 
+use crate::Buffer;
 use crate::enums::{FunctionType, IntersectionFunctionSignature};
 use crate::types::ResourceID;
-use crate::Buffer;
 
 // ============================================================================
 // IntersectionFunctionBufferArguments
@@ -177,8 +177,7 @@ impl VisibleFunctionTableDescriptor {
     pub fn visible_function_table_descriptor() -> Option<Self> {
         unsafe {
             let class = Class::get("MTLVisibleFunctionTableDescriptor")?;
-            let ptr: *mut c_void =
-                msg_send_0(class.as_ptr(), sel!(visibleFunctionTableDescriptor));
+            let ptr: *mut c_void = msg_send_0(class.as_ptr(), sel!(visibleFunctionTableDescriptor));
             if ptr.is_null() {
                 return None;
             }

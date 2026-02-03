@@ -36,8 +36,11 @@ impl IOScratchBufferAllocator {
     /// C++ equivalent: `IOScratchBuffer* newScratchBuffer(NS::UInteger)`
     pub fn new_scratch_buffer(&self, minimum_size: UInteger) -> Option<IOScratchBuffer> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(self.as_ptr(), sel!(newScratchBufferWithMinimumSize:), minimum_size);
+            let ptr: *mut c_void = msg_send_1(
+                self.as_ptr(),
+                sel!(newScratchBufferWithMinimumSize:),
+                minimum_size,
+            );
             IOScratchBuffer::from_raw(ptr)
         }
     }

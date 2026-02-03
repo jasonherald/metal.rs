@@ -10,8 +10,8 @@ use metal_sys::{msg_send_0, msg_send_1, msg_send_2, msg_send_5, sel};
 
 use super::acceleration_structure::BufferRange;
 
-use crate::{Device, ResidencySet};
 use super::CommandAllocator;
+use crate::{Device, ResidencySet};
 
 // ============================================================
 // CommandBufferOptions
@@ -294,9 +294,7 @@ impl CommandBuffer {
     /// Create a machine learning command encoder.
     ///
     /// C++ equivalent: `MachineLearningCommandEncoder* machineLearningCommandEncoder()`
-    pub fn machine_learning_command_encoder(
-        &self,
-    ) -> Option<super::MachineLearningCommandEncoder> {
+    pub fn machine_learning_command_encoder(&self) -> Option<super::MachineLearningCommandEncoder> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(machineLearningCommandEncoder));
             if ptr.is_null() {

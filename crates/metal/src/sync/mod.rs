@@ -215,12 +215,8 @@ impl SharedEvent {
     /// # Safety
     ///
     /// The listener pointer must be valid.
-    pub unsafe fn notify_listener<F>(
-        &self,
-        listener: *const c_void,
-        value: u64,
-        block: F,
-    ) where
+    pub unsafe fn notify_listener<F>(&self, listener: *const c_void, value: u64, block: F)
+    where
         F: Fn(*mut c_void, u64) + Send + 'static,
     {
         let block = metal_sys::EventBlock::from_fn(block);

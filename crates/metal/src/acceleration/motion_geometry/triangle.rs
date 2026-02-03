@@ -6,8 +6,8 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::enums::{AttributeFormat, IndexType, MatrixLayout};
 use crate::Buffer;
+use crate::enums::{AttributeFormat, IndexType, MatrixLayout};
 
 /// Descriptor for motion triangle geometry in acceleration structures.
 ///
@@ -21,9 +21,8 @@ impl AccelerationStructureMotionTriangleGeometryDescriptor {
     /// C++ equivalent: `static AccelerationStructureMotionTriangleGeometryDescriptor* alloc()->init()`
     pub fn new() -> Option<Self> {
         unsafe {
-            let class = metal_sys::Class::get(
-                "MTLAccelerationStructureMotionTriangleGeometryDescriptor",
-            )?;
+            let class =
+                metal_sys::Class::get("MTLAccelerationStructureMotionTriangleGeometryDescriptor")?;
             let ptr: *mut c_void = msg_send_0(class.as_ptr(), sel!(alloc));
             if ptr.is_null() {
                 return None;
@@ -54,7 +53,12 @@ impl AccelerationStructureMotionTriangleGeometryDescriptor {
     /// Get whether duplicate intersection function invocation is allowed.
     #[inline]
     pub fn allow_duplicate_intersection_function_invocation(&self) -> bool {
-        unsafe { msg_send_0(self.as_ptr(), sel!(allowDuplicateIntersectionFunctionInvocation)) }
+        unsafe {
+            msg_send_0(
+                self.as_ptr(),
+                sel!(allowDuplicateIntersectionFunctionInvocation),
+            )
+        }
     }
 
     /// Set whether duplicate intersection function invocation is allowed.
@@ -404,11 +408,7 @@ impl AccelerationStructureMotionTriangleGeometryDescriptor {
     /// The vertex_buffers pointer must be a valid NS::Array or null.
     pub unsafe fn set_vertex_buffers_ptr(&self, vertex_buffers: *const c_void) {
         unsafe {
-            msg_send_1::<(), *const c_void>(
-                self.as_ptr(),
-                sel!(setVertexBuffers:),
-                vertex_buffers,
-            );
+            msg_send_1::<(), *const c_void>(self.as_ptr(), sel!(setVertexBuffers:), vertex_buffers);
         }
     }
 }

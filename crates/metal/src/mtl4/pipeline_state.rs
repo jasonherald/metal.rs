@@ -8,8 +8,8 @@ use std::ptr::NonNull;
 use metal_foundation::Referencing;
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::ShaderValidation;
 use super::enums::ShaderReflection;
+use crate::ShaderValidation;
 
 // ============================================================
 // PipelineOptions

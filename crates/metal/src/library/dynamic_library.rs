@@ -98,7 +98,10 @@ impl DynamicLibrary {
     /// Serialize the dynamic library to a URL.
     ///
     /// C++ equivalent: `bool serializeToURL(const NS::URL*, NS::Error**)`
-    pub fn serialize_to_url(&self, url: &metal_foundation::Url) -> Result<(), metal_foundation::Error> {
+    pub fn serialize_to_url(
+        &self,
+        url: &metal_foundation::Url,
+    ) -> Result<(), metal_foundation::Error> {
         unsafe {
             let mut error: *mut c_void = std::ptr::null_mut();
             let success: bool = metal_sys::msg_send_2(
@@ -114,8 +117,10 @@ impl DynamicLibrary {
                 Err(metal_foundation::Error::from_ptr(error)
                     .expect("error pointer should be valid"))
             } else {
-                Err(metal_foundation::Error::error(std::ptr::null_mut(), -1, std::ptr::null_mut())
-                    .expect("failed to create error object"))
+                Err(
+                    metal_foundation::Error::error(std::ptr::null_mut(), -1, std::ptr::null_mut())
+                        .expect("failed to create error object"),
+                )
             }
         }
     }

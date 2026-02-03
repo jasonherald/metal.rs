@@ -11,9 +11,7 @@ use metal_sys::{msg_send_0, msg_send_1, sel};
 use crate::enums::{PixelFormat, ShaderValidation};
 use crate::types::Size;
 
-use super::{
-    PipelineBufferDescriptorArray, RenderPipelineColorAttachmentDescriptorArray,
-};
+use super::{PipelineBufferDescriptorArray, RenderPipelineColorAttachmentDescriptorArray};
 
 pub struct MeshRenderPipelineDescriptor(pub(crate) NonNull<c_void>);
 
@@ -308,7 +306,11 @@ impl MeshRenderPipelineDescriptor {
     #[inline]
     pub fn set_depth_attachment_pixel_format(&self, format: PixelFormat) {
         unsafe {
-            msg_send_1::<(), PixelFormat>(self.as_ptr(), sel!(setDepthAttachmentPixelFormat:), format);
+            msg_send_1::<(), PixelFormat>(
+                self.as_ptr(),
+                sel!(setDepthAttachmentPixelFormat:),
+                format,
+            );
         }
     }
 
@@ -326,7 +328,11 @@ impl MeshRenderPipelineDescriptor {
     #[inline]
     pub fn set_stencil_attachment_pixel_format(&self, format: PixelFormat) {
         unsafe {
-            msg_send_1::<(), PixelFormat>(self.as_ptr(), sel!(setStencilAttachmentPixelFormat:), format);
+            msg_send_1::<(), PixelFormat>(
+                self.as_ptr(),
+                sel!(setStencilAttachmentPixelFormat:),
+                format,
+            );
         }
     }
 
@@ -424,7 +430,11 @@ impl MeshRenderPipelineDescriptor {
     #[inline]
     pub fn set_max_total_threadgroups_per_mesh_grid(&self, count: UInteger) {
         unsafe {
-            msg_send_1::<(), UInteger>(self.as_ptr(), sel!(setMaxTotalThreadgroupsPerMeshGrid:), count);
+            msg_send_1::<(), UInteger>(
+                self.as_ptr(),
+                sel!(setMaxTotalThreadgroupsPerMeshGrid:),
+                count,
+            );
         }
     }
 
@@ -442,7 +452,11 @@ impl MeshRenderPipelineDescriptor {
     #[inline]
     pub fn set_max_total_threads_per_object_threadgroup(&self, count: UInteger) {
         unsafe {
-            msg_send_1::<(), UInteger>(self.as_ptr(), sel!(setMaxTotalThreadsPerObjectThreadgroup:), count);
+            msg_send_1::<(), UInteger>(
+                self.as_ptr(),
+                sel!(setMaxTotalThreadsPerObjectThreadgroup:),
+                count,
+            );
         }
     }
 
@@ -460,7 +474,11 @@ impl MeshRenderPipelineDescriptor {
     #[inline]
     pub fn set_max_total_threads_per_mesh_threadgroup(&self, count: UInteger) {
         unsafe {
-            msg_send_1::<(), UInteger>(self.as_ptr(), sel!(setMaxTotalThreadsPerMeshThreadgroup:), count);
+            msg_send_1::<(), UInteger>(
+                self.as_ptr(),
+                sel!(setMaxTotalThreadsPerMeshThreadgroup:),
+                count,
+            );
         }
     }
 
@@ -469,14 +487,22 @@ impl MeshRenderPipelineDescriptor {
     /// C++ equivalent: `bool objectThreadgroupSizeIsMultipleOfThreadExecutionWidth() const`
     #[inline]
     pub fn object_threadgroup_size_is_multiple_of_thread_execution_width(&self) -> bool {
-        unsafe { msg_send_0(self.as_ptr(), sel!(objectThreadgroupSizeIsMultipleOfThreadExecutionWidth)) }
+        unsafe {
+            msg_send_0(
+                self.as_ptr(),
+                sel!(objectThreadgroupSizeIsMultipleOfThreadExecutionWidth),
+            )
+        }
     }
 
     /// Set whether object threadgroup size is multiple of thread execution width.
     ///
     /// C++ equivalent: `void setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth(bool)`
     #[inline]
-    pub fn set_object_threadgroup_size_is_multiple_of_thread_execution_width(&self, is_multiple: bool) {
+    pub fn set_object_threadgroup_size_is_multiple_of_thread_execution_width(
+        &self,
+        is_multiple: bool,
+    ) {
         unsafe {
             msg_send_1::<(), bool>(
                 self.as_ptr(),
@@ -491,14 +517,22 @@ impl MeshRenderPipelineDescriptor {
     /// C++ equivalent: `bool meshThreadgroupSizeIsMultipleOfThreadExecutionWidth() const`
     #[inline]
     pub fn mesh_threadgroup_size_is_multiple_of_thread_execution_width(&self) -> bool {
-        unsafe { msg_send_0(self.as_ptr(), sel!(meshThreadgroupSizeIsMultipleOfThreadExecutionWidth)) }
+        unsafe {
+            msg_send_0(
+                self.as_ptr(),
+                sel!(meshThreadgroupSizeIsMultipleOfThreadExecutionWidth),
+            )
+        }
     }
 
     /// Set whether mesh threadgroup size is multiple of thread execution width.
     ///
     /// C++ equivalent: `void setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth(bool)`
     #[inline]
-    pub fn set_mesh_threadgroup_size_is_multiple_of_thread_execution_width(&self, is_multiple: bool) {
+    pub fn set_mesh_threadgroup_size_is_multiple_of_thread_execution_width(
+        &self,
+        is_multiple: bool,
+    ) {
         unsafe {
             msg_send_1::<(), bool>(
                 self.as_ptr(),
@@ -522,7 +556,11 @@ impl MeshRenderPipelineDescriptor {
     #[inline]
     pub fn set_required_threads_per_object_threadgroup(&self, size: Size) {
         unsafe {
-            msg_send_1::<(), Size>(self.as_ptr(), sel!(setRequiredThreadsPerObjectThreadgroup:), size);
+            msg_send_1::<(), Size>(
+                self.as_ptr(),
+                sel!(setRequiredThreadsPerObjectThreadgroup:),
+                size,
+            );
         }
     }
 
@@ -540,7 +578,11 @@ impl MeshRenderPipelineDescriptor {
     #[inline]
     pub fn set_required_threads_per_mesh_threadgroup(&self, size: Size) {
         unsafe {
-            msg_send_1::<(), Size>(self.as_ptr(), sel!(setRequiredThreadsPerMeshThreadgroup:), size);
+            msg_send_1::<(), Size>(
+                self.as_ptr(),
+                sel!(setRequiredThreadsPerMeshThreadgroup:),
+                size,
+            );
         }
     }
 
@@ -598,7 +640,11 @@ impl MeshRenderPipelineDescriptor {
     #[inline]
     pub fn set_support_indirect_command_buffers(&self, support: bool) {
         unsafe {
-            msg_send_1::<(), bool>(self.as_ptr(), sel!(setSupportIndirectCommandBuffers:), support);
+            msg_send_1::<(), bool>(
+                self.as_ptr(),
+                sel!(setSupportIndirectCommandBuffers:),
+                support,
+            );
         }
     }
 
@@ -616,7 +662,11 @@ impl MeshRenderPipelineDescriptor {
     #[inline]
     pub fn set_shader_validation(&self, validation: ShaderValidation) {
         unsafe {
-            msg_send_1::<(), ShaderValidation>(self.as_ptr(), sel!(setShaderValidation:), validation);
+            msg_send_1::<(), ShaderValidation>(
+                self.as_ptr(),
+                sel!(setShaderValidation:),
+                validation,
+            );
         }
     }
 

@@ -8,8 +8,8 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::Size;
 use super::{FunctionDescriptor, PipelineOptions, StaticLinkingDescriptor};
+use crate::Size;
 
 // ============================================================
 // TileRenderPipelineDescriptor
@@ -176,7 +176,11 @@ impl TileRenderPipelineDescriptor {
     /// Set whether threadgroup size matches tile size.
     pub fn set_threadgroup_size_matches_tile_size(&self, value: bool) {
         unsafe {
-            let _: () = msg_send_1(self.as_ptr(), sel!(setThreadgroupSizeMatchesTileSize:), value);
+            let _: () = msg_send_1(
+                self.as_ptr(),
+                sel!(setThreadgroupSizeMatchesTileSize:),
+                value,
+            );
         }
     }
 

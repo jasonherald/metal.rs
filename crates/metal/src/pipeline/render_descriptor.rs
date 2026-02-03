@@ -13,9 +13,7 @@ use crate::enums::{
     TessellationFactorFormat, TessellationFactorStepFunction, TessellationPartitionMode, Winding,
 };
 
-use super::{
-    PipelineBufferDescriptorArray, RenderPipelineColorAttachmentDescriptorArray,
-};
+use super::{PipelineBufferDescriptorArray, RenderPipelineColorAttachmentDescriptorArray};
 
 pub struct RenderPipelineDescriptor(pub(crate) NonNull<c_void>);
 
@@ -822,7 +820,11 @@ impl RenderPipelineDescriptor {
     /// The pointer must be a valid NS::Array of Library objects.
     pub unsafe fn set_fragment_preloaded_libraries_raw(&self, libraries: *const c_void) {
         unsafe {
-            let _: () = msg_send_1(self.as_ptr(), sel!(setFragmentPreloadedLibraries:), libraries);
+            let _: () = msg_send_1(
+                self.as_ptr(),
+                sel!(setFragmentPreloadedLibraries:),
+                libraries,
+            );
         }
     }
 
@@ -892,4 +894,3 @@ impl std::fmt::Debug for RenderPipelineDescriptor {
             .finish()
     }
 }
-

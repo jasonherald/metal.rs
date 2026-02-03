@@ -42,18 +42,18 @@ impl FunctionType {
 pub struct LanguageVersion(pub UInteger);
 
 impl LanguageVersion {
-    pub const VERSION_1_0: Self = Self(65536);      // (1 << 16)
-    pub const VERSION_1_1: Self = Self(65537);      // (1 << 16) + 1
-    pub const VERSION_1_2: Self = Self(65538);      // (1 << 16) + 2
-    pub const VERSION_2_0: Self = Self(131072);     // (2 << 16)
-    pub const VERSION_2_1: Self = Self(131073);     // (2 << 16) + 1
-    pub const VERSION_2_2: Self = Self(131074);     // (2 << 16) + 2
-    pub const VERSION_2_3: Self = Self(131075);     // (2 << 16) + 3
-    pub const VERSION_2_4: Self = Self(131076);     // (2 << 16) + 4
-    pub const VERSION_3_0: Self = Self(196608);     // (3 << 16)
-    pub const VERSION_3_1: Self = Self(196609);     // (3 << 16) + 1
-    pub const VERSION_3_2: Self = Self(196610);     // (3 << 16) + 2
-    pub const VERSION_4_0: Self = Self(262144);     // (4 << 16)
+    pub const VERSION_1_0: Self = Self(65536); // (1 << 16)
+    pub const VERSION_1_1: Self = Self(65537); // (1 << 16) + 1
+    pub const VERSION_1_2: Self = Self(65538); // (1 << 16) + 2
+    pub const VERSION_2_0: Self = Self(131072); // (2 << 16)
+    pub const VERSION_2_1: Self = Self(131073); // (2 << 16) + 1
+    pub const VERSION_2_2: Self = Self(131074); // (2 << 16) + 2
+    pub const VERSION_2_3: Self = Self(131075); // (2 << 16) + 3
+    pub const VERSION_2_4: Self = Self(131076); // (2 << 16) + 4
+    pub const VERSION_3_0: Self = Self(196608); // (3 << 16)
+    pub const VERSION_3_1: Self = Self(196609); // (3 << 16) + 1
+    pub const VERSION_3_2: Self = Self(196610); // (3 << 16) + 2
+    pub const VERSION_4_0: Self = Self(262144); // (4 << 16)
 }
 
 /// Library type.

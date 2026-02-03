@@ -51,8 +51,11 @@ macro_rules! class {
     ($name:ident) => {{
         static CLS: std::sync::OnceLock<$crate::Class> = std::sync::OnceLock::new();
         *CLS.get_or_init(|| {
-            $crate::Class::get(stringify!($name))
-                .expect(concat!("class ", stringify!($name), " not found"))
+            $crate::Class::get(stringify!($name)).expect(concat!(
+                "class ",
+                stringify!($name),
+                " not found"
+            ))
         })
     }};
 }

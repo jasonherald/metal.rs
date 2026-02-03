@@ -6,8 +6,8 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::enums::{AttributeFormat, IndexType, MatrixLayout};
 use crate::Buffer;
+use crate::enums::{AttributeFormat, IndexType, MatrixLayout};
 
 /// Descriptor for triangle geometry in acceleration structures.
 ///
@@ -53,7 +53,12 @@ impl AccelerationStructureTriangleGeometryDescriptor {
     /// Get whether duplicate intersection function invocation is allowed.
     #[inline]
     pub fn allow_duplicate_intersection_function_invocation(&self) -> bool {
-        unsafe { msg_send_0(self.as_ptr(), sel!(allowDuplicateIntersectionFunctionInvocation)) }
+        unsafe {
+            msg_send_0(
+                self.as_ptr(),
+                sel!(allowDuplicateIntersectionFunctionInvocation),
+            )
+        }
     }
 
     /// Set whether duplicate intersection function invocation is allowed.

@@ -31,8 +31,8 @@ use std::ptr::NonNull;
 
 use metal_sys::{class, msg_send_0, msg_send_1, msg_send_2, sel};
 
-use crate::object::{Copying, Referencing};
 use crate::objc_runtime::ComparisonResult;
+use crate::object::{Copying, Referencing};
 use crate::string::String;
 use crate::types::{Integer, UInteger};
 
@@ -199,8 +199,11 @@ impl Number {
     #[inline]
     pub fn number_with_unsigned_char(value: u8) -> Option<Self> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(class!(NSNumber).as_ptr(), sel!(numberWithUnsignedChar:), value);
+            let ptr: *mut c_void = msg_send_1(
+                class!(NSNumber).as_ptr(),
+                sel!(numberWithUnsignedChar:),
+                value,
+            );
             Self::from_ptr(ptr)
         }
     }
@@ -219,8 +222,11 @@ impl Number {
     #[inline]
     pub fn number_with_unsigned_short(value: u16) -> Option<Self> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(class!(NSNumber).as_ptr(), sel!(numberWithUnsignedShort:), value);
+            let ptr: *mut c_void = msg_send_1(
+                class!(NSNumber).as_ptr(),
+                sel!(numberWithUnsignedShort:),
+                value,
+            );
             Self::from_ptr(ptr)
         }
     }
@@ -239,8 +245,11 @@ impl Number {
     #[inline]
     pub fn number_with_unsigned_int(value: u32) -> Option<Self> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(class!(NSNumber).as_ptr(), sel!(numberWithUnsignedInt:), value);
+            let ptr: *mut c_void = msg_send_1(
+                class!(NSNumber).as_ptr(),
+                sel!(numberWithUnsignedInt:),
+                value,
+            );
             Self::from_ptr(ptr)
         }
     }
@@ -259,8 +268,11 @@ impl Number {
     #[inline]
     pub fn number_with_unsigned_long(value: std::ffi::c_ulong) -> Option<Self> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(class!(NSNumber).as_ptr(), sel!(numberWithUnsignedLong:), value);
+            let ptr: *mut c_void = msg_send_1(
+                class!(NSNumber).as_ptr(),
+                sel!(numberWithUnsignedLong:),
+                value,
+            );
             Self::from_ptr(ptr)
         }
     }
@@ -605,9 +617,7 @@ unsafe impl Sync for Number {}
 
 impl std::fmt::Debug for Number {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("Number")
-            .field("ptr", &self.0)
-            .finish()
+        f.debug_struct("Number").field("ptr", &self.0).finish()
     }
 }
 
@@ -617,11 +627,17 @@ mod tests {
 
     #[test]
     fn test_number_size() {
-        assert_eq!(std::mem::size_of::<Number>(), std::mem::size_of::<*mut c_void>());
+        assert_eq!(
+            std::mem::size_of::<Number>(),
+            std::mem::size_of::<*mut c_void>()
+        );
     }
 
     #[test]
     fn test_value_size() {
-        assert_eq!(std::mem::size_of::<Value>(), std::mem::size_of::<*mut c_void>());
+        assert_eq!(
+            std::mem::size_of::<Value>(),
+            std::mem::size_of::<*mut c_void>()
+        );
     }
 }

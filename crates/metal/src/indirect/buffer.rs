@@ -58,11 +58,7 @@ impl IndirectCommandBuffer {
     pub fn reset(&self, location: UInteger, length: UInteger) {
         unsafe {
             let range = metal_foundation::Range::new(location, length);
-            msg_send_1::<(), metal_foundation::Range>(
-                self.as_ptr(),
-                sel!(resetWithRange:),
-                range,
-            );
+            msg_send_1::<(), metal_foundation::Range>(self.as_ptr(), sel!(resetWithRange:), range);
         }
     }
 

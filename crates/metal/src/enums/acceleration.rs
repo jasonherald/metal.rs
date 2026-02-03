@@ -375,7 +375,8 @@ mod tests {
 
     #[test]
     fn test_acceleration_structure_usage_bitor() {
-        let usage = AccelerationStructureUsage::REFIT | AccelerationStructureUsage::PREFER_FAST_BUILD;
+        let usage =
+            AccelerationStructureUsage::REFIT | AccelerationStructureUsage::PREFER_FAST_BUILD;
         assert!(usage.contains(AccelerationStructureUsage::REFIT));
         assert!(usage.contains(AccelerationStructureUsage::PREFER_FAST_BUILD));
     }
@@ -395,6 +396,9 @@ mod tests {
 
     #[test]
     fn test_instance_options_size() {
-        assert_eq!(std::mem::size_of::<AccelerationStructureInstanceOptions>(), 4);
+        assert_eq!(
+            std::mem::size_of::<AccelerationStructureInstanceOptions>(),
+            4
+        );
     }
 }

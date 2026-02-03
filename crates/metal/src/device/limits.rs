@@ -7,9 +7,11 @@ use std::ffi::c_void;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, msg_send_2, msg_send_3, msg_send_4, sel};
 
-use crate::enums::{PixelFormat, TextureType, SparsePageSize, SparseTextureRegionAlignmentMode, ResourceOptions};
-use crate::types::{Size, Region, SizeAndAlign};
 use super::Device;
+use crate::enums::{
+    PixelFormat, ResourceOptions, SparsePageSize, SparseTextureRegionAlignmentMode, TextureType,
+};
+use crate::types::{Region, Size, SizeAndAlign};
 
 impl Device {
     // =========================================================================
@@ -64,7 +66,10 @@ impl Device {
     ///
     /// C++ equivalent: `NS::UInteger minimumLinearTextureAlignmentForPixelFormat(MTL::PixelFormat format)`
     #[inline]
-    pub fn minimum_linear_texture_alignment_for_pixel_format(&self, format: PixelFormat) -> UInteger {
+    pub fn minimum_linear_texture_alignment_for_pixel_format(
+        &self,
+        format: PixelFormat,
+    ) -> UInteger {
         unsafe {
             msg_send_1(
                 self.as_ptr(),
@@ -78,7 +83,10 @@ impl Device {
     ///
     /// C++ equivalent: `NS::UInteger minimumTextureBufferAlignmentForPixelFormat(MTL::PixelFormat format)`
     #[inline]
-    pub fn minimum_texture_buffer_alignment_for_pixel_format(&self, format: PixelFormat) -> UInteger {
+    pub fn minimum_texture_buffer_alignment_for_pixel_format(
+        &self,
+        format: PixelFormat,
+    ) -> UInteger {
         unsafe {
             msg_send_1(
                 self.as_ptr(),
@@ -325,7 +333,8 @@ mod tests {
     fn test_texture_alignment() {
         let device = system_default().expect("no Metal device");
 
-        let alignment = device.minimum_linear_texture_alignment_for_pixel_format(PixelFormat::RGBA8_UNORM);
+        let alignment =
+            device.minimum_linear_texture_alignment_for_pixel_format(PixelFormat::RGBA8_UNORM);
         assert!(alignment > 0);
         println!("RGBA8 linear texture alignment: {} bytes", alignment);
     }

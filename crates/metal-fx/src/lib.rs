@@ -1,3 +1,7 @@
+// Clippy allows for FFI binding patterns
+#![allow(clippy::not_unsafe_ptr_arg_deref)] // Raw pointer args are passed to Obj-C, not dereferenced in Rust
+#![allow(clippy::missing_safety_doc)] // from_raw patterns are consistent across the crate
+
 //! MetalFX bindings for AI upscaling and frame interpolation.
 //!
 //! This crate provides safe Rust bindings to Apple's MetalFX framework, which
@@ -35,13 +39,13 @@
 #![allow(dead_code)]
 
 mod enums;
-mod spatial_scaler;
-mod temporal_scaler;
-mod temporal_denoised_scaler;
 mod frame_interpolator;
+mod spatial_scaler;
+mod temporal_denoised_scaler;
+mod temporal_scaler;
 
 pub use enums::SpatialScalerColorProcessingMode;
-pub use spatial_scaler::{SpatialScaler, SpatialScalerDescriptor};
-pub use temporal_scaler::{TemporalScaler, TemporalScalerDescriptor};
-pub use temporal_denoised_scaler::{TemporalDenoisedScaler, TemporalDenoisedScalerDescriptor};
 pub use frame_interpolator::{FrameInterpolator, FrameInterpolatorDescriptor};
+pub use spatial_scaler::{SpatialScaler, SpatialScalerDescriptor};
+pub use temporal_denoised_scaler::{TemporalDenoisedScaler, TemporalDenoisedScalerDescriptor};
+pub use temporal_scaler::{TemporalScaler, TemporalScalerDescriptor};

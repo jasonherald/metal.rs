@@ -8,7 +8,6 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::Size;
 use super::enums::{
     AlphaToCoverageState, AlphaToOneState, IndirectCommandBufferSupportState,
     LogicalToPhysicalColorAttachmentMappingState,
@@ -17,6 +16,7 @@ use super::{
     FunctionDescriptor, PipelineOptions, RenderPipelineColorAttachmentDescriptorArray,
     StaticLinkingDescriptor,
 };
+use crate::Size;
 
 // ============================================================
 // MeshRenderPipelineDescriptor
@@ -489,7 +489,11 @@ impl MeshRenderPipelineDescriptor {
     /// Set whether fragment binary linking is supported.
     pub fn set_support_fragment_binary_linking(&self, support: bool) {
         unsafe {
-            let _: () = msg_send_1(self.as_ptr(), sel!(setSupportFragmentBinaryLinking:), support);
+            let _: () = msg_send_1(
+                self.as_ptr(),
+                sel!(setSupportFragmentBinaryLinking:),
+                support,
+            );
         }
     }
 
@@ -503,7 +507,11 @@ impl MeshRenderPipelineDescriptor {
     /// Set the indirect command buffer support state.
     pub fn set_support_indirect_command_buffers(&self, state: IndirectCommandBufferSupportState) {
         unsafe {
-            let _: () = msg_send_1(self.as_ptr(), sel!(setSupportIndirectCommandBuffers:), state);
+            let _: () = msg_send_1(
+                self.as_ptr(),
+                sel!(setSupportIndirectCommandBuffers:),
+                state,
+            );
         }
     }
 

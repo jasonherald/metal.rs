@@ -258,11 +258,7 @@ impl Error {
     ///
     /// C++ equivalent: `static Error* error(ErrorDomain domain, Integer code, class Dictionary* pDictionary)`
     #[inline]
-    pub fn error(
-        domain: ErrorDomain,
-        code: Integer,
-        user_info: *mut Dictionary,
-    ) -> Option<Self> {
+    pub fn error(domain: ErrorDomain, code: Integer, user_info: *mut Dictionary) -> Option<Self> {
         unsafe {
             let ptr: *mut c_void = msg_send_3(
                 class!(NSError).as_ptr(),
@@ -438,6 +434,9 @@ mod tests {
     #[test]
     fn test_error_size() {
         // Error should be pointer-sized
-        assert_eq!(std::mem::size_of::<Error>(), std::mem::size_of::<*mut c_void>());
+        assert_eq!(
+            std::mem::size_of::<Error>(),
+            std::mem::size_of::<*mut c_void>()
+        );
     }
 }

@@ -206,8 +206,8 @@ mod tests {
 
     #[test]
     fn test_resource_options_bitor() {
-        let opts = ResourceOptions::CPU_CACHE_MODE_WRITE_COMBINED
-            | ResourceOptions::STORAGE_MODE_PRIVATE;
+        let opts =
+            ResourceOptions::CPU_CACHE_MODE_WRITE_COMBINED | ResourceOptions::STORAGE_MODE_PRIVATE;
         assert!(opts.contains(ResourceOptions::CPU_CACHE_MODE_WRITE_COMBINED));
     }
 }

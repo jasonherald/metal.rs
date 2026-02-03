@@ -8,12 +8,11 @@ use std::ptr::NonNull;
 use metal_foundation::Referencing;
 use metal_sys::{msg_send_0, msg_send_1, msg_send_2, msg_send_3, sel};
 
-use crate::{ComputePipelineState, RenderPipelineState};
 use super::{
-    BinaryFunction, BinaryFunctionDescriptor, ComputePipelineDescriptor,
-    PipelineDescriptor, PipelineStageDynamicLinkingDescriptor,
-    RenderPipelineDynamicLinkingDescriptor,
+    BinaryFunction, BinaryFunctionDescriptor, ComputePipelineDescriptor, PipelineDescriptor,
+    PipelineStageDynamicLinkingDescriptor, RenderPipelineDynamicLinkingDescriptor,
 };
+use crate::{ComputePipelineState, RenderPipelineState};
 
 /// Helper to create a generic error.
 fn generic_error() -> metal_foundation::Error {

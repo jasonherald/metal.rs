@@ -7,9 +7,9 @@ use std::ffi::c_void;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_2, msg_send_3, msg_send_4, sel};
 
+use super::Device;
 use crate::buffer::Buffer;
 use crate::enums::ResourceOptions;
-use super::Device;
 
 impl Device {
     // =========================================================================
@@ -34,11 +34,7 @@ impl Device {
     /// Create a new buffer initialized with the specified data.
     ///
     /// C++ equivalent: `Buffer* newBuffer(const void* pointer, NS::UInteger length, MTL::ResourceOptions options)`
-    pub fn new_buffer_with_bytes(
-        &self,
-        bytes: &[u8],
-        options: ResourceOptions,
-    ) -> Option<Buffer> {
+    pub fn new_buffer_with_bytes(&self, bytes: &[u8], options: ResourceOptions) -> Option<Buffer> {
         unsafe {
             let ptr: *mut c_void = msg_send_3(
                 self.as_ptr(),
@@ -144,7 +140,8 @@ mod tests {
     fn test_buffer_contents() {
         let device = system_default().expect("no Metal device");
         let data = [1u8, 2, 3, 4, 5, 6, 7, 8];
-        let buffer = device.new_buffer_with_bytes(&data, ResourceOptions::STORAGE_MODE_SHARED)
+        let buffer = device
+            .new_buffer_with_bytes(&data, ResourceOptions::STORAGE_MODE_SHARED)
             .expect("failed to create buffer");
 
         let contents = buffer.contents();

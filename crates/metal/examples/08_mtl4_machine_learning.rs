@@ -140,10 +140,22 @@ fn main() {
             table_desc.set_initialize_bindings(true);
 
             println!("  Configuration:");
-            println!("    Max buffer bindings: {}", table_desc.max_buffer_bind_count());
-            println!("    Max texture bindings: {}", table_desc.max_texture_bind_count());
-            println!("    Max sampler bindings: {}", table_desc.max_sampler_state_bind_count());
-            println!("    Initialize bindings: {}", table_desc.initialize_bindings());
+            println!(
+                "    Max buffer bindings: {}",
+                table_desc.max_buffer_bind_count()
+            );
+            println!(
+                "    Max texture bindings: {}",
+                table_desc.max_texture_bind_count()
+            );
+            println!(
+                "    Max sampler bindings: {}",
+                table_desc.max_sampler_state_bind_count()
+            );
+            println!(
+                "    Initialize bindings: {}",
+                table_desc.initialize_bindings()
+            );
 
             // Create the argument table
             match device.new_argument_table(&table_desc) {
@@ -280,16 +292,16 @@ fn main() {
     println!("ML Command Encoder Workflow:");
     println!("  1. Get encoder from MTL4 command buffer:");
     println!("     let encoder = cmd_buffer.machine_learning_command_encoder();");
-    println!("");
+    println!();
     println!("  2. Set the compiled pipeline state:");
     println!("     encoder.set_pipeline_state(&pipeline_state);");
-    println!("");
+    println!();
     println!("  3. Set the argument table with bound resources:");
     println!("     encoder.set_argument_table(&arg_table);");
-    println!("");
+    println!();
     println!("  4. Dispatch the neural network:");
     println!("     encoder.dispatch_network(&intermediates_heap);");
-    println!("");
+    println!();
     println!("  5. End encoding:");
     println!("     encoder.end_encoding();");
 
@@ -303,45 +315,47 @@ fn main() {
     println!("let device = metal::device::system_default().unwrap();");
     println!("let queue = device.new_mtl4_command_queue().unwrap();");
     println!("let allocator = device.new_command_allocator().unwrap();");
-    println!("");
+    println!();
     println!("// 2. Load compiled ML model from library");
     println!("let library = device.new_library_with_source(ml_shader_source, None).unwrap();");
     println!("let func_desc = LibraryFunctionDescriptor::new().unwrap();");
     println!("func_desc.set_library(&library);");
     println!("func_desc.set_name(\"neural_network_kernel\");");
-    println!("");
+    println!();
     println!("// 3. Configure ML pipeline descriptor");
     println!("let ml_desc = MachineLearningPipelineDescriptor::new().unwrap();");
     println!("ml_desc.set_machine_learning_function_descriptor(&func_desc);");
     println!("// Set input tensor dimensions...");
-    println!("");
+    println!();
     println!("// 4. Compile pipeline");
     println!("let compiler_desc = CompilerDescriptor::new().unwrap();");
     println!("let compiler = device.new_compiler(&compiler_desc).unwrap();");
-    println!("let pipeline = compiler.new_machine_learning_pipeline_state(&ml_desc, None).unwrap();");
-    println!("");
+    println!(
+        "let pipeline = compiler.new_machine_learning_pipeline_state(&ml_desc, None).unwrap();"
+    );
+    println!();
     println!("// 5. Create intermediates heap");
     println!("let heap_desc = HeapDescriptor::new().unwrap();");
     println!("heap_desc.set_size(pipeline.intermediates_heap_size());");
     println!("let heap = device.new_heap(&heap_desc).unwrap();");
-    println!("");
+    println!();
     println!("// 6. Create argument table and bind buffers");
     println!("let table_desc = ArgumentTableDescriptor::new().unwrap();");
     println!("table_desc.set_max_buffer_bind_count(4);");
     println!("let arg_table = device.new_argument_table(&table_desc).unwrap();");
     println!("arg_table.set_address(input_buffer.gpu_address(), 0);");
     println!("arg_table.set_address(output_buffer.gpu_address(), 1);");
-    println!("");
+    println!();
     println!("// 7. Record and execute");
     println!("let cmd_buffer = queue.new_command_buffer().unwrap();");
     println!("cmd_buffer.begin_command_buffer(&allocator);");
-    println!("");
+    println!();
     println!("let encoder = cmd_buffer.machine_learning_command_encoder().unwrap();");
     println!("encoder.set_pipeline_state(&pipeline);");
     println!("encoder.set_argument_table(&arg_table);");
     println!("encoder.dispatch_network(&heap);");
     println!("encoder.end_encoding();");
-    println!("");
+    println!();
     println!("cmd_buffer.end_command_buffer();");
     println!("queue.commit(&[&cmd_buffer]);");
     println!("```");
@@ -357,27 +371,27 @@ fn main() {
 
 fn print_summary() {
     println!("Metal 4 ML Pipeline Components:");
-    println!("");
+    println!();
     println!("  MachineLearningPipelineDescriptor");
     println!("    - Configures neural network function");
     println!("    - Sets input tensor dimensions");
     println!("    - Compiled by MTL4 Compiler");
-    println!("");
+    println!();
     println!("  MachineLearningPipelineState");
     println!("    - Compiled, ready-to-execute pipeline");
     println!("    - Provides intermediates_heap_size()");
     println!("    - Contains reflection data");
-    println!("");
+    println!();
     println!("  ArgumentTable");
     println!("    - Binds input/output buffers");
     println!("    - GPU address-based binding");
     println!("    - Reusable across dispatches");
-    println!("");
+    println!();
     println!("  MachineLearningCommandEncoder");
     println!("    - Sets pipeline state");
     println!("    - Sets argument table");
     println!("    - Dispatches network execution");
-    println!("");
+    println!();
     println!("Key Benefits:");
     println!("  - Explicit memory management for intermediates");
     println!("  - Async compilation to avoid stalls");

@@ -8,9 +8,9 @@ use std::ptr::NonNull;
 use metal_foundation::Referencing;
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::FunctionType;
-use super::enums::BinaryFunctionOptions;
 use super::FunctionDescriptor;
+use super::enums::BinaryFunctionOptions;
+use crate::FunctionType;
 
 // ============================================================
 // BinaryFunction

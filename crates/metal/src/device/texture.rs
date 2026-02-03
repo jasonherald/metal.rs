@@ -7,10 +7,10 @@ use std::ffi::c_void;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_1, msg_send_3, sel};
 
+use super::Device;
 use crate::enums::TextureType;
 use crate::error::ValidationError;
 use crate::texture::{Texture, TextureDescriptor};
-use super::Device;
 
 impl Device {
     // =========================================================================
@@ -26,11 +26,8 @@ impl Device {
     /// The descriptor pointer must be valid.
     pub unsafe fn new_texture(&self, descriptor: *const c_void) -> Option<Texture> {
         unsafe {
-            let ptr: *mut c_void = msg_send_1(
-                self.as_ptr(),
-                sel!(newTextureWithDescriptor:),
-                descriptor,
-            );
+            let ptr: *mut c_void =
+                msg_send_1(self.as_ptr(), sel!(newTextureWithDescriptor:), descriptor);
             Texture::from_raw(ptr)
         }
     }
@@ -70,13 +67,21 @@ impl Device {
 
         // Validate dimensions are non-zero
         if width == 0 || height == 0 {
-            return Err(ValidationError::InvalidTextureDimensions { width, height, depth });
+            return Err(ValidationError::InvalidTextureDimensions {
+                width,
+                height,
+                depth,
+            });
         }
 
         // Validate depth for 3D textures
         let texture_type = descriptor.texture_type();
         if texture_type == TextureType::TYPE_3D && depth == 0 {
-            return Err(ValidationError::InvalidTextureDimensions { width, height, depth });
+            return Err(ValidationError::InvalidTextureDimensions {
+                width,
+                height,
+                depth,
+            });
         }
 
         // Validate array length for array textures
@@ -148,16 +153,10 @@ impl Device {
     /// # Safety
     ///
     /// The handle pointer must be valid.
-    pub unsafe fn new_shared_texture_with_handle(
-        &self,
-        handle: *const c_void,
-    ) -> Option<Texture> {
+    pub unsafe fn new_shared_texture_with_handle(&self, handle: *const c_void) -> Option<Texture> {
         unsafe {
-            let ptr: *mut c_void = msg_send_1(
-                self.as_ptr(),
-                sel!(newSharedTextureWithHandle:),
-                handle,
-            );
+            let ptr: *mut c_void =
+                msg_send_1(self.as_ptr(), sel!(newSharedTextureWithHandle:), handle);
             Texture::from_raw(ptr)
         }
     }

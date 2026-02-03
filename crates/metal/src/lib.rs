@@ -1,3 +1,11 @@
+// Clippy allows for FFI binding patterns
+#![allow(clippy::not_unsafe_ptr_arg_deref)] // Raw pointer args are passed to Obj-C, not dereferenced in Rust
+#![allow(clippy::missing_safety_doc)] // from_raw patterns are consistent across the crate
+#![allow(clippy::module_inception)] // module::module pattern mirrors Metal API structure
+#![allow(clippy::self_named_constructors)] // Matches Objective-C factory method naming
+#![allow(clippy::forget_non_drop)] // Intentional for preventing block cleanup in async callbacks
+#![allow(clippy::too_many_arguments)] // Matches Metal API signatures
+
 //! Metal framework bindings for Rust.
 //!
 //! This crate provides safe, idiomatic Rust bindings to Apple's Metal graphics API.
@@ -46,8 +54,8 @@ pub mod resource;
 
 // Resource modules
 pub mod buffer;
-pub mod texture;
 pub mod heap;
+pub mod texture;
 
 // Command modules
 pub mod command_buffer;
@@ -141,8 +149,8 @@ pub use device::{Architecture, Device};
 
 // Re-export resource types
 pub use buffer::Buffer;
-pub use texture::{SharedTextureHandle, Texture, TextureDescriptor, TextureViewDescriptor};
 pub use heap::{Heap, HeapDescriptor};
+pub use texture::{SharedTextureHandle, Texture, TextureDescriptor, TextureViewDescriptor};
 
 // Re-export command types
 pub use command_buffer::{CommandBuffer, CommandBufferDescriptor};
@@ -192,8 +200,7 @@ pub use acceleration::{
     AccelerationStructureDescriptor, AccelerationStructureGeometryDescriptor,
     AccelerationStructureMotionBoundingBoxGeometryDescriptor,
     AccelerationStructureMotionCurveGeometryDescriptor,
-    AccelerationStructureMotionTriangleGeometryDescriptor,
-    AccelerationStructurePassDescriptor,
+    AccelerationStructureMotionTriangleGeometryDescriptor, AccelerationStructurePassDescriptor,
     AccelerationStructurePassSampleBufferAttachmentDescriptor,
     AccelerationStructurePassSampleBufferAttachmentDescriptorArray, AccelerationStructureSizes,
     AccelerationStructureTriangleGeometryDescriptor,
@@ -210,17 +217,17 @@ pub use encoder::{
 
 // Re-export IO types
 pub use io::{
-    io_compression_context_append_data, io_compression_context_default_chunk_size,
-    io_create_compression_context, io_flush_and_destroy_compression_context, IOCommandBuffer,
-    IOCommandQueue, IOCommandQueueDescriptor, IOCompressionContext, IOFileHandle,
-    IOScratchBuffer, IOScratchBufferAllocator,
+    IOCommandBuffer, IOCommandQueue, IOCommandQueueDescriptor, IOCompressionContext, IOFileHandle,
+    IOScratchBuffer, IOScratchBufferAllocator, io_compression_context_append_data,
+    io_compression_context_default_chunk_size, io_create_compression_context,
+    io_flush_and_destroy_compression_context,
 };
 
 // Re-export argument types
 pub use argument::{
-    Argument, ArgumentEncoder, ArrayType, Binding, BufferBinding, ObjectPayloadBinding,
-    PointerType, StructMember, StructType, TensorBinding, TensorReferenceType, TextureBinding,
-    TextureReferenceType, ThreadgroupBinding, Type, ATTRIBUTE_STRIDE_STATIC,
+    ATTRIBUTE_STRIDE_STATIC, Argument, ArgumentEncoder, ArrayType, Binding, BufferBinding,
+    ObjectPayloadBinding, PointerType, StructMember, StructType, TensorBinding,
+    TensorReferenceType, TextureBinding, TextureReferenceType, ThreadgroupBinding, Type,
 };
 pub use argument_descriptor::ArgumentDescriptor;
 
@@ -232,9 +239,9 @@ pub use binary_archive::{BinaryArchive, BinaryArchiveDescriptor, BinaryArchiveEr
 
 // Re-export function stitching types
 pub use function_stitching::{
-    FunctionStitchingAttribute, FunctionStitchingAttributeAlwaysInline, FunctionStitchingFunctionNode,
-    FunctionStitchingGraph, FunctionStitchingInputNode, FunctionStitchingNode,
-    StitchedLibraryDescriptor, StitchedLibraryOptions,
+    FunctionStitchingAttribute, FunctionStitchingAttributeAlwaysInline,
+    FunctionStitchingFunctionNode, FunctionStitchingGraph, FunctionStitchingInputNode,
+    FunctionStitchingNode, StitchedLibraryDescriptor, StitchedLibraryOptions,
 };
 
 // Re-export residency set types
@@ -251,9 +258,9 @@ pub use capture::{CaptureDescriptor, CaptureManager, CaptureScope};
 
 // Re-export counter types
 pub use counter::{
-    Counter, CounterResultStageUtilization, CounterResultStatistic, CounterResultTimestamp,
-    CounterSampleBuffer, CounterSampleBufferDescriptor, CounterSet, COUNTER_DONT_SAMPLE,
-    COUNTER_ERROR_VALUE,
+    COUNTER_DONT_SAMPLE, COUNTER_ERROR_VALUE, Counter, CounterResultStageUtilization,
+    CounterResultStatistic, CounterResultTimestamp, CounterSampleBuffer,
+    CounterSampleBufferDescriptor, CounterSet,
 };
 
 // Re-export indirect command types
@@ -264,8 +271,8 @@ pub use indirect::{
 
 // Re-export vertex descriptor types
 pub use vertex::{
-    VertexAttributeDescriptor, VertexAttributeDescriptorArray, VertexBufferLayoutDescriptor,
-    VertexBufferLayoutDescriptorArray, VertexDescriptor, BUFFER_LAYOUT_STRIDE_DYNAMIC,
+    BUFFER_LAYOUT_STRIDE_DYNAMIC, VertexAttributeDescriptor, VertexAttributeDescriptorArray,
+    VertexBufferLayoutDescriptor, VertexBufferLayoutDescriptorArray, VertexDescriptor,
 };
 
 // Re-export function table types

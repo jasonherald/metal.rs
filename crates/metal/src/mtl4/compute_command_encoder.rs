@@ -8,8 +8,8 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, msg_send_2, msg_send_3, msg_send_4, msg_send_5, sel};
 
-use crate::{ComputePipelineState, Device, Size};
 use super::enums::VisibilityOptions;
+use crate::{ComputePipelineState, Device, Size};
 
 // ============================================================
 // ComputeCommandEncoder
@@ -181,12 +181,7 @@ impl ComputeCommandEncoder {
     ) {
         unsafe {
             let range = (range_location, range_length);
-            let _: () = msg_send_2(
-                self.as_ptr(),
-                sel!(setTextures:withRange:),
-                textures,
-                range,
-            );
+            let _: () = msg_send_2(self.as_ptr(), sel!(setTextures:withRange:), textures, range);
         }
     }
 
@@ -197,7 +192,12 @@ impl ComputeCommandEncoder {
     /// C++ equivalent: `void setSamplerState(const MTL::SamplerState*, NS::UInteger)`
     pub fn set_sampler_state(&self, sampler: *const c_void, index: UInteger) {
         unsafe {
-            let _: () = msg_send_2(self.as_ptr(), sel!(setSamplerState:atIndex:), sampler, index);
+            let _: () = msg_send_2(
+                self.as_ptr(),
+                sel!(setSamplerState:atIndex:),
+                sampler,
+                index,
+            );
         }
     }
 
@@ -386,12 +386,7 @@ impl ComputeCommandEncoder {
     /// Use multiple resources.
     ///
     /// C++ equivalent: `void useResources(const MTL::Resource* const*, NS::UInteger, MTL::ResourceUsage)`
-    pub fn use_resources(
-        &self,
-        resources: *const *const c_void,
-        count: UInteger,
-        usage: UInteger,
-    ) {
+    pub fn use_resources(&self, resources: *const *const c_void, count: UInteger, usage: UInteger) {
         unsafe {
             let _: () = msg_send_3(
                 self.as_ptr(),
@@ -417,7 +412,13 @@ impl ComputeCommandEncoder {
     /// C++ equivalent: `void useHeaps(const MTL::Heap* const*, NS::UInteger, MTL::ResourceUsage)`
     pub fn use_heaps(&self, heaps: *const *const c_void, count: UInteger, usage: UInteger) {
         unsafe {
-            let _: () = msg_send_3(self.as_ptr(), sel!(useHeaps:count:usage:), heaps, count, usage);
+            let _: () = msg_send_3(
+                self.as_ptr(),
+                sel!(useHeaps:count:usage:),
+                heaps,
+                count,
+                usage,
+            );
         }
     }
 
@@ -503,7 +504,13 @@ impl ComputeCommandEncoder {
     ) {
         unsafe {
             let range = (range_location, range_length);
-            let _: () = msg_send_3(self.as_ptr(), sel!(fillBuffer:range:value:), buffer, range, value);
+            let _: () = msg_send_3(
+                self.as_ptr(),
+                sel!(fillBuffer:range:value:),
+                buffer,
+                range,
+                value,
+            );
         }
     }
 

@@ -6,8 +6,8 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::enums::{AttributeFormat, CurveBasis, CurveEndCaps, CurveType, IndexType};
 use crate::Buffer;
+use crate::enums::{AttributeFormat, CurveBasis, CurveEndCaps, CurveType, IndexType};
 
 /// Descriptor for motion curve geometry in acceleration structures.
 ///
@@ -53,7 +53,12 @@ impl AccelerationStructureMotionCurveGeometryDescriptor {
     /// Get whether duplicate intersection function invocation is allowed.
     #[inline]
     pub fn allow_duplicate_intersection_function_invocation(&self) -> bool {
-        unsafe { msg_send_0(self.as_ptr(), sel!(allowDuplicateIntersectionFunctionInvocation)) }
+        unsafe {
+            msg_send_0(
+                self.as_ptr(),
+                sel!(allowDuplicateIntersectionFunctionInvocation),
+            )
+        }
     }
 
     /// Set whether duplicate intersection function invocation is allowed.
@@ -488,11 +493,7 @@ impl AccelerationStructureMotionCurveGeometryDescriptor {
     /// The radius_buffers pointer must be a valid NS::Array or null.
     pub unsafe fn set_radius_buffers_ptr(&self, radius_buffers: *const c_void) {
         unsafe {
-            msg_send_1::<(), *const c_void>(
-                self.as_ptr(),
-                sel!(setRadiusBuffers:),
-                radius_buffers,
-            );
+            msg_send_1::<(), *const c_void>(self.as_ptr(), sel!(setRadiusBuffers:), radius_buffers);
         }
     }
 }

@@ -10,7 +10,10 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::enums::{CPUCacheMode, HazardTrackingMode, HeapType, PurgeableState, ResourceOptions, SparsePageSize, StorageMode};
+use crate::enums::{
+    CPUCacheMode, HazardTrackingMode, HeapType, PurgeableState, ResourceOptions, SparsePageSize,
+    StorageMode,
+};
 
 /// A memory pool from which resources can be allocated.
 ///
@@ -141,7 +144,13 @@ impl Heap {
     /// C++ equivalent: `NS::UInteger maxAvailableSize(NS::UInteger alignment)`
     #[inline]
     pub fn max_available_size(&self, alignment: UInteger) -> UInteger {
-        unsafe { msg_send_1(self.as_ptr(), sel!(maxAvailableSizeWithAlignment:), alignment) }
+        unsafe {
+            msg_send_1(
+                self.as_ptr(),
+                sel!(maxAvailableSizeWithAlignment:),
+                alignment,
+            )
+        }
     }
 
     /// Get the heap type.
@@ -217,11 +226,8 @@ impl Heap {
     /// The descriptor pointer must be valid.
     pub unsafe fn new_texture(&self, descriptor: *const c_void) -> Option<crate::texture::Texture> {
         unsafe {
-            let ptr: *mut c_void = msg_send_1(
-                self.as_ptr(),
-                sel!(newTextureWithDescriptor:),
-                descriptor,
-            );
+            let ptr: *mut c_void =
+                msg_send_1(self.as_ptr(), sel!(newTextureWithDescriptor:), descriptor);
             crate::texture::Texture::from_raw(ptr)
         }
     }
@@ -261,11 +267,8 @@ impl Heap {
         size: UInteger,
     ) -> Option<crate::acceleration::AccelerationStructure> {
         unsafe {
-            let ptr: *mut c_void = msg_send_1(
-                self.as_ptr(),
-                sel!(newAccelerationStructureWithSize:),
-                size,
-            );
+            let ptr: *mut c_void =
+                msg_send_1(self.as_ptr(), sel!(newAccelerationStructureWithSize:), size);
             crate::acceleration::AccelerationStructure::from_raw(ptr)
         }
     }

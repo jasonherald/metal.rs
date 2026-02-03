@@ -215,7 +215,7 @@ impl ComputePipelineState {
             if ptr.is_null() {
                 if !error.is_null() {
                     return Err(
-                        metal_foundation::Error::from_ptr(error).expect("error should be valid"),
+                        metal_foundation::Error::from_ptr(error).expect("error should be valid")
                     );
                 }
                 return Err(metal_foundation::Error::error(
@@ -247,7 +247,7 @@ impl ComputePipelineState {
             if ptr.is_null() {
                 if !error.is_null() {
                     return Err(
-                        metal_foundation::Error::from_ptr(error).expect("error should be valid"),
+                        metal_foundation::Error::from_ptr(error).expect("error should be valid")
                     );
                 }
                 return Err(metal_foundation::Error::error(
@@ -345,7 +345,10 @@ impl std::fmt::Debug for ComputePipelineState {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ComputePipelineState")
             .field("label", &self.label())
-            .field("max_total_threads_per_threadgroup", &self.max_total_threads_per_threadgroup())
+            .field(
+                "max_total_threads_per_threadgroup",
+                &self.max_total_threads_per_threadgroup(),
+            )
             .field("thread_execution_width", &self.thread_execution_width())
             .finish()
     }

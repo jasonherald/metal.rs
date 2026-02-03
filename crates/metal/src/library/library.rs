@@ -121,11 +121,8 @@ impl Library {
     pub fn new_function_with_name(&self, name: &str) -> Option<Function> {
         let ns_name = metal_foundation::String::from_str(name)?;
         unsafe {
-            let ptr: *mut c_void = msg_send_1(
-                self.as_ptr(),
-                sel!(newFunctionWithName:),
-                ns_name.as_ptr(),
-            );
+            let ptr: *mut c_void =
+                msg_send_1(self.as_ptr(), sel!(newFunctionWithName:), ns_name.as_ptr());
             Function::from_raw(ptr)
         }
     }
@@ -142,9 +139,10 @@ impl Library {
         name: &str,
         constant_values: *const c_void,
     ) -> Result<Function, metal_foundation::Error> {
-        let ns_name = metal_foundation::String::from_str(name)
-            .ok_or_else(|| metal_foundation::Error::error(std::ptr::null_mut(), 0, std::ptr::null_mut())
-                .expect("failed to create error for invalid string"))?;
+        let ns_name = metal_foundation::String::from_str(name).ok_or_else(|| {
+            metal_foundation::Error::error(std::ptr::null_mut(), 0, std::ptr::null_mut())
+                .expect("failed to create error for invalid string")
+        })?;
 
         let mut error: *mut c_void = std::ptr::null_mut();
         unsafe {
@@ -161,8 +159,12 @@ impl Library {
                     let _: *mut c_void = msg_send_0(error, sel!(retain));
                     return Err(metal_foundation::Error::from_ptr(error).unwrap());
                 }
-                return Err(metal_foundation::Error::error(std::ptr::null_mut(), -1, std::ptr::null_mut())
-                    .expect("failed to create error object"));
+                return Err(metal_foundation::Error::error(
+                    std::ptr::null_mut(),
+                    -1,
+                    std::ptr::null_mut(),
+                )
+                .expect("failed to create error object"));
             }
 
             Ok(Function::from_raw(ptr).unwrap())
@@ -308,8 +310,8 @@ impl Library {
             return;
         };
 
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |fn_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |fn_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let function = if fn_ptr.is_null() {
                     None
                 } else {
@@ -323,8 +325,7 @@ impl Library {
                 };
 
                 completion_handler(function, error);
-            },
-        );
+            });
 
         unsafe {
             metal_sys::msg_send_3::<(), *const c_void, *const c_void, *const c_void>(
@@ -349,8 +350,8 @@ impl Library {
     ) where
         F: Fn(Option<Function>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |fn_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |fn_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let function = if fn_ptr.is_null() {
                     None
                 } else {
@@ -364,8 +365,7 @@ impl Library {
                 };
 
                 completion_handler(function, error);
-            },
-        );
+            });
 
         unsafe {
             metal_sys::msg_send_2::<(), *const c_void, *const c_void>(
@@ -389,8 +389,8 @@ impl Library {
     ) where
         F: Fn(Option<Function>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |fn_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |fn_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let function = if fn_ptr.is_null() {
                     None
                 } else {
@@ -404,8 +404,7 @@ impl Library {
                 };
 
                 completion_handler(function, error);
-            },
-        );
+            });
 
         unsafe {
             metal_sys::msg_send_2::<(), *const c_void, *const c_void>(

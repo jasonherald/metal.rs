@@ -150,7 +150,8 @@ impl TileRenderPipelineColorAttachmentDescriptorArray {
     /// C++ equivalent: `TileRenderPipelineColorAttachmentDescriptor* object(NS::UInteger attachmentIndex)`
     pub fn object(&self, index: UInteger) -> Option<TileRenderPipelineColorAttachmentDescriptor> {
         unsafe {
-            let ptr: *mut c_void = msg_send_1(self.as_ptr(), sel!(objectAtIndexedSubscript:), index);
+            let ptr: *mut c_void =
+                msg_send_1(self.as_ptr(), sel!(objectAtIndexedSubscript:), index);
             if ptr.is_null() {
                 return None;
             }
@@ -208,7 +209,8 @@ unsafe impl Sync for TileRenderPipelineColorAttachmentDescriptorArray {}
 
 impl std::fmt::Debug for TileRenderPipelineColorAttachmentDescriptorArray {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("TileRenderPipelineColorAttachmentDescriptorArray").finish()
+        f.debug_struct("TileRenderPipelineColorAttachmentDescriptorArray")
+            .finish()
     }
 }
 
@@ -365,7 +367,11 @@ impl TileRenderPipelineDescriptor {
     #[inline]
     pub fn set_threadgroup_size_matches_tile_size(&self, matches: bool) {
         unsafe {
-            msg_send_1::<(), bool>(self.as_ptr(), sel!(setThreadgroupSizeMatchesTileSize:), matches);
+            msg_send_1::<(), bool>(
+                self.as_ptr(),
+                sel!(setThreadgroupSizeMatchesTileSize:),
+                matches,
+            );
         }
     }
 
@@ -393,7 +399,11 @@ impl TileRenderPipelineDescriptor {
     #[inline]
     pub fn set_max_total_threads_per_threadgroup(&self, count: UInteger) {
         unsafe {
-            msg_send_1::<(), UInteger>(self.as_ptr(), sel!(setMaxTotalThreadsPerThreadgroup:), count);
+            msg_send_1::<(), UInteger>(
+                self.as_ptr(),
+                sel!(setMaxTotalThreadsPerThreadgroup:),
+                count,
+            );
         }
     }
 
@@ -471,7 +481,11 @@ impl TileRenderPipelineDescriptor {
     #[inline]
     pub fn set_support_adding_binary_functions(&self, support: bool) {
         unsafe {
-            msg_send_1::<(), bool>(self.as_ptr(), sel!(setSupportAddingBinaryFunctions:), support);
+            msg_send_1::<(), bool>(
+                self.as_ptr(),
+                sel!(setSupportAddingBinaryFunctions:),
+                support,
+            );
         }
     }
 
@@ -489,7 +503,11 @@ impl TileRenderPipelineDescriptor {
     #[inline]
     pub fn set_shader_validation(&self, validation: ShaderValidation) {
         unsafe {
-            msg_send_1::<(), ShaderValidation>(self.as_ptr(), sel!(setShaderValidation:), validation);
+            msg_send_1::<(), ShaderValidation>(
+                self.as_ptr(),
+                sel!(setShaderValidation:),
+                validation,
+            );
         }
     }
 
@@ -585,4 +603,3 @@ impl std::fmt::Debug for TileRenderPipelineDescriptor {
             .finish()
     }
 }
-

@@ -7,8 +7,8 @@
 
 use std::ffi::c_void;
 
-use crate::enums::device::IOCompressionMethod;
 use crate::enums::IOCompressionStatus;
+use crate::enums::device::IOCompressionMethod;
 
 mod command_buffer;
 mod command_queue;
@@ -45,7 +45,7 @@ unsafe extern "C" {
         size: usize,
     );
     fn MTLIOFlushAndDestroyCompressionContext(context: IOCompressionContext)
-        -> IOCompressionStatus;
+    -> IOCompressionStatus;
 }
 
 /// Get the default chunk size for IO compression.
@@ -67,11 +67,7 @@ pub fn io_create_compression_context(
     let c_path = std::ffi::CString::new(path).ok()?;
     let ctx =
         unsafe { MTLIOCreateCompressionContext(c_path.as_ptr(), compression_type, chunk_size) };
-    if ctx.is_null() {
-        None
-    } else {
-        Some(ctx)
-    }
+    if ctx.is_null() { None } else { Some(ctx) }
 }
 
 /// Append data to a compression context.

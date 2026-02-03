@@ -3,7 +3,7 @@
 //! These tests verify that texture operations work correctly with the Metal GPU.
 //! They test texture creation, pixel data read/write, and texture properties.
 
-use metal::{device, PixelFormat, TextureDescriptor, TextureUsage, StorageMode, Region};
+use metal::{PixelFormat, Region, StorageMode, TextureDescriptor, TextureUsage, device};
 
 /// Get the default Metal device or skip the test.
 fn get_device() -> metal::Device {
@@ -22,13 +22,12 @@ fn test_texture_descriptor_creation() {
 
 #[test]
 fn test_texture_2d_descriptor() {
-    let descriptor = TextureDescriptor::texture_2d_descriptor(
-        PixelFormat::RGBA8_UNORM,
-        256,
-        256,
-        false,
+    let descriptor =
+        TextureDescriptor::texture_2d_descriptor(PixelFormat::RGBA8_UNORM, 256, 256, false);
+    assert!(
+        descriptor.is_some(),
+        "Failed to create 2D texture descriptor"
     );
-    assert!(descriptor.is_some(), "Failed to create 2D texture descriptor");
 
     let desc = descriptor.unwrap();
     assert_eq!(desc.width(), 256);
@@ -38,45 +37,45 @@ fn test_texture_2d_descriptor() {
 
 #[test]
 fn test_texture_2d_with_mipmaps() {
-    let descriptor = TextureDescriptor::texture_2d_descriptor(
-        PixelFormat::RGBA8_UNORM,
-        256,
-        256,
-        true,
-    );
+    let descriptor =
+        TextureDescriptor::texture_2d_descriptor(PixelFormat::RGBA8_UNORM, 256, 256, true);
     assert!(descriptor.is_some());
 
     let desc = descriptor.unwrap();
     // With mipmaps enabled, mipmap level count should be > 1
-    assert!(desc.mipmap_level_count() > 1, "Expected mipmaps for 256x256 texture");
+    assert!(
+        desc.mipmap_level_count() > 1,
+        "Expected mipmaps for 256x256 texture"
+    );
 }
 
 #[test]
 fn test_texture_cube_descriptor() {
-    let descriptor = TextureDescriptor::texture_cube_descriptor(
-        PixelFormat::RGBA8_UNORM,
-        64,
-        false,
+    let descriptor =
+        TextureDescriptor::texture_cube_descriptor(PixelFormat::RGBA8_UNORM, 64, false);
+    assert!(
+        descriptor.is_some(),
+        "Failed to create cube texture descriptor"
     );
-    assert!(descriptor.is_some(), "Failed to create cube texture descriptor");
 }
 
 #[test]
 fn test_texture_creation() {
     let device = get_device();
 
-    let descriptor = TextureDescriptor::texture_2d_descriptor(
-        PixelFormat::RGBA8_UNORM,
-        128,
-        128,
-        false,
-    ).expect("Failed to create descriptor");
+    let descriptor =
+        TextureDescriptor::texture_2d_descriptor(PixelFormat::RGBA8_UNORM, 128, 128, false)
+            .expect("Failed to create descriptor");
 
     descriptor.set_usage(TextureUsage::SHADER_READ | TextureUsage::SHADER_WRITE);
     descriptor.set_storage_mode(StorageMode::SHARED);
 
     let texture = device.new_texture_with_descriptor(&descriptor);
-    assert!(texture.is_ok(), "Failed to create texture: {:?}", texture.err());
+    assert!(
+        texture.is_ok(),
+        "Failed to create texture: {:?}",
+        texture.err()
+    );
 
     let texture = texture.unwrap();
     assert_eq!(texture.width(), 128);
@@ -88,12 +87,8 @@ fn test_texture_creation() {
 fn test_texture_with_label() {
     let device = get_device();
 
-    let descriptor = TextureDescriptor::texture_2d_descriptor(
-        PixelFormat::RGBA8_UNORM,
-        64,
-        64,
-        false,
-    ).unwrap();
+    let descriptor =
+        TextureDescriptor::texture_2d_descriptor(PixelFormat::RGBA8_UNORM, 64, 64, false).unwrap();
 
     descriptor.set_storage_mode(StorageMode::SHARED);
 
@@ -133,12 +128,8 @@ fn test_texture_invalid_dimensions() {
 fn test_texture_replace_region() {
     let device = get_device();
 
-    let descriptor = TextureDescriptor::texture_2d_descriptor(
-        PixelFormat::RGBA8_UNORM,
-        4,
-        4,
-        false,
-    ).unwrap();
+    let descriptor =
+        TextureDescriptor::texture_2d_descriptor(PixelFormat::RGBA8_UNORM, 4, 4, false).unwrap();
 
     descriptor.set_storage_mode(StorageMode::SHARED);
     descriptor.set_usage(TextureUsage::SHADER_READ);
@@ -169,12 +160,9 @@ fn test_texture_replace_region() {
 fn test_texture_bytes_per_row() {
     let device = get_device();
 
-    let descriptor = TextureDescriptor::texture_2d_descriptor(
-        PixelFormat::RGBA8_UNORM,
-        256,
-        256,
-        false,
-    ).unwrap();
+    let descriptor =
+        TextureDescriptor::texture_2d_descriptor(PixelFormat::RGBA8_UNORM, 256, 256, false)
+            .unwrap();
 
     descriptor.set_storage_mode(StorageMode::SHARED);
 
@@ -214,7 +202,11 @@ fn test_texture_3d_descriptor() {
     descriptor.set_usage(TextureUsage::SHADER_READ);
 
     let texture = device.new_texture_with_descriptor(&descriptor);
-    assert!(texture.is_ok(), "Failed to create 3D texture: {:?}", texture.err());
+    assert!(
+        texture.is_ok(),
+        "Failed to create 3D texture: {:?}",
+        texture.err()
+    );
 
     let texture = texture.unwrap();
     assert_eq!(texture.width(), 16);
@@ -236,7 +228,11 @@ fn test_texture_array() {
     descriptor.set_usage(TextureUsage::SHADER_READ);
 
     let texture = device.new_texture_with_descriptor(&descriptor);
-    assert!(texture.is_ok(), "Failed to create texture array: {:?}", texture.err());
+    assert!(
+        texture.is_ok(),
+        "Failed to create texture array: {:?}",
+        texture.err()
+    );
 
     let texture = texture.unwrap();
     assert_eq!(texture.array_length(), 4);
@@ -250,12 +246,8 @@ fn test_texture_array() {
 fn test_texture_properties() {
     let device = get_device();
 
-    let descriptor = TextureDescriptor::texture_2d_descriptor(
-        PixelFormat::RGBA8_UNORM,
-        512,
-        256,
-        true,
-    ).unwrap();
+    let descriptor =
+        TextureDescriptor::texture_2d_descriptor(PixelFormat::RGBA8_UNORM, 512, 256, true).unwrap();
 
     descriptor.set_storage_mode(StorageMode::SHARED);
     descriptor.set_usage(TextureUsage::SHADER_READ | TextureUsage::RENDER_TARGET);
@@ -275,14 +267,11 @@ fn test_texture_properties() {
 fn test_texture_usage_flags() {
     let device = get_device();
 
-    let descriptor = TextureDescriptor::texture_2d_descriptor(
-        PixelFormat::RGBA8_UNORM,
-        64,
-        64,
-        false,
-    ).unwrap();
+    let descriptor =
+        TextureDescriptor::texture_2d_descriptor(PixelFormat::RGBA8_UNORM, 64, 64, false).unwrap();
 
-    let combined_usage = TextureUsage::SHADER_READ | TextureUsage::SHADER_WRITE | TextureUsage::RENDER_TARGET;
+    let combined_usage =
+        TextureUsage::SHADER_READ | TextureUsage::SHADER_WRITE | TextureUsage::RENDER_TARGET;
     descriptor.set_usage(combined_usage);
     descriptor.set_storage_mode(StorageMode::SHARED);
 
@@ -298,12 +287,8 @@ fn test_texture_usage_flags() {
 fn test_texture_gpu_resource_id() {
     let device = get_device();
 
-    let descriptor = TextureDescriptor::texture_2d_descriptor(
-        PixelFormat::RGBA8_UNORM,
-        64,
-        64,
-        false,
-    ).unwrap();
+    let descriptor =
+        TextureDescriptor::texture_2d_descriptor(PixelFormat::RGBA8_UNORM, 64, 64, false).unwrap();
 
     descriptor.set_storage_mode(StorageMode::SHARED);
 

@@ -16,7 +16,7 @@
 //! Note: Metal 4 requires macOS 15+ or iOS 18+. This example will
 //! gracefully exit on older systems.
 
-use metal::{device, mtl4, ResourceOptions};
+use metal::{ResourceOptions, device, mtl4};
 
 fn main() {
     println!("Metal 4 ArgumentTable Example");
@@ -102,9 +102,15 @@ fn main() {
     println!("  Output:  0x{:016X}", output_gpu_addr);
 
     // Verify addresses are valid (non-zero)
-    assert!(weights_gpu_addr != 0, "Weights GPU address should be non-zero");
+    assert!(
+        weights_gpu_addr != 0,
+        "Weights GPU address should be non-zero"
+    );
     assert!(input_gpu_addr != 0, "Input GPU address should be non-zero");
-    assert!(output_gpu_addr != 0, "Output GPU address should be non-zero");
+    assert!(
+        output_gpu_addr != 0,
+        "Output GPU address should be non-zero"
+    );
 
     println!("\nAll GPU addresses are valid");
 
@@ -123,10 +129,22 @@ fn main() {
 
     println!("ArgumentTableDescriptor configuration:");
     println!("  Label: {:?}", table_desc.label());
-    println!("  Max buffer bindings: {}", table_desc.max_buffer_bind_count());
-    println!("  Max texture bindings: {}", table_desc.max_texture_bind_count());
-    println!("  Max sampler bindings: {}", table_desc.max_sampler_state_bind_count());
-    println!("  Initialize bindings: {}", table_desc.initialize_bindings());
+    println!(
+        "  Max buffer bindings: {}",
+        table_desc.max_buffer_bind_count()
+    );
+    println!(
+        "  Max texture bindings: {}",
+        table_desc.max_texture_bind_count()
+    );
+    println!(
+        "  Max sampler bindings: {}",
+        table_desc.max_sampler_state_bind_count()
+    );
+    println!(
+        "  Initialize bindings: {}",
+        table_desc.initialize_bindings()
+    );
 
     // Create the argument table
     let arg_table = match device.new_argument_table(&table_desc) {
@@ -155,13 +173,22 @@ fn main() {
     const OUTPUT_INDEX: usize = 2;
 
     arg_table.set_address(weights_gpu_addr, WEIGHTS_INDEX);
-    println!("Bound weights buffer to index {} (addr: 0x{:X})", WEIGHTS_INDEX, weights_gpu_addr);
+    println!(
+        "Bound weights buffer to index {} (addr: 0x{:X})",
+        WEIGHTS_INDEX, weights_gpu_addr
+    );
 
     arg_table.set_address(input_gpu_addr, INPUT_INDEX);
-    println!("Bound input buffer to index {} (addr: 0x{:X})", INPUT_INDEX, input_gpu_addr);
+    println!(
+        "Bound input buffer to index {} (addr: 0x{:X})",
+        INPUT_INDEX, input_gpu_addr
+    );
 
     arg_table.set_address(output_gpu_addr, OUTPUT_INDEX);
-    println!("Bound output buffer to index {} (addr: 0x{:X})", OUTPUT_INDEX, output_gpu_addr);
+    println!(
+        "Bound output buffer to index {} (addr: 0x{:X})",
+        OUTPUT_INDEX, output_gpu_addr
+    );
 
     // Step 7: Demonstrate binding with stride (for strided buffer access)
     println!("\n--- Binding with Stride ---");
@@ -193,8 +220,8 @@ fn main() {
     // Step 8: Create a second argument table for comparison
     println!("\n--- Creating Second ArgumentTable ---");
 
-    let table_desc2 =
-        mtl4::ArgumentTableDescriptor::new().expect("Failed to create second ArgumentTableDescriptor");
+    let table_desc2 = mtl4::ArgumentTableDescriptor::new()
+        .expect("Failed to create second ArgumentTableDescriptor");
 
     table_desc2.set_label("Auxiliary Table");
     table_desc2.set_max_buffer_bind_count(4);

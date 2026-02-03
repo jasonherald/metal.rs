@@ -237,4 +237,3 @@ impl std::fmt::Debug for RenderPipelineReflection {
         f.debug_struct("RenderPipelineReflection").finish()
     }
 }
-

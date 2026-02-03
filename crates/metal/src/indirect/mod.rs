@@ -60,7 +60,10 @@ mod tests {
 
     #[test]
     fn test_indirect_command_buffer_execution_range_size() {
-        assert_eq!(std::mem::size_of::<IndirectCommandBufferExecutionRange>(), 8);
+        assert_eq!(
+            std::mem::size_of::<IndirectCommandBufferExecutionRange>(),
+            8
+        );
     }
 
     #[test]

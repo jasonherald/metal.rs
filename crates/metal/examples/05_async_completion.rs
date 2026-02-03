@@ -9,9 +9,9 @@
 //!
 //! Run with: cargo run --example 05_async_completion
 
-use metal::{device, CommandBufferStatus, ResourceOptions};
-use std::sync::atomic::{AtomicBool, AtomicU32, Ordering};
+use metal::{CommandBufferStatus, ResourceOptions, device};
 use std::sync::Arc;
+use std::sync::atomic::{AtomicBool, AtomicU32, Ordering};
 use std::time::Duration;
 
 /// Simple compute shader for testing
@@ -48,7 +48,9 @@ fn main() {
     // =======================================================================
     println!("\n--- Part 1: Command Buffer Completion Handler ---");
 
-    let command_queue = device.new_command_queue().expect("Failed to create command queue");
+    let command_queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
 
     // Create a flag to track completion
     let completed = Arc::new(AtomicBool::new(false));
@@ -62,10 +64,7 @@ fn main() {
     // Add completion handler
     command_buffer.add_completed_handler(move |cmd_buffer| {
         println!("  [Completion Handler] Called!");
-        println!(
-            "  [Completion Handler] Status: {:?}",
-            cmd_buffer.status()
-        );
+        println!("  [Completion Handler] Status: {:?}", cmd_buffer.status());
         println!(
             "  [Completion Handler] GPU time: {:.6} ms",
             (cmd_buffer.gpu_end_time() - cmd_buffer.gpu_start_time()) * 1000.0
@@ -197,10 +196,7 @@ fn main() {
     // Add completion handler that will be called after GPU work
     command_buffer4.add_completed_handler(move |cmd_buffer| {
         println!("  [GPU Work Handler] GPU work completed!");
-        println!(
-            "  [GPU Work Handler] Status: {:?}",
-            cmd_buffer.status()
-        );
+        println!("  [GPU Work Handler] Status: {:?}", cmd_buffer.status());
 
         let gpu_time = cmd_buffer.gpu_end_time() - cmd_buffer.gpu_start_time();
         if gpu_time > 0.0 {
@@ -218,8 +214,10 @@ fn main() {
     encoder.set_compute_pipeline_state(&pipeline);
     encoder.set_buffer(&buffer, 0, 0);
 
-    let threads_per_group = pipeline.max_total_threads_per_threadgroup().min(buffer_size);
-    let threadgroups = (buffer_size + threads_per_group - 1) / threads_per_group;
+    let threads_per_group = pipeline
+        .max_total_threads_per_threadgroup()
+        .min(buffer_size);
+    let threadgroups = buffer_size.div_ceil(threads_per_group);
 
     encoder.dispatch_threadgroups(
         metal::Size::new(threadgroups, 1, 1),
@@ -239,10 +237,15 @@ fn main() {
     let data = unsafe { std::slice::from_raw_parts(contents, buffer_size) };
 
     let mut all_correct = true;
-    for i in 0..buffer_size {
-        if data[i] != (i * 2) as u32 {
+    for (i, &value) in data.iter().enumerate() {
+        if value != (i * 2) as u32 {
             all_correct = false;
-            println!("  Data mismatch at {}: expected {}, got {}", i, i * 2, data[i]);
+            println!(
+                "  Data mismatch at {}: expected {}, got {}",
+                i,
+                i * 2,
+                value
+            );
             break;
         }
     }

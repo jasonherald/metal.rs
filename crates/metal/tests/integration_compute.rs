@@ -3,7 +3,7 @@
 //! These tests verify that compute pipeline operations work correctly with the Metal GPU.
 //! They test real GPU operations including shader compilation, pipeline creation, and dispatch.
 
-use metal::{device, ComputeCommandEncoder, ComputePipelineState, ResourceOptions, Size};
+use metal::{ComputeCommandEncoder, ComputePipelineState, ResourceOptions, Size, device};
 
 /// Get the default Metal device or skip the test.
 fn get_device() -> metal::Device {
@@ -182,7 +182,10 @@ fn test_pipeline_properties() {
 
     // These should be powers of 2 and > 0
     assert!(max_threads >= 32, "Max threads should be at least 32");
-    assert!(thread_width >= 32, "Thread execution width should be at least 32");
+    assert!(
+        thread_width >= 32,
+        "Thread execution width should be at least 32"
+    );
 
     // Thread width should divide max threads
     assert_eq!(max_threads % thread_width, 0);
@@ -196,7 +199,9 @@ fn test_pipeline_properties() {
 fn test_create_command_queue() {
     let device = get_device();
 
-    let queue = device.new_command_queue().expect("Failed to create command queue");
+    let queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
 
     // Queue should reference the same device
     let queue_device = queue.device();
@@ -207,8 +212,12 @@ fn test_create_command_queue() {
 fn test_create_command_buffer() {
     let device = get_device();
 
-    let queue = device.new_command_queue().expect("Failed to create command queue");
-    let _command_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
+    let _command_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     // Command buffer was created successfully
     // (status check would require matching enum values)
@@ -248,20 +257,21 @@ fn test_dispatch_multiply_kernel() {
 
     // Create command queue and buffer
     let command_queue = device.new_command_queue().expect("Failed to create queue");
-    let command_buffer = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     // Encode compute commands
     let encoder_ptr = command_buffer.compute_command_encoder();
-    let encoder = unsafe {
-        ComputeCommandEncoder::from_raw(encoder_ptr)
-    }.expect("Failed to create encoder");
+    let encoder =
+        unsafe { ComputeCommandEncoder::from_raw(encoder_ptr) }.expect("Failed to create encoder");
 
     encoder.set_compute_pipeline_state(&pipeline);
     encoder.set_buffer(&buffer, 0, 0);
 
     // Dispatch threads
     let thread_width = pipeline.thread_execution_width();
-    let threadgroup_count = (element_count + thread_width - 1) / thread_width;
+    let threadgroup_count = element_count.div_ceil(thread_width);
 
     encoder.dispatch_threadgroups(
         Size::new(threadgroup_count, 1, 1),
@@ -274,9 +284,8 @@ fn test_dispatch_multiply_kernel() {
 
     // Verify results
     let result_ptr = buffer.contents().expect("Buffer contents null") as *const f32;
-    let results: Vec<f32> = unsafe {
-        std::slice::from_raw_parts(result_ptr, element_count).to_vec()
-    };
+    let results: Vec<f32> =
+        unsafe { std::slice::from_raw_parts(result_ptr, element_count).to_vec() };
 
     let expected: Vec<f32> = (0..element_count).map(|i| (i as f32) * 2.0).collect();
     assert_eq!(results, expected);
@@ -311,7 +320,10 @@ fn test_dispatch_add_buffers_kernel() {
         .new_buffer_with_bytes(bytes_b, ResourceOptions::STORAGE_MODE_SHARED)
         .expect("Failed to create buffer B");
     let buffer_result = device
-        .new_buffer(element_count * std::mem::size_of::<f32>(), ResourceOptions::STORAGE_MODE_SHARED)
+        .new_buffer(
+            element_count * std::mem::size_of::<f32>(),
+            ResourceOptions::STORAGE_MODE_SHARED,
+        )
         .expect("Failed to create result buffer");
 
     // Compile and create pipeline
@@ -327,12 +339,13 @@ fn test_dispatch_add_buffers_kernel() {
 
     // Dispatch
     let command_queue = device.new_command_queue().expect("Failed to create queue");
-    let command_buffer = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     let encoder_ptr = command_buffer.compute_command_encoder();
-    let encoder = unsafe {
-        ComputeCommandEncoder::from_raw(encoder_ptr)
-    }.expect("Failed to create encoder");
+    let encoder =
+        unsafe { ComputeCommandEncoder::from_raw(encoder_ptr) }.expect("Failed to create encoder");
 
     encoder.set_compute_pipeline_state(&pipeline);
     encoder.set_buffer(&buffer_a, 0, 0);
@@ -340,7 +353,7 @@ fn test_dispatch_add_buffers_kernel() {
     encoder.set_buffer(&buffer_result, 0, 2);
 
     let thread_width = pipeline.thread_execution_width();
-    let threadgroup_count = (element_count + thread_width - 1) / thread_width;
+    let threadgroup_count = element_count.div_ceil(thread_width);
 
     encoder.dispatch_threadgroups(
         Size::new(threadgroup_count, 1, 1),
@@ -353,9 +366,8 @@ fn test_dispatch_add_buffers_kernel() {
 
     // Verify results
     let result_ptr = buffer_result.contents().expect("Buffer contents null") as *const f32;
-    let results: Vec<f32> = unsafe {
-        std::slice::from_raw_parts(result_ptr, element_count).to_vec()
-    };
+    let results: Vec<f32> =
+        unsafe { std::slice::from_raw_parts(result_ptr, element_count).to_vec() };
 
     let expected: Vec<f32> = (0..element_count)
         .map(|i| (i as f32) + (i as f32) * 10.0)
@@ -393,18 +405,19 @@ fn test_dispatch_large_buffer() {
 
     // Dispatch
     let command_queue = device.new_command_queue().expect("Failed to create queue");
-    let command_buffer = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     let encoder_ptr = command_buffer.compute_command_encoder();
-    let encoder = unsafe {
-        ComputeCommandEncoder::from_raw(encoder_ptr)
-    }.expect("Failed to create encoder");
+    let encoder =
+        unsafe { ComputeCommandEncoder::from_raw(encoder_ptr) }.expect("Failed to create encoder");
 
     encoder.set_compute_pipeline_state(&pipeline);
     encoder.set_buffer(&buffer, 0, 0);
 
     let thread_width = pipeline.thread_execution_width();
-    let threadgroup_count = (element_count + thread_width - 1) / thread_width;
+    let threadgroup_count = element_count.div_ceil(thread_width);
 
     encoder.dispatch_threadgroups(
         Size::new(threadgroup_count, 1, 1),
@@ -417,15 +430,19 @@ fn test_dispatch_large_buffer() {
 
     // Verify results (spot check)
     let result_ptr = buffer.contents().expect("Buffer contents null") as *const f32;
-    let results = unsafe {
-        std::slice::from_raw_parts(result_ptr, element_count)
-    };
+    let results = unsafe { std::slice::from_raw_parts(result_ptr, element_count) };
 
     // Check first, middle, and last elements
     assert_eq!(results[0], 0.0);
     assert_eq!(results[1], 2.0);
-    assert_eq!(results[element_count / 2], ((element_count / 2) % 1000) as f32 * 2.0);
-    assert_eq!(results[element_count - 1], ((element_count - 1) % 1000) as f32 * 2.0);
+    assert_eq!(
+        results[element_count / 2],
+        ((element_count / 2) % 1000) as f32 * 2.0
+    );
+    assert_eq!(
+        results[element_count - 1],
+        ((element_count - 1) % 1000) as f32 * 2.0
+    );
 }
 
 // =============================================================================
@@ -464,18 +481,19 @@ fn test_multiple_dispatches_same_buffer() {
 
     // Run the kernel 3 times (multiply by 8 total)
     for _ in 0..3 {
-        let command_buffer = command_queue.command_buffer().expect("Failed to create command buffer");
+        let command_buffer = command_queue
+            .command_buffer()
+            .expect("Failed to create command buffer");
 
         let encoder_ptr = command_buffer.compute_command_encoder();
-        let encoder = unsafe {
-            ComputeCommandEncoder::from_raw(encoder_ptr)
-        }.expect("Failed to create encoder");
+        let encoder = unsafe { ComputeCommandEncoder::from_raw(encoder_ptr) }
+            .expect("Failed to create encoder");
 
         encoder.set_compute_pipeline_state(&pipeline);
         encoder.set_buffer(&buffer, 0, 0);
 
         let thread_width = pipeline.thread_execution_width();
-        let threadgroup_count = (element_count + thread_width - 1) / thread_width;
+        let threadgroup_count = element_count.div_ceil(thread_width);
 
         encoder.dispatch_threadgroups(
             Size::new(threadgroup_count, 1, 1),
@@ -489,9 +507,8 @@ fn test_multiple_dispatches_same_buffer() {
 
     // Verify results (each value multiplied by 2^3 = 8)
     let result_ptr = buffer.contents().expect("Buffer contents null") as *const f32;
-    let results: Vec<f32> = unsafe {
-        std::slice::from_raw_parts(result_ptr, element_count).to_vec()
-    };
+    let results: Vec<f32> =
+        unsafe { std::slice::from_raw_parts(result_ptr, element_count).to_vec() };
 
     let expected: Vec<f32> = (0..element_count).map(|i| (i as f32) * 8.0).collect();
     assert_eq!(results, expected);
@@ -526,20 +543,21 @@ fn test_multiple_dispatches_single_command_buffer() {
         .expect("Failed to create pipeline");
 
     let command_queue = device.new_command_queue().expect("Failed to create queue");
-    let command_buffer = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     // Encode 3 dispatches in the same command buffer
     for _ in 0..3 {
         let encoder_ptr = command_buffer.compute_command_encoder();
-        let encoder = unsafe {
-            ComputeCommandEncoder::from_raw(encoder_ptr)
-        }.expect("Failed to create encoder");
+        let encoder = unsafe { ComputeCommandEncoder::from_raw(encoder_ptr) }
+            .expect("Failed to create encoder");
 
         encoder.set_compute_pipeline_state(&pipeline);
         encoder.set_buffer(&buffer, 0, 0);
 
         let thread_width = pipeline.thread_execution_width();
-        let threadgroup_count = (element_count + thread_width - 1) / thread_width;
+        let threadgroup_count = element_count.div_ceil(thread_width);
 
         encoder.dispatch_threadgroups(
             Size::new(threadgroup_count, 1, 1),
@@ -554,9 +572,8 @@ fn test_multiple_dispatches_single_command_buffer() {
 
     // Verify results (each value multiplied by 2^3 = 8)
     let result_ptr = buffer.contents().expect("Buffer contents null") as *const f32;
-    let results: Vec<f32> = unsafe {
-        std::slice::from_raw_parts(result_ptr, element_count).to_vec()
-    };
+    let results: Vec<f32> =
+        unsafe { std::slice::from_raw_parts(result_ptr, element_count).to_vec() };
 
     let expected: Vec<f32> = (0..element_count).map(|i| (i as f32) * 8.0).collect();
     assert_eq!(results, expected);
@@ -595,18 +612,19 @@ fn test_command_buffer_timing() {
         .expect("Failed to create pipeline");
 
     let command_queue = device.new_command_queue().expect("Failed to create queue");
-    let command_buffer = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     let encoder_ptr = command_buffer.compute_command_encoder();
-    let encoder = unsafe {
-        ComputeCommandEncoder::from_raw(encoder_ptr)
-    }.expect("Failed to create encoder");
+    let encoder =
+        unsafe { ComputeCommandEncoder::from_raw(encoder_ptr) }.expect("Failed to create encoder");
 
     encoder.set_compute_pipeline_state(&pipeline);
     encoder.set_buffer(&buffer, 0, 0);
 
     let thread_width = pipeline.thread_execution_width();
-    let threadgroup_count = (element_count + thread_width - 1) / thread_width;
+    let threadgroup_count = element_count.div_ceil(thread_width);
 
     encoder.dispatch_threadgroups(
         Size::new(threadgroup_count, 1, 1),
@@ -655,12 +673,13 @@ fn test_compute_encoder_label() {
         .expect("Failed to create pipeline");
 
     let command_queue = device.new_command_queue().expect("Failed to create queue");
-    let command_buffer = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     let encoder_ptr = command_buffer.compute_command_encoder();
-    let encoder = unsafe {
-        ComputeCommandEncoder::from_raw(encoder_ptr)
-    }.expect("Failed to create encoder");
+    let encoder =
+        unsafe { ComputeCommandEncoder::from_raw(encoder_ptr) }.expect("Failed to create encoder");
 
     encoder.set_label("Test Compute Pass");
 
@@ -703,12 +722,13 @@ fn test_dispatch_single_thread() {
         .expect("Failed to create pipeline");
 
     let command_queue = device.new_command_queue().expect("Failed to create queue");
-    let command_buffer = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     let encoder_ptr = command_buffer.compute_command_encoder();
-    let encoder = unsafe {
-        ComputeCommandEncoder::from_raw(encoder_ptr)
-    }.expect("Failed to create encoder");
+    let encoder =
+        unsafe { ComputeCommandEncoder::from_raw(encoder_ptr) }.expect("Failed to create encoder");
 
     encoder.set_compute_pipeline_state(&pipeline);
     encoder.set_buffer(&buffer, 0, 0);

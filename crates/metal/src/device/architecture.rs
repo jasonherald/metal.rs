@@ -5,8 +5,8 @@
 use std::ffi::c_void;
 use std::ptr::NonNull;
 
-use metal_foundation::{Referencing, Copying};
-use metal_sys::{msg_send_0, sel, class};
+use metal_foundation::{Copying, Referencing};
+use metal_sys::{class, msg_send_0, sel};
 
 /// GPU architecture information.
 ///
@@ -65,9 +65,7 @@ impl Architecture {
             if c_str.is_null() {
                 return "";
             }
-            std::ffi::CStr::from_ptr(c_str)
-                .to_str()
-                .unwrap_or("")
+            std::ffi::CStr::from_ptr(c_str).to_str().unwrap_or("")
         }
     }
 }

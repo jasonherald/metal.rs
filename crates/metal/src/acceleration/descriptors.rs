@@ -149,7 +149,11 @@ impl PrimitiveAccelerationStructureDescriptor {
     #[inline]
     pub fn set_motion_start_border_mode(&self, mode: MotionBorderMode) {
         unsafe {
-            msg_send_1::<(), MotionBorderMode>(self.as_ptr(), sel!(setMotionStartBorderMode:), mode);
+            msg_send_1::<(), MotionBorderMode>(
+                self.as_ptr(),
+                sel!(setMotionStartBorderMode:),
+                mode,
+            );
         }
     }
 
@@ -288,4 +292,3 @@ impl Referencing for PrimitiveAccelerationStructureDescriptor {
 
 unsafe impl Send for PrimitiveAccelerationStructureDescriptor {}
 unsafe impl Sync for PrimitiveAccelerationStructureDescriptor {}
-

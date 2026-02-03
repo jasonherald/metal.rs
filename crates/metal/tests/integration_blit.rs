@@ -3,7 +3,10 @@
 //! These tests verify that blit operations work correctly with the Metal GPU.
 //! They test buffer copies, texture copies, fill operations, and synchronization.
 
-use metal::{device, BlitCommandEncoder, PixelFormat, TextureDescriptor, TextureUsage, StorageMode, ResourceOptions, Region, Origin, Size};
+use metal::{
+    BlitCommandEncoder, Origin, PixelFormat, Region, ResourceOptions, Size, StorageMode,
+    TextureDescriptor, TextureUsage, device,
+};
 
 /// Get the default Metal device or skip the test.
 fn get_device() -> metal::Device {
@@ -23,7 +26,9 @@ fn create_blit_encoder(command_buffer: &metal::CommandBuffer) -> BlitCommandEnco
 #[test]
 fn test_blit_buffer_to_buffer_copy() {
     let device = get_device();
-    let queue = device.new_command_queue().expect("Failed to create command queue");
+    let queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
 
     // Create source buffer with data
     let source_data: Vec<u8> = (0..=255).collect();
@@ -37,16 +42,12 @@ fn test_blit_buffer_to_buffer_copy() {
         .expect("Failed to create destination buffer");
 
     // Perform blit copy
-    let command_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let blit_encoder = create_blit_encoder(&command_buffer);
 
-    blit_encoder.copy_from_buffer_to_buffer(
-        &source_buffer,
-        0,
-        &dest_buffer,
-        0,
-        256,
-    );
+    blit_encoder.copy_from_buffer_to_buffer(&source_buffer, 0, &dest_buffer, 0, 256);
 
     blit_encoder.end_encoding();
     command_buffer.commit();
@@ -63,7 +64,9 @@ fn test_blit_buffer_to_buffer_copy() {
 #[test]
 fn test_blit_buffer_partial_copy() {
     let device = get_device();
-    let queue = device.new_command_queue().expect("Failed to create command queue");
+    let queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
 
     // Create source buffer with data
     let source_data: Vec<u8> = (0..100).collect();
@@ -77,15 +80,17 @@ fn test_blit_buffer_partial_copy() {
         .expect("Failed to create destination buffer");
 
     // Copy only bytes 20-60 to destination offset 10
-    let command_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let blit_encoder = create_blit_encoder(&command_buffer);
 
     blit_encoder.copy_from_buffer_to_buffer(
         &source_buffer,
-        20,      // source offset
+        20, // source offset
         &dest_buffer,
-        10,      // destination offset
-        40,      // size (bytes 20-59)
+        10, // destination offset
+        40, // size (bytes 20-59)
     );
 
     blit_encoder.end_encoding();
@@ -96,7 +101,12 @@ fn test_blit_buffer_partial_copy() {
     let dest_ptr = dest_buffer.contents().expect("Buffer contents null") as *const u8;
     for i in 0..40 {
         let value = unsafe { *dest_ptr.add(10 + i) };
-        assert_eq!(value, (20 + i) as u8, "Mismatch at destination index {}", 10 + i);
+        assert_eq!(
+            value,
+            (20 + i) as u8,
+            "Mismatch at destination index {}",
+            10 + i
+        );
     }
 }
 
@@ -107,7 +117,9 @@ fn test_blit_buffer_partial_copy() {
 #[test]
 fn test_blit_fill_buffer() {
     let device = get_device();
-    let queue = device.new_command_queue().expect("Failed to create command queue");
+    let queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
 
     // Create buffer
     let buffer = device
@@ -115,7 +127,9 @@ fn test_blit_fill_buffer() {
         .expect("Failed to create buffer");
 
     // Fill with a pattern
-    let command_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let blit_encoder = create_blit_encoder(&command_buffer);
 
     blit_encoder.fill_buffer(&buffer, 0, 256, 0xAB);
@@ -135,7 +149,9 @@ fn test_blit_fill_buffer() {
 #[test]
 fn test_blit_fill_buffer_partial() {
     let device = get_device();
-    let queue = device.new_command_queue().expect("Failed to create command queue");
+    let queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
 
     // Create buffer
     let buffer = device
@@ -143,7 +159,9 @@ fn test_blit_fill_buffer_partial() {
         .expect("Failed to create buffer");
 
     // First fill with zeros
-    let command_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let blit_encoder = create_blit_encoder(&command_buffer);
     blit_encoder.fill_buffer(&buffer, 0, 100, 0x00);
     blit_encoder.end_encoding();
@@ -151,7 +169,9 @@ fn test_blit_fill_buffer_partial() {
     command_buffer.wait_until_completed();
 
     // Then fill only middle portion
-    let command_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let blit_encoder = create_blit_encoder(&command_buffer);
     blit_encoder.fill_buffer(&buffer, 25, 50, 0xFF); // Fill bytes 25-74
     blit_encoder.end_encoding();
@@ -178,7 +198,9 @@ fn test_blit_fill_buffer_partial() {
 #[test]
 fn test_blit_generate_mipmaps() {
     let device = get_device();
-    let queue = device.new_command_queue().expect("Failed to create command queue");
+    let queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
 
     // Create texture with mipmaps
     let descriptor = TextureDescriptor::texture_2d_descriptor(
@@ -186,12 +208,14 @@ fn test_blit_generate_mipmaps() {
         256,
         256,
         true, // mipmapped
-    ).expect("Failed to create texture descriptor");
+    )
+    .expect("Failed to create texture descriptor");
 
     descriptor.set_storage_mode(StorageMode::SHARED);
     descriptor.set_usage(TextureUsage::SHADER_READ | TextureUsage::SHADER_WRITE);
 
-    let texture = device.new_texture_with_descriptor(&descriptor)
+    let texture = device
+        .new_texture_with_descriptor(&descriptor)
         .expect("Failed to create texture");
 
     // Write some data to mipmap level 0
@@ -207,7 +231,9 @@ fn test_blit_generate_mipmaps() {
     }
 
     // Generate mipmaps
-    let command_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let blit_encoder = create_blit_encoder(&command_buffer);
 
     blit_encoder.generate_mipmaps(&texture);
@@ -217,7 +243,10 @@ fn test_blit_generate_mipmaps() {
     command_buffer.wait_until_completed();
 
     // Verify mipmaps exist (texture should have multiple levels)
-    assert!(texture.mipmap_level_count() > 1, "Texture should have mipmaps");
+    assert!(
+        texture.mipmap_level_count() > 1,
+        "Texture should have mipmaps"
+    );
 }
 
 // =============================================================================
@@ -227,20 +256,20 @@ fn test_blit_generate_mipmaps() {
 #[test]
 fn test_blit_buffer_to_texture() {
     let device = get_device();
-    let queue = device.new_command_queue().expect("Failed to create command queue");
+    let queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
 
     // Create a 4x4 RGBA texture
-    let descriptor = TextureDescriptor::texture_2d_descriptor(
-        PixelFormat::RGBA8_UNORM,
-        4,
-        4,
-        false,
-    ).expect("Failed to create texture descriptor");
+    let descriptor =
+        TextureDescriptor::texture_2d_descriptor(PixelFormat::RGBA8_UNORM, 4, 4, false)
+            .expect("Failed to create texture descriptor");
 
     descriptor.set_storage_mode(StorageMode::SHARED);
     descriptor.set_usage(TextureUsage::SHADER_READ);
 
-    let texture = device.new_texture_with_descriptor(&descriptor)
+    let texture = device
+        .new_texture_with_descriptor(&descriptor)
         .expect("Failed to create texture");
 
     // Create source buffer with pixel data
@@ -250,18 +279,20 @@ fn test_blit_buffer_to_texture() {
         .expect("Failed to create source buffer");
 
     // Copy buffer to texture
-    let command_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let blit_encoder = create_blit_encoder(&command_buffer);
 
     blit_encoder.copy_from_buffer_to_texture(
         &source_buffer,
-        0,           // source offset
-        16,          // bytes per row (4 pixels * 4 bytes)
-        64,          // bytes per image (4 rows * 16 bytes)
+        0,  // source offset
+        16, // bytes per row (4 pixels * 4 bytes)
+        64, // bytes per image (4 rows * 16 bytes)
         Size::new(4, 4, 1),
         &texture,
-        0,           // destination slice
-        0,           // destination level
+        0, // destination slice
+        0, // destination level
         Origin::new(0, 0, 0),
     );
 
@@ -279,7 +310,9 @@ fn test_blit_buffer_to_texture() {
 #[test]
 fn test_blit_synchronize_buffer() {
     let device = get_device();
-    let queue = device.new_command_queue().expect("Failed to create command queue");
+    let queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
 
     // Create a managed buffer
     let buffer = device
@@ -287,7 +320,9 @@ fn test_blit_synchronize_buffer() {
         .expect("Failed to create managed buffer");
 
     // Synchronize after GPU writes
-    let command_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let blit_encoder = create_blit_encoder(&command_buffer);
 
     blit_encoder.synchronize_buffer(&buffer);
@@ -300,24 +335,26 @@ fn test_blit_synchronize_buffer() {
 #[test]
 fn test_blit_synchronize_texture() {
     let device = get_device();
-    let queue = device.new_command_queue().expect("Failed to create command queue");
+    let queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
 
     // Create a managed texture
-    let descriptor = TextureDescriptor::texture_2d_descriptor(
-        PixelFormat::RGBA8_UNORM,
-        64,
-        64,
-        false,
-    ).expect("Failed to create texture descriptor");
+    let descriptor =
+        TextureDescriptor::texture_2d_descriptor(PixelFormat::RGBA8_UNORM, 64, 64, false)
+            .expect("Failed to create texture descriptor");
 
     descriptor.set_storage_mode(StorageMode::MANAGED);
     descriptor.set_usage(TextureUsage::SHADER_READ);
 
-    let texture = device.new_texture_with_descriptor(&descriptor)
+    let texture = device
+        .new_texture_with_descriptor(&descriptor)
         .expect("Failed to create texture");
 
     // Synchronize after GPU writes
-    let command_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let blit_encoder = create_blit_encoder(&command_buffer);
 
     blit_encoder.synchronize_texture(&texture);
@@ -334,9 +371,13 @@ fn test_blit_synchronize_texture() {
 #[test]
 fn test_blit_encoder_label() {
     let device = get_device();
-    let queue = device.new_command_queue().expect("Failed to create command queue");
+    let queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
 
-    let command_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let blit_encoder = create_blit_encoder(&command_buffer);
 
     blit_encoder.set_label("MyBlitEncoder");
@@ -348,9 +389,13 @@ fn test_blit_encoder_label() {
 #[test]
 fn test_blit_encoder_debug_groups() {
     let device = get_device();
-    let queue = device.new_command_queue().expect("Failed to create command queue");
+    let queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
 
-    let command_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let blit_encoder = create_blit_encoder(&command_buffer);
 
     // Test debug group operations (these don't crash is the test)

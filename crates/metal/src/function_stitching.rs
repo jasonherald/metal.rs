@@ -432,7 +432,11 @@ impl FunctionStitchingFunctionNode {
     /// C++ equivalent: `void setControlDependencies(const NS::Array*)`
     pub fn set_control_dependencies_ptr(&self, control_dependencies: *const c_void) {
         unsafe {
-            let _: () = msg_send_1(self.as_ptr(), sel!(setControlDependencies:), control_dependencies);
+            let _: () = msg_send_1(
+                self.as_ptr(),
+                sel!(setControlDependencies:),
+                control_dependencies,
+            );
         }
     }
 }
@@ -774,7 +778,10 @@ mod tests {
     fn test_stitched_library_options_values() {
         assert_eq!(StitchedLibraryOptions::NONE.0, 0);
         assert_eq!(StitchedLibraryOptions::FAIL_ON_BINARY_ARCHIVE_MISS.0, 1);
-        assert_eq!(StitchedLibraryOptions::STORE_LIBRARY_IN_METAL_PIPELINES_SCRIPT.0, 2);
+        assert_eq!(
+            StitchedLibraryOptions::STORE_LIBRARY_IN_METAL_PIPELINES_SCRIPT.0,
+            2
+        );
     }
 
     #[test]
@@ -829,6 +836,9 @@ mod tests {
     fn test_stitched_library_descriptor_options() {
         let descriptor = StitchedLibraryDescriptor::new().unwrap();
         descriptor.set_options(StitchedLibraryOptions::FAIL_ON_BINARY_ARCHIVE_MISS);
-        assert_eq!(descriptor.options(), StitchedLibraryOptions::FAIL_ON_BINARY_ARCHIVE_MISS);
+        assert_eq!(
+            descriptor.options(),
+            StitchedLibraryOptions::FAIL_ON_BINARY_ARCHIVE_MISS
+        );
     }
 }

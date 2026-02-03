@@ -81,9 +81,8 @@ impl AccelerationStructureMotionBoundingBoxGeometryDescriptor {
 
 impl Default for AccelerationStructureMotionBoundingBoxGeometryDescriptor {
     fn default() -> Self {
-        Self::new().expect(
-            "Failed to create MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor",
-        )
+        Self::new()
+            .expect("Failed to create MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor")
     }
 }
 

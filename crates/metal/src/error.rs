@@ -82,7 +82,11 @@ impl fmt::Display for ValidationError {
                 write!(f, "render pipeline descriptor requires a vertex function")
             }
             ValidationError::UnsupportedRasterSampleCount(count) => {
-                write!(f, "raster sample count {} is not supported by device", count)
+                write!(
+                    f,
+                    "raster sample count {} is not supported by device",
+                    count
+                )
             }
 
             // Compute Pipeline
@@ -91,14 +95,21 @@ impl fmt::Display for ValidationError {
             }
 
             // Texture
-            ValidationError::InvalidTextureDimensions { width, height, depth } => {
+            ValidationError::InvalidTextureDimensions {
+                width,
+                height,
+                depth,
+            } => {
                 write!(
                     f,
                     "invalid texture dimensions: {}x{}x{} (dimensions must be > 0)",
                     width, height, depth
                 )
             }
-            ValidationError::InvalidMipmapCount { requested, max_allowed } => {
+            ValidationError::InvalidMipmapCount {
+                requested,
+                max_allowed,
+            } => {
                 write!(
                     f,
                     "invalid mipmap count: {} exceeds maximum {} for texture dimensions",
@@ -106,7 +117,11 @@ impl fmt::Display for ValidationError {
                 )
             }
             ValidationError::UnsupportedTextureSampleCount(count) => {
-                write!(f, "texture sample count {} is not supported by device", count)
+                write!(
+                    f,
+                    "texture sample count {} is not supported by device",
+                    count
+                )
             }
             ValidationError::InvalidArrayLength => {
                 write!(f, "array length must be > 0 for array textures")

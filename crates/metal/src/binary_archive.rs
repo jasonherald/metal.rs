@@ -301,7 +301,10 @@ impl BinaryArchive {
     /// Add a stitched library to the archive.
     ///
     /// C++ equivalent: `bool addLibrary(const MTL::StitchedLibraryDescriptor*, NS::Error**)`
-    pub fn add_library_ptr(&self, descriptor: *const c_void) -> Result<(), metal_foundation::Error> {
+    pub fn add_library_ptr(
+        &self,
+        descriptor: *const c_void,
+    ) -> Result<(), metal_foundation::Error> {
         unsafe {
             let mut error: *mut c_void = std::ptr::null_mut();
             let result: bool = msg_send_2(
@@ -394,7 +397,10 @@ impl BinaryArchive {
     /// Serialize the archive to a URL.
     ///
     /// C++ equivalent: `bool serializeToURL(const NS::URL*, NS::Error**)`
-    pub fn serialize_to_url(&self, url: &metal_foundation::Url) -> Result<(), metal_foundation::Error> {
+    pub fn serialize_to_url(
+        &self,
+        url: &metal_foundation::Url,
+    ) -> Result<(), metal_foundation::Error> {
         unsafe {
             let mut error: *mut c_void = std::ptr::null_mut();
             let result: bool = msg_send_2(

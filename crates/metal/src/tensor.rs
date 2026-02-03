@@ -10,11 +10,11 @@ use std::ptr::NonNull;
 use metal_foundation::{Integer, Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, msg_send_2, msg_send_4, sel};
 
+use crate::Buffer;
 use crate::enums::{
     CPUCacheMode, HazardTrackingMode, ResourceOptions, StorageMode, TensorDataType, TensorUsage,
 };
 use crate::types::ResourceID;
-use crate::Buffer;
 
 // ============================================================================
 // TensorExtents
@@ -91,7 +91,13 @@ impl TensorExtents {
     /// C++ equivalent: `NS::Integer extentAtDimensionIndex(NS::UInteger)`
     #[inline]
     pub fn extent_at_dimension_index(&self, dimension_index: UInteger) -> Integer {
-        unsafe { msg_send_1(self.as_ptr(), sel!(extentAtDimensionIndex:), dimension_index) }
+        unsafe {
+            msg_send_1(
+                self.as_ptr(),
+                sel!(extentAtDimensionIndex:),
+                dimension_index,
+            )
+        }
     }
 }
 

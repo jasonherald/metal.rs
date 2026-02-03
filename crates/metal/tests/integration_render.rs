@@ -3,7 +3,7 @@
 //! These tests verify that render pipeline operations work correctly with the Metal GPU.
 //! They test real GPU operations including shader compilation, pipeline creation, and state.
 
-use metal::{device, PixelFormat, RenderPipelineDescriptor};
+use metal::{PixelFormat, RenderPipelineDescriptor, device};
 
 /// Get the default Metal device or skip the test.
 fn get_device() -> metal::Device {
@@ -57,7 +57,10 @@ fragment float4 simple_fragment(VertexOut in [[stage_in]]) {
 #[test]
 fn test_render_pipeline_descriptor_creation() {
     let descriptor = RenderPipelineDescriptor::new();
-    assert!(descriptor.is_some(), "Failed to create RenderPipelineDescriptor");
+    assert!(
+        descriptor.is_some(),
+        "Failed to create RenderPipelineDescriptor"
+    );
 
     let descriptor = descriptor.unwrap();
 
@@ -93,8 +96,7 @@ fn test_render_pipeline_state_creation() {
         .expect("Fragment function not found");
 
     // Create pipeline descriptor
-    let descriptor = RenderPipelineDescriptor::new()
-        .expect("Failed to create pipeline descriptor");
+    let descriptor = RenderPipelineDescriptor::new().expect("Failed to create pipeline descriptor");
 
     descriptor.set_vertex_function(Some(&vertex_fn));
     descriptor.set_fragment_function(Some(&fragment_fn));
@@ -106,7 +108,11 @@ fn test_render_pipeline_state_creation() {
 
     // Create pipeline state
     let pipeline = device.new_render_pipeline_state_with_descriptor(&descriptor);
-    assert!(pipeline.is_ok(), "Failed to create render pipeline: {:?}", pipeline.err());
+    assert!(
+        pipeline.is_ok(),
+        "Failed to create render pipeline: {:?}",
+        pipeline.err()
+    );
 
     let pipeline = pipeline.unwrap();
 
@@ -131,7 +137,10 @@ fn test_render_pipeline_with_label() {
     descriptor.set_fragment_function(Some(&fragment_fn));
 
     let color_attachments = descriptor.color_attachments();
-    color_attachments.object(0).unwrap().set_pixel_format(PixelFormat::BGRA8_UNORM);
+    color_attachments
+        .object(0)
+        .unwrap()
+        .set_pixel_format(PixelFormat::BGRA8_UNORM);
 
     let pipeline = device
         .new_render_pipeline_state_with_descriptor(&descriptor)
@@ -155,11 +164,17 @@ fn test_render_pipeline_missing_vertex_function() {
     descriptor.set_fragment_function(Some(&fragment_fn));
 
     let color_attachments = descriptor.color_attachments();
-    color_attachments.object(0).unwrap().set_pixel_format(PixelFormat::BGRA8_UNORM);
+    color_attachments
+        .object(0)
+        .unwrap()
+        .set_pixel_format(PixelFormat::BGRA8_UNORM);
 
     // Should fail because vertex function is required
     let result = device.new_render_pipeline_state_with_descriptor(&descriptor);
-    assert!(result.is_err(), "Pipeline creation should fail without vertex function");
+    assert!(
+        result.is_err(),
+        "Pipeline creation should fail without vertex function"
+    );
 
     // Verify we get the right error type
     match result {
@@ -185,14 +200,24 @@ fn test_render_pipeline_depth_format() {
     descriptor.set_fragment_function(Some(&fragment_fn));
 
     let color_attachments = descriptor.color_attachments();
-    color_attachments.object(0).unwrap().set_pixel_format(PixelFormat::BGRA8_UNORM);
+    color_attachments
+        .object(0)
+        .unwrap()
+        .set_pixel_format(PixelFormat::BGRA8_UNORM);
 
     // Set depth format
     descriptor.set_depth_attachment_pixel_format(PixelFormat::DEPTH32_FLOAT);
-    assert_eq!(descriptor.depth_attachment_pixel_format(), PixelFormat::DEPTH32_FLOAT);
+    assert_eq!(
+        descriptor.depth_attachment_pixel_format(),
+        PixelFormat::DEPTH32_FLOAT
+    );
 
     let pipeline = device.new_render_pipeline_state_with_descriptor(&descriptor);
-    assert!(pipeline.is_ok(), "Failed to create pipeline with depth: {:?}", pipeline.err());
+    assert!(
+        pipeline.is_ok(),
+        "Failed to create pipeline with depth: {:?}",
+        pipeline.err()
+    );
 }
 
 #[test]
@@ -230,7 +255,9 @@ fragment FragmentOut mrt_fragment() {
         .new_library_with_source(mrt_shader, None)
         .expect("Failed to compile MRT shader");
 
-    let vertex_fn = library.new_function_with_name("vertex_passthrough").unwrap();
+    let vertex_fn = library
+        .new_function_with_name("vertex_passthrough")
+        .unwrap();
     let fragment_fn = library.new_function_with_name("mrt_fragment").unwrap();
 
     let descriptor = RenderPipelineDescriptor::new().unwrap();
@@ -239,11 +266,21 @@ fragment FragmentOut mrt_fragment() {
 
     // Set two color attachments
     let color_attachments = descriptor.color_attachments();
-    color_attachments.object(0).unwrap().set_pixel_format(PixelFormat::BGRA8_UNORM);
-    color_attachments.object(1).unwrap().set_pixel_format(PixelFormat::BGRA8_UNORM);
+    color_attachments
+        .object(0)
+        .unwrap()
+        .set_pixel_format(PixelFormat::BGRA8_UNORM);
+    color_attachments
+        .object(1)
+        .unwrap()
+        .set_pixel_format(PixelFormat::BGRA8_UNORM);
 
     let pipeline = device.new_render_pipeline_state_with_descriptor(&descriptor);
-    assert!(pipeline.is_ok(), "Failed to create MRT pipeline: {:?}", pipeline.err());
+    assert!(
+        pipeline.is_ok(),
+        "Failed to create MRT pipeline: {:?}",
+        pipeline.err()
+    );
 }
 
 #[test]
@@ -285,7 +322,10 @@ fn test_render_pipeline_sample_count() {
     descriptor.set_fragment_function(Some(&fragment_fn));
 
     let color_attachments = descriptor.color_attachments();
-    color_attachments.object(0).unwrap().set_pixel_format(PixelFormat::BGRA8_UNORM);
+    color_attachments
+        .object(0)
+        .unwrap()
+        .set_pixel_format(PixelFormat::BGRA8_UNORM);
 
     // Set sample count for MSAA
     descriptor.set_raster_sample_count(4);
@@ -294,7 +334,11 @@ fn test_render_pipeline_sample_count() {
     // Check if device supports this sample count
     if device.supports_texture_sample_count(4) {
         let pipeline = device.new_render_pipeline_state_with_descriptor(&descriptor);
-        assert!(pipeline.is_ok(), "Failed to create MSAA pipeline: {:?}", pipeline.err());
+        assert!(
+            pipeline.is_ok(),
+            "Failed to create MSAA pipeline: {:?}",
+            pipeline.err()
+        );
     }
 }
 

@@ -254,11 +254,7 @@ impl CounterHeap {
     ///
     /// Returns the raw data pointer. Caller is responsible for interpreting
     /// the data based on the counter heap type.
-    pub fn resolve_counter_range_raw(
-        &self,
-        location: UInteger,
-        length: UInteger,
-    ) -> *mut c_void {
+    pub fn resolve_counter_range_raw(&self, location: UInteger, length: UInteger) -> *mut c_void {
         unsafe {
             let range = (location, length);
             msg_send_1(self.as_ptr(), sel!(resolveCounterRange:), range)

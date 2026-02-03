@@ -9,8 +9,8 @@ use std::ptr::NonNull;
 use metal_foundation::{Integer, Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, msg_send_2, sel};
 
-use crate::{Device, Heap};
 use super::{ArgumentTable, FunctionDescriptor};
+use crate::{Device, Heap};
 
 // ============================================================
 // MachineLearningPipelineDescriptor
@@ -85,7 +85,8 @@ impl MachineLearningPipelineDescriptor {
     /// C++ equivalent: `FunctionDescriptor* machineLearningFunctionDescriptor() const`
     pub fn machine_learning_function_descriptor(&self) -> Option<FunctionDescriptor> {
         unsafe {
-            let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(machineLearningFunctionDescriptor));
+            let ptr: *mut c_void =
+                msg_send_0(self.as_ptr(), sel!(machineLearningFunctionDescriptor));
             FunctionDescriptor::from_raw(ptr)
         }
     }

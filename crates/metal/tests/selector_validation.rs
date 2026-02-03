@@ -168,7 +168,10 @@ fn validate_device_selectors() {
     ]));
 
     if !failures.is_empty() {
-        panic!("MTLDevice selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLDevice selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -190,7 +193,10 @@ fn validate_command_queue_selectors() {
     ]));
 
     if !failures.is_empty() {
-        panic!("MTLCommandQueue selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLCommandQueue selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -202,51 +208,56 @@ fn validate_command_queue_selectors() {
 fn validate_command_buffer_selectors() {
     let mut failures = Vec::new();
 
-    failures.extend(validate_protocol_selectors!(instance "MTLCommandBuffer" => [
-        "label",
-        "setLabel:",
-        "device",
-        "commandQueue",
-        "retainedReferences",
-        "errorOptions",
-        "status",
-        "error",
-        "logs",
-        "kernelStartTime",
-        "kernelEndTime",
-        "GPUStartTime",
-        "GPUEndTime",
+    failures.extend(
+        validate_protocol_selectors!(instance "MTLCommandBuffer" => [
+            "label",
+            "setLabel:",
+            "device",
+            "commandQueue",
+            "retainedReferences",
+            "errorOptions",
+            "status",
+            "error",
+            "logs",
+            "kernelStartTime",
+            "kernelEndTime",
+            "GPUStartTime",
+            "GPUEndTime",
 
-        // Encoding
-        "renderCommandEncoderWithDescriptor:",
-        "computeCommandEncoder",
-        "computeCommandEncoderWithDescriptor:",
-        "computeCommandEncoderWithDispatchType:",
-        "blitCommandEncoder",
-        "blitCommandEncoderWithDescriptor:",
-        "parallelRenderCommandEncoderWithDescriptor:",
-        "resourceStateCommandEncoder",
-        "resourceStateCommandEncoderWithDescriptor:",
-        "accelerationStructureCommandEncoder",
-        "accelerationStructureCommandEncoderWithDescriptor:",
+            // Encoding
+            "renderCommandEncoderWithDescriptor:",
+            "computeCommandEncoder",
+            "computeCommandEncoderWithDescriptor:",
+            "computeCommandEncoderWithDispatchType:",
+            "blitCommandEncoder",
+            "blitCommandEncoderWithDescriptor:",
+            "parallelRenderCommandEncoderWithDescriptor:",
+            "resourceStateCommandEncoder",
+            "resourceStateCommandEncoderWithDescriptor:",
+            "accelerationStructureCommandEncoder",
+            "accelerationStructureCommandEncoderWithDescriptor:",
 
-        // Execution
-        "enqueue",
-        "commit",
-        "waitUntilScheduled",
-        "waitUntilCompleted",
-        "addScheduledHandler:",
-        "addCompletedHandler:",
+            // Execution
+            "enqueue",
+            "commit",
+            "waitUntilScheduled",
+            "waitUntilCompleted",
+            "addScheduledHandler:",
+            "addCompletedHandler:",
 
-        // Debug
-        "pushDebugGroup:",
-        "popDebugGroup",
-        "encodeSignalEvent:value:",
-        "encodeWaitForEvent:value:",
-    ]));
+            // Debug
+            "pushDebugGroup:",
+            "popDebugGroup",
+            "encodeSignalEvent:value:",
+            "encodeWaitForEvent:value:",
+        ]),
+    );
 
     if !failures.is_empty() {
-        panic!("MTLCommandBuffer selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLCommandBuffer selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -281,7 +292,10 @@ fn validate_buffer_selectors() {
     ]));
 
     if !failures.is_empty() {
-        panic!("MTLBuffer selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLBuffer selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -342,7 +356,10 @@ fn validate_texture_selectors() {
     ]));
 
     if !failures.is_empty() {
-        panic!("MTLTexture selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLTexture selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -441,7 +458,10 @@ fn validate_render_command_encoder_selectors() {
     ]));
 
     if !failures.is_empty() {
-        panic!("MTLRenderCommandEncoder selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLRenderCommandEncoder selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -453,68 +473,73 @@ fn validate_render_command_encoder_selectors() {
 fn validate_compute_command_encoder_selectors() {
     let mut failures = Vec::new();
 
-    failures.extend(validate_protocol_selectors!(instance "MTLComputeCommandEncoder" => [
-        "label",
-        "setLabel:",
-        "device",
-        "endEncoding",
-        "insertDebugSignpost:",
-        "pushDebugGroup:",
-        "popDebugGroup",
+    failures.extend(
+        validate_protocol_selectors!(instance "MTLComputeCommandEncoder" => [
+            "label",
+            "setLabel:",
+            "device",
+            "endEncoding",
+            "insertDebugSignpost:",
+            "pushDebugGroup:",
+            "popDebugGroup",
 
-        // Compute state
-        "setComputePipelineState:",
-        "dispatchType",
+            // Compute state
+            "setComputePipelineState:",
+            "dispatchType",
 
-        // Resources
-        "setBytes:length:atIndex:",
-        "setBuffer:offset:atIndex:",
-        "setBuffers:offsets:withRange:",
-        "setBufferOffset:atIndex:",
-        "setTexture:atIndex:",
-        "setTextures:withRange:",
-        "setSamplerState:atIndex:",
-        "setSamplerStates:withRange:",
-        "setSamplerState:lodMinClamp:lodMaxClamp:atIndex:",
-        "setThreadgroupMemoryLength:atIndex:",
-        "setImageblockWidth:height:",
+            // Resources
+            "setBytes:length:atIndex:",
+            "setBuffer:offset:atIndex:",
+            "setBuffers:offsets:withRange:",
+            "setBufferOffset:atIndex:",
+            "setTexture:atIndex:",
+            "setTextures:withRange:",
+            "setSamplerState:atIndex:",
+            "setSamplerStates:withRange:",
+            "setSamplerState:lodMinClamp:lodMaxClamp:atIndex:",
+            "setThreadgroupMemoryLength:atIndex:",
+            "setImageblockWidth:height:",
 
-        // Dispatch
-        "dispatchThreadgroups:threadsPerThreadgroup:",
-        "dispatchThreadgroupsWithIndirectBuffer:indirectBufferOffset:threadsPerThreadgroup:",
-        "dispatchThreads:threadsPerThreadgroup:",
+            // Dispatch
+            "dispatchThreadgroups:threadsPerThreadgroup:",
+            "dispatchThreadgroupsWithIndirectBuffer:indirectBufferOffset:threadsPerThreadgroup:",
+            "dispatchThreads:threadsPerThreadgroup:",
 
-        // Barriers and memory
-        "memoryBarrierWithScope:",
-        "memoryBarrierWithResources:count:",
+            // Barriers and memory
+            "memoryBarrierWithScope:",
+            "memoryBarrierWithResources:count:",
 
-        // Use resources
-        "useResource:usage:",
-        "useResources:count:usage:",
-        "useHeap:",
-        "useHeaps:count:",
+            // Use resources
+            "useResource:usage:",
+            "useResources:count:usage:",
+            "useHeap:",
+            "useHeaps:count:",
 
-        // Indirect command buffer
-        "executeCommandsInBuffer:withRange:",
-        "executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:",
+            // Indirect command buffer
+            "executeCommandsInBuffer:withRange:",
+            "executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:",
 
-        // Sample counters
-        "sampleCountersInBuffer:atSampleIndex:withBarrier:",
+            // Sample counters
+            "sampleCountersInBuffer:atSampleIndex:withBarrier:",
 
-        // Stage input descriptor
-        "setStageInRegion:",
-        "setStageInRegionWithIndirectBuffer:indirectBufferOffset:",
+            // Stage input descriptor
+            "setStageInRegion:",
+            "setStageInRegionWithIndirectBuffer:indirectBufferOffset:",
 
-        // Visibility
-        "setVisibleFunctionTable:atBufferIndex:",
-        "setVisibleFunctionTables:withBufferRange:",
-        "setIntersectionFunctionTable:atBufferIndex:",
-        "setIntersectionFunctionTables:withBufferRange:",
-        "setAccelerationStructure:atBufferIndex:",
-    ]));
+            // Visibility
+            "setVisibleFunctionTable:atBufferIndex:",
+            "setVisibleFunctionTables:withBufferRange:",
+            "setIntersectionFunctionTable:atBufferIndex:",
+            "setIntersectionFunctionTables:withBufferRange:",
+            "setAccelerationStructure:atBufferIndex:",
+        ]),
+    );
 
     if !failures.is_empty() {
-        panic!("MTLComputeCommandEncoder selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLComputeCommandEncoder selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -574,7 +599,10 @@ fn validate_blit_command_encoder_selectors() {
     ]));
 
     if !failures.is_empty() {
-        panic!("MTLBlitCommandEncoder selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLBlitCommandEncoder selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -602,7 +630,10 @@ fn validate_library_selectors() {
     ]));
 
     if !failures.is_empty() {
-        panic!("MTLLibrary selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLLibrary selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -630,7 +661,10 @@ fn validate_function_selectors() {
     ]));
 
     if !failures.is_empty() {
-        panic!("MTLFunction selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLFunction selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -642,29 +676,34 @@ fn validate_function_selectors() {
 fn validate_render_pipeline_state_selectors() {
     let mut failures = Vec::new();
 
-    failures.extend(validate_protocol_selectors!(instance "MTLRenderPipelineState" => [
-        "label",
-        "device",
-        "maxTotalThreadsPerThreadgroup",
-        "threadgroupSizeMatchesTileSize",
-        "imageblockSampleLength",
-        "imageblockMemoryLengthForDimensions:",
-        "supportIndirectCommandBuffers",
-        "maxTotalThreadsPerObjectThreadgroup",
-        "maxTotalThreadsPerMeshThreadgroup",
-        "objectThreadExecutionWidth",
-        "meshThreadExecutionWidth",
-        "maxTotalThreadgroupsPerMeshGrid",
-        "gpuResourceID",
-        "shaderValidation",
-        "functionHandleWithFunction:stage:",
-        "newVisibleFunctionTableWithDescriptor:stage:",
-        "newIntersectionFunctionTableWithDescriptor:stage:",
-        "newRenderPipelineStateWithAdditionalBinaryFunctions:error:",
-    ]));
+    failures.extend(
+        validate_protocol_selectors!(instance "MTLRenderPipelineState" => [
+            "label",
+            "device",
+            "maxTotalThreadsPerThreadgroup",
+            "threadgroupSizeMatchesTileSize",
+            "imageblockSampleLength",
+            "imageblockMemoryLengthForDimensions:",
+            "supportIndirectCommandBuffers",
+            "maxTotalThreadsPerObjectThreadgroup",
+            "maxTotalThreadsPerMeshThreadgroup",
+            "objectThreadExecutionWidth",
+            "meshThreadExecutionWidth",
+            "maxTotalThreadgroupsPerMeshGrid",
+            "gpuResourceID",
+            "shaderValidation",
+            "functionHandleWithFunction:stage:",
+            "newVisibleFunctionTableWithDescriptor:stage:",
+            "newIntersectionFunctionTableWithDescriptor:stage:",
+            "newRenderPipelineStateWithAdditionalBinaryFunctions:error:",
+        ]),
+    );
 
     if !failures.is_empty() {
-        panic!("MTLRenderPipelineState selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLRenderPipelineState selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -676,24 +715,29 @@ fn validate_render_pipeline_state_selectors() {
 fn validate_compute_pipeline_state_selectors() {
     let mut failures = Vec::new();
 
-    failures.extend(validate_protocol_selectors!(instance "MTLComputePipelineState" => [
-        "label",
-        "device",
-        "maxTotalThreadsPerThreadgroup",
-        "threadExecutionWidth",
-        "staticThreadgroupMemoryLength",
-        "supportIndirectCommandBuffers",
-        "gpuResourceID",
-        "shaderValidation",
-        "functionHandleWithFunction:",
-        "newVisibleFunctionTableWithDescriptor:",
-        "newIntersectionFunctionTableWithDescriptor:",
-        "newComputePipelineStateWithAdditionalBinaryFunctions:error:",
-        "imageblockMemoryLengthForDimensions:",
-    ]));
+    failures.extend(
+        validate_protocol_selectors!(instance "MTLComputePipelineState" => [
+            "label",
+            "device",
+            "maxTotalThreadsPerThreadgroup",
+            "threadExecutionWidth",
+            "staticThreadgroupMemoryLength",
+            "supportIndirectCommandBuffers",
+            "gpuResourceID",
+            "shaderValidation",
+            "functionHandleWithFunction:",
+            "newVisibleFunctionTableWithDescriptor:",
+            "newIntersectionFunctionTableWithDescriptor:",
+            "newComputePipelineStateWithAdditionalBinaryFunctions:error:",
+            "imageblockMemoryLengthForDimensions:",
+        ]),
+    );
 
     if !failures.is_empty() {
-        panic!("MTLComputePipelineState selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLComputePipelineState selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -712,7 +756,10 @@ fn validate_sampler_state_selectors() {
     ]));
 
     if !failures.is_empty() {
-        panic!("MTLSamplerState selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLSamplerState selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -724,13 +771,18 @@ fn validate_sampler_state_selectors() {
 fn validate_depth_stencil_state_selectors() {
     let mut failures = Vec::new();
 
-    failures.extend(validate_protocol_selectors!(instance "MTLDepthStencilState" => [
-        "label",
-        "device",
-    ]));
+    failures.extend(
+        validate_protocol_selectors!(instance "MTLDepthStencilState" => [
+            "label",
+            "device",
+        ]),
+    );
 
     if !failures.is_empty() {
-        panic!("MTLDepthStencilState selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLDepthStencilState selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -763,7 +815,10 @@ fn validate_heap_selectors() {
     ]));
 
     if !failures.is_empty() {
-        panic!("MTLHeap selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLHeap selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -792,7 +847,10 @@ fn validate_event_selectors() {
     ]));
 
     if !failures.is_empty() {
-        panic!("MTLEvent/MTLSharedEvent selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLEvent/MTLSharedEvent selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -811,7 +869,10 @@ fn validate_fence_selectors() {
     ]));
 
     if !failures.is_empty() {
-        panic!("MTLFence selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLFence selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -823,37 +884,42 @@ fn validate_fence_selectors() {
 fn validate_argument_encoder_selectors() {
     let mut failures = Vec::new();
 
-    failures.extend(validate_protocol_selectors!(instance "MTLArgumentEncoder" => [
-        "label",
-        "setLabel:",
-        "device",
-        "encodedLength",
-        "alignment",
-        "setArgumentBuffer:offset:",
-        "setArgumentBuffer:startOffset:arrayElement:",
-        "setBuffer:offset:atIndex:",
-        "setBuffers:offsets:withRange:",
-        "setTexture:atIndex:",
-        "setTextures:withRange:",
-        "setSamplerState:atIndex:",
-        "setSamplerStates:withRange:",
-        "constantDataAtIndex:",
-        "newArgumentEncoderForBufferAtIndex:",
-        "setRenderPipelineState:atIndex:",
-        "setRenderPipelineStates:withRange:",
-        "setComputePipelineState:atIndex:",
-        "setComputePipelineStates:withRange:",
-        "setIndirectCommandBuffer:atIndex:",
-        "setIndirectCommandBuffers:withRange:",
-        "setAccelerationStructure:atIndex:",
-        "setVisibleFunctionTable:atIndex:",
-        "setVisibleFunctionTables:withRange:",
-        "setIntersectionFunctionTable:atIndex:",
-        "setIntersectionFunctionTables:withRange:",
-    ]));
+    failures.extend(
+        validate_protocol_selectors!(instance "MTLArgumentEncoder" => [
+            "label",
+            "setLabel:",
+            "device",
+            "encodedLength",
+            "alignment",
+            "setArgumentBuffer:offset:",
+            "setArgumentBuffer:startOffset:arrayElement:",
+            "setBuffer:offset:atIndex:",
+            "setBuffers:offsets:withRange:",
+            "setTexture:atIndex:",
+            "setTextures:withRange:",
+            "setSamplerState:atIndex:",
+            "setSamplerStates:withRange:",
+            "constantDataAtIndex:",
+            "newArgumentEncoderForBufferAtIndex:",
+            "setRenderPipelineState:atIndex:",
+            "setRenderPipelineStates:withRange:",
+            "setComputePipelineState:atIndex:",
+            "setComputePipelineStates:withRange:",
+            "setIndirectCommandBuffer:atIndex:",
+            "setIndirectCommandBuffers:withRange:",
+            "setAccelerationStructure:atIndex:",
+            "setVisibleFunctionTable:atIndex:",
+            "setVisibleFunctionTables:withRange:",
+            "setIntersectionFunctionTable:atIndex:",
+            "setIntersectionFunctionTables:withRange:",
+        ]),
+    );
 
     if !failures.is_empty() {
-        panic!("MTLArgumentEncoder selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLArgumentEncoder selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -865,19 +931,24 @@ fn validate_argument_encoder_selectors() {
 fn validate_indirect_command_buffer_selectors() {
     let mut failures = Vec::new();
 
-    failures.extend(validate_protocol_selectors!(instance "MTLIndirectCommandBuffer" => [
-        "label",
-        "setLabel:",
-        "device",
-        "size",
-        "gpuResourceID",
-        "indirectRenderCommandAtIndex:",
-        "indirectComputeCommandAtIndex:",
-        "resetWithRange:",
-    ]));
+    failures.extend(
+        validate_protocol_selectors!(instance "MTLIndirectCommandBuffer" => [
+            "label",
+            "setLabel:",
+            "device",
+            "size",
+            "gpuResourceID",
+            "indirectRenderCommandAtIndex:",
+            "indirectComputeCommandAtIndex:",
+            "resetWithRange:",
+        ]),
+    );
 
     if !failures.is_empty() {
-        panic!("MTLIndirectCommandBuffer selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLIndirectCommandBuffer selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -889,16 +960,21 @@ fn validate_indirect_command_buffer_selectors() {
 fn validate_acceleration_structure_selectors() {
     let mut failures = Vec::new();
 
-    failures.extend(validate_protocol_selectors!(instance "MTLAccelerationStructure" => [
-        "label",
-        "setLabel:",
-        "device",
-        "size",
-        "gpuResourceID",
-    ]));
+    failures.extend(
+        validate_protocol_selectors!(instance "MTLAccelerationStructure" => [
+            "label",
+            "setLabel:",
+            "device",
+            "size",
+            "gpuResourceID",
+        ]),
+    );
 
     if !failures.is_empty() {
-        panic!("MTLAccelerationStructure selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLAccelerationStructure selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -936,7 +1012,10 @@ fn validate_acceleration_structure_command_encoder_selectors() {
     ]));
 
     if !failures.is_empty() {
-        panic!("MTLAccelerationStructureCommandEncoder selector validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "MTLAccelerationStructureCommandEncoder selector validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 
@@ -982,7 +1061,10 @@ fn validate_descriptor_class_methods() {
     }
 
     if !failures.is_empty() {
-        panic!("Descriptor class method validation failed:\n{}", failures.join("\n"));
+        panic!(
+            "Descriptor class method validation failed:\n{}",
+            failures.join("\n")
+        );
     }
 }
 

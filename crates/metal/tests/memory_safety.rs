@@ -3,7 +3,7 @@
 //! These tests verify that Metal object lifecycle and memory management is correct.
 //! They test retain/release patterns, factory method ownership, and object cloning.
 
-use metal::{device, ResourceOptions};
+use metal::{ResourceOptions, device};
 
 /// Get the default Metal device or skip the test.
 fn get_device() -> metal::Device {
@@ -121,7 +121,9 @@ fn test_command_buffer_ownership() {
     let queue = device.new_command_queue().expect("Failed to create queue");
 
     // Create command buffer - we own it
-    let cmd_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let cmd_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     // We can use it
     cmd_buffer.commit();
@@ -141,7 +143,7 @@ fn test_multiple_buffers() {
     for i in 0..100 {
         let buffer = device
             .new_buffer(1024 * (i + 1), ResourceOptions::STORAGE_MODE_SHARED)
-            .expect(&format!("Failed to create buffer {}", i));
+            .unwrap_or_else(|| panic!("Failed to create buffer {}", i));
         buffers.push(buffer);
     }
 
@@ -184,7 +186,9 @@ fn test_multiple_command_buffers() {
     // Create many command buffers from the same queue
     let mut cmd_buffers = Vec::new();
     for _ in 0..50 {
-        let cmd = queue.command_buffer().expect("Failed to create command buffer");
+        let cmd = queue
+            .command_buffer()
+            .expect("Failed to create command buffer");
         cmd_buffers.push(cmd);
     }
 

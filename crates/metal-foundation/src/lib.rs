@@ -61,8 +61,8 @@ pub mod error;
 pub mod lock;
 pub mod notification;
 pub mod number;
-pub mod object;
 pub mod objc_runtime;
+pub mod object;
 pub mod process_info;
 pub mod range;
 pub mod set;
@@ -74,8 +74,8 @@ pub mod url;
 // Re-export commonly used types at crate root
 
 // Types
-pub use types::{Integer, OperatingSystemVersion, TimeInterval, UInteger};
 pub use types::{INTEGER_MAX, INTEGER_MIN, UINTEGER_MAX};
+pub use types::{Integer, OperatingSystemVersion, TimeInterval, UInteger};
 
 // ObjC Runtime
 pub use objc_runtime::{ComparisonResult, NOT_FOUND};
@@ -87,7 +87,7 @@ pub use range::Range;
 pub use object::{Copying, Object, Referencing, SecureCoding};
 
 // SharedPtr
-pub use shared_ptr::{retain_ptr, transfer_ptr, SharedPtr};
+pub use shared_ptr::{SharedPtr, retain_ptr, transfer_ptr};
 
 // String
 pub use string::{String, StringCompareOptions, StringEncoding, Unichar};

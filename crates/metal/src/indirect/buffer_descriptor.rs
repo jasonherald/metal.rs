@@ -383,7 +383,11 @@ impl IndirectCommandBufferDescriptor {
     #[inline]
     pub fn set_support_color_attachment_mapping(&self, support: bool) {
         unsafe {
-            msg_send_1::<(), bool>(self.as_ptr(), sel!(setSupportColorAttachmentMapping:), support);
+            msg_send_1::<(), bool>(
+                self.as_ptr(),
+                sel!(setSupportColorAttachmentMapping:),
+                support,
+            );
         }
     }
 
@@ -401,7 +405,11 @@ impl IndirectCommandBufferDescriptor {
     #[inline]
     pub fn set_support_dynamic_attribute_stride(&self, support: bool) {
         unsafe {
-            msg_send_1::<(), bool>(self.as_ptr(), sel!(setSupportDynamicAttributeStride:), support);
+            msg_send_1::<(), bool>(
+                self.as_ptr(),
+                sel!(setSupportDynamicAttributeStride:),
+                support,
+            );
         }
     }
 
@@ -461,7 +469,10 @@ impl std::fmt::Debug for IndirectCommandBufferDescriptor {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("IndirectCommandBufferDescriptor")
             .field("command_types", &self.command_types())
-            .field("max_vertex_buffer_bind_count", &self.max_vertex_buffer_bind_count())
+            .field(
+                "max_vertex_buffer_bind_count",
+                &self.max_vertex_buffer_bind_count(),
+            )
             .finish()
     }
 }

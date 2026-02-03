@@ -1,8 +1,11 @@
 # metal.rs
 
 [![Documentation](https://img.shields.io/badge/docs-github.io-blue)](https://jasonherald.github.io/metal.rs/metal/)
+[![Version](https://img.shields.io/badge/version-1.0.0-green)](https://crates.io/crates/metal)
 
 Rust bindings to Apple's Metal framework. This is a direct conversion of [metal-cpp](https://developer.apple.com/metal/cpp/) to Rust, preserving the same API structure and naming conventions where possible.
+
+94% of this codebase was converted from C++ to Rust by [Claude](https://claude.ai), Anthropic's AI assistant.
 
 ## Requirements
 

@@ -8,8 +8,8 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, msg_send_2, msg_send_3, sel};
 
-use crate::Device;
 use super::enums::VisibilityOptions;
+use crate::Device;
 
 // ============================================================
 // CommandEncoder

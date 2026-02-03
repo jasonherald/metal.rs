@@ -282,7 +282,7 @@ unsafe impl Sync for LogicalToPhysicalColorAttachmentMap {}
 
 impl std::fmt::Debug for LogicalToPhysicalColorAttachmentMap {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("LogicalToPhysicalColorAttachmentMap").finish()
+        f.debug_struct("LogicalToPhysicalColorAttachmentMap")
+            .finish()
     }
 }
-

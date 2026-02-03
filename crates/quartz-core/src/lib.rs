@@ -1,3 +1,7 @@
+// Clippy allows for FFI binding patterns
+#![allow(clippy::not_unsafe_ptr_arg_deref)] // Raw pointer args are passed to Obj-C, not dereferenced in Rust
+#![allow(clippy::missing_safety_doc)] // from_raw patterns are consistent across the crate
+
 //! QuartzCore/CoreAnimation bindings.
 //!
 //! Provides CAMetalLayer and CAMetalDrawable for display integration.
@@ -28,10 +32,10 @@
 
 #![allow(dead_code)]
 
-mod types;
-mod metal_layer;
 mod metal_drawable;
+mod metal_layer;
+mod types;
 
-pub use types::{CGFloat, CGSize, CGColorSpaceRef};
-pub use metal_layer::MetalLayer;
 pub use metal_drawable::MetalDrawable;
+pub use metal_layer::MetalLayer;
+pub use types::{CGColorSpaceRef, CGFloat, CGSize};

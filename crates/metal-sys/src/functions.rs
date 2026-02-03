@@ -239,11 +239,7 @@ unsafe extern "C" {
 #[inline]
 pub fn create_system_default_device() -> Option<*mut c_void> {
     let ptr = unsafe { MTLCreateSystemDefaultDevice() };
-    if ptr.is_null() {
-        None
-    } else {
-        Some(ptr)
-    }
+    if ptr.is_null() { None } else { Some(ptr) }
 }
 
 /// Safely copy all available Metal devices (macOS only).
@@ -259,11 +255,7 @@ pub fn create_system_default_device() -> Option<*mut c_void> {
 #[inline]
 pub fn copy_all_devices() -> Option<*mut c_void> {
     let ptr = unsafe { MTLCopyAllDevices() };
-    if ptr.is_null() {
-        None
-    } else {
-        Some(ptr)
-    }
+    if ptr.is_null() { None } else { Some(ptr) }
 }
 
 /// Get the default IO compression chunk size.

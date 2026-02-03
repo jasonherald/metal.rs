@@ -10,9 +10,9 @@
 //! Run with: cargo run --example 03_render_triangle
 
 use metal::{
-    device, ClearColor, LoadAction, PixelFormat, PrimitiveType, RenderCommandEncoder,
-    RenderPipelineDescriptor, RenderPipelineState, StorageMode, StoreAction,
-    TextureDescriptor, TextureUsage,
+    ClearColor, LoadAction, PixelFormat, PrimitiveType, RenderCommandEncoder,
+    RenderPipelineDescriptor, RenderPipelineState, StorageMode, StoreAction, TextureDescriptor,
+    TextureUsage, device,
 };
 use metal_foundation::Referencing;
 
@@ -115,8 +115,8 @@ fn main() {
     println!("  Fragment shader: {:?}", fragment_function.name());
 
     // Create render pipeline descriptor
-    let pipeline_desc = RenderPipelineDescriptor::new()
-        .expect("Failed to create pipeline descriptor");
+    let pipeline_desc =
+        RenderPipelineDescriptor::new().expect("Failed to create pipeline descriptor");
     pipeline_desc.set_vertex_function(Some(&vertex_function));
     pipeline_desc.set_fragment_function(Some(&fragment_function));
 
@@ -136,12 +136,16 @@ fn main() {
     println!("Render pipeline created");
 
     // Step 4: Create command queue and buffer
-    let command_queue = device.new_command_queue().expect("Failed to create command queue");
-    let command_buffer = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
+    let command_buffer = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     // Step 5: Set up render pass descriptor
-    let render_pass_desc = metal::RenderPassDescriptor::new()
-        .expect("Failed to create render pass descriptor");
+    let render_pass_desc =
+        metal::RenderPassDescriptor::new().expect("Failed to create render pass descriptor");
 
     if let Some(color_attachments) = render_pass_desc.color_attachments() {
         if let Some(color_attachment) = color_attachments.object_at(0) {
@@ -154,9 +158,8 @@ fn main() {
 
     // Step 6: Encode render commands
     let encoder_ptr = command_buffer.render_command_encoder(&render_pass_desc);
-    let encoder = unsafe {
-        RenderCommandEncoder::from_raw(encoder_ptr)
-    }.expect("Failed to create render encoder");
+    let encoder = unsafe { RenderCommandEncoder::from_raw(encoder_ptr) }
+        .expect("Failed to create render encoder");
 
     encoder.set_render_pipeline_state(&pipeline);
 
@@ -208,7 +211,7 @@ fn main() {
 
     for y in 0..texture_height {
         for x in 0..texture_width {
-            let offset = (y * bytes_per_row + x * bytes_per_pixel) as usize;
+            let offset = y * bytes_per_row + x * bytes_per_pixel;
             let b = pixel_data[offset];
             let g = pixel_data[offset + 1];
             let r = pixel_data[offset + 2];
@@ -232,7 +235,10 @@ fn main() {
 
     println!("\nRender Analysis:");
     println!("  Total pixels: {}", texture_width * texture_height);
-    println!("  Triangle pixels (non-background): {}", non_background_pixels);
+    println!(
+        "  Triangle pixels (non-background): {}",
+        non_background_pixels
+    );
     println!("  Red-dominant pixels: {}", red_pixels);
     println!("  Green-dominant pixels: {}", green_pixels);
     println!("  Blue-dominant pixels: {}", blue_pixels);

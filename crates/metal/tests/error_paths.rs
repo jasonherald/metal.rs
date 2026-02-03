@@ -7,8 +7,8 @@
 //! - Command buffer errors are captured properly
 
 use metal::{
-    device, PixelFormat, ResourceOptions, StorageMode, TextureDescriptor, TextureUsage,
-    ValidationError,
+    PixelFormat, ResourceOptions, StorageMode, TextureDescriptor, TextureUsage, ValidationError,
+    device,
 };
 use metal_foundation::Referencing;
 
@@ -43,7 +43,10 @@ fn test_invalid_shader_syntax_error() {
         let code = error.code();
         println!("Shader compilation error code: {}", code);
         // Metal shader compilation errors typically have non-zero error codes
-        assert_ne!(code, 0, "Error code should be non-zero for compilation failure");
+        assert_ne!(
+            code, 0,
+            "Error code should be non-zero for compilation failure"
+        );
     }
 }
 
@@ -94,7 +97,10 @@ fn test_empty_shader_source() {
     // Empty shader should either fail or produce a library with no functions
     if let Ok(library) = result {
         let names = library.function_names();
-        assert!(names.is_empty() || names.len() == 0, "Empty shader should have no functions");
+        assert!(
+            names.is_empty() || names.is_empty(),
+            "Empty shader should have no functions"
+        );
     }
     // If it fails, that's also acceptable behavior
 }
@@ -112,7 +118,10 @@ fn test_shader_with_only_comments() {
     // Should either fail or produce empty library
     if let Ok(library) = result {
         let names = library.function_names();
-        assert!(names.is_empty(), "Comment-only shader should have no functions");
+        assert!(
+            names.is_empty(),
+            "Comment-only shader should have no functions"
+        );
     }
 }
 
@@ -172,7 +181,10 @@ fn test_render_pipeline_missing_vertex_function() {
     let result = device.new_render_pipeline_state_with_descriptor(&desc);
 
     // Should fail with MissingVertexFunction error
-    assert!(result.is_err(), "Expected render pipeline creation to fail without vertex function");
+    assert!(
+        result.is_err(),
+        "Expected render pipeline creation to fail without vertex function"
+    );
     assert!(
         matches!(result.unwrap_err(), ValidationError::MissingVertexFunction),
         "Expected MissingVertexFunction error"
@@ -204,7 +216,11 @@ fn test_buffer_zero_length() {
 
     // Document the behavior - zero-length buffers are technically valid in Metal
     if let Some(buffer) = result {
-        assert_eq!(buffer.length(), 0, "Zero-length buffer should have length 0");
+        assert_eq!(
+            buffer.length(),
+            0,
+            "Zero-length buffer should have length 0"
+        );
     }
     // If it fails, that's also acceptable
 }
@@ -221,9 +237,15 @@ fn test_texture_invalid_dimensions() {
         let result = device.new_texture_with_descriptor(&desc);
 
         // Should fail with InvalidTextureDimensions error
-        assert!(result.is_err(), "Expected texture creation to fail with zero dimensions");
         assert!(
-            matches!(result.unwrap_err(), ValidationError::InvalidTextureDimensions { .. }),
+            result.is_err(),
+            "Expected texture creation to fail with zero dimensions"
+        );
+        assert!(
+            matches!(
+                result.unwrap_err(),
+                ValidationError::InvalidTextureDimensions { .. }
+            ),
             "Expected InvalidTextureDimensions error"
         );
     }
@@ -248,8 +270,7 @@ fn test_texture_unsupported_format_for_render_target() {
 
     // Create a texture with a format that might not support render target usage
     // R8Uint is typically not supported as a render target
-    let desc =
-        TextureDescriptor::texture_2d_descriptor(PixelFormat::R8_UINT, 64, 64, false);
+    let desc = TextureDescriptor::texture_2d_descriptor(PixelFormat::R8_UINT, 64, 64, false);
 
     if let Some(desc) = desc {
         // Try to use it as a render target
@@ -277,7 +298,9 @@ fn test_texture_unsupported_format_for_render_target() {
 fn test_command_buffer_status_transitions() {
     let device = get_device();
     let queue = device.new_command_queue().expect("Failed to create queue");
-    let cmd_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let cmd_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     // Initial status should be NotEnqueued
     let status = cmd_buffer.status();
@@ -311,7 +334,9 @@ fn test_command_buffer_status_transitions() {
 fn test_command_buffer_error_after_completion() {
     let device = get_device();
     let queue = device.new_command_queue().expect("Failed to create queue");
-    let cmd_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let cmd_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     // Execute an empty command buffer (should succeed)
     cmd_buffer.commit();
@@ -319,7 +344,10 @@ fn test_command_buffer_error_after_completion() {
 
     // Check error state
     let error = cmd_buffer.error();
-    assert!(error.is_none(), "Empty command buffer should complete without error");
+    assert!(
+        error.is_none(),
+        "Empty command buffer should complete without error"
+    );
 }
 
 // =============================================================================
@@ -332,10 +360,7 @@ fn test_device_supports_nonexistent_sample_count() {
 
     // Test an absurdly high sample count that no device supports
     let supports = device.supports_texture_sample_count(1024);
-    assert!(
-        !supports,
-        "No device should support 1024x MSAA"
-    );
+    assert!(!supports, "No device should support 1024x MSAA");
 
     // Sample count 1 should always be supported
     let supports_1 = device.supports_texture_sample_count(1);
@@ -357,7 +382,11 @@ fn test_device_alignment_queries() {
     for format in formats {
         let alignment = device.minimum_linear_texture_alignment_for_pixel_format(format);
         // Alignment should be a power of 2 and non-zero
-        assert!(alignment > 0, "Alignment should be positive for {:?}", format);
+        assert!(
+            alignment > 0,
+            "Alignment should be positive for {:?}",
+            format
+        );
         assert!(
             alignment.is_power_of_two(),
             "Alignment should be power of 2 for {:?}",
@@ -435,11 +464,13 @@ fn test_heap_insufficient_size() {
 fn test_compute_encoder_without_pipeline() {
     let device = get_device();
     let queue = device.new_command_queue().expect("Failed to create queue");
-    let cmd_buffer = queue.command_buffer().expect("Failed to create command buffer");
+    let cmd_buffer = queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     let encoder_ptr = cmd_buffer.compute_command_encoder();
-    let encoder =
-        unsafe { metal::ComputeCommandEncoder::from_raw(encoder_ptr) }.expect("Failed to create encoder");
+    let encoder = unsafe { metal::ComputeCommandEncoder::from_raw(encoder_ptr) }
+        .expect("Failed to create encoder");
 
     // Don't set a pipeline state
     // Just end encoding - this should be fine, we just can't dispatch
@@ -449,10 +480,7 @@ fn test_compute_encoder_without_pipeline() {
     cmd_buffer.commit();
     cmd_buffer.wait_until_completed();
 
-    assert_eq!(
-        cmd_buffer.status(),
-        metal::CommandBufferStatus::COMPLETED
-    );
+    assert_eq!(cmd_buffer.status(), metal::CommandBufferStatus::COMPLETED);
 }
 
 // =============================================================================
@@ -472,10 +500,12 @@ fn test_fill_buffer_with_various_values() {
     let test_values: [u8; 4] = [0x00, 0xFF, 0xAB, 0x55];
 
     for value in test_values {
-        let cmd_buffer = queue.command_buffer().expect("Failed to create command buffer");
+        let cmd_buffer = queue
+            .command_buffer()
+            .expect("Failed to create command buffer");
         let encoder_ptr = cmd_buffer.blit_command_encoder();
-        let encoder =
-            unsafe { metal::BlitCommandEncoder::from_raw(encoder_ptr) }.expect("Failed to create encoder");
+        let encoder = unsafe { metal::BlitCommandEncoder::from_raw(encoder_ptr) }
+            .expect("Failed to create encoder");
 
         encoder.fill_buffer(&buffer, 0, 256, value);
         encoder.end_encoding();
@@ -536,7 +566,9 @@ fn test_multiple_command_buffers_sequential() {
 
     // Create and execute multiple command buffers sequentially
     for i in 0..10 {
-        let cmd_buffer = queue.command_buffer().expect("Failed to create command buffer");
+        let cmd_buffer = queue
+            .command_buffer()
+            .expect("Failed to create command buffer");
         cmd_buffer.set_label(&format!("Command Buffer {}", i));
         cmd_buffer.commit();
         cmd_buffer.wait_until_completed();
@@ -558,7 +590,9 @@ fn test_multiple_command_buffers_batch_commit() {
     // Create multiple command buffers
     let mut buffers = Vec::new();
     for i in 0..5 {
-        let cmd_buffer = queue.command_buffer().expect("Failed to create command buffer");
+        let cmd_buffer = queue
+            .command_buffer()
+            .expect("Failed to create command buffer");
         cmd_buffer.set_label(&format!("Batch Buffer {}", i));
         buffers.push(cmd_buffer);
     }
@@ -597,9 +631,15 @@ fn test_texture_invalid_mipmap_count() {
 
         let result = device.new_texture_with_descriptor(&desc);
 
-        assert!(result.is_err(), "Expected texture creation to fail with too many mipmaps");
         assert!(
-            matches!(result.unwrap_err(), ValidationError::InvalidMipmapCount { .. }),
+            result.is_err(),
+            "Expected texture creation to fail with too many mipmaps"
+        );
+        assert!(
+            matches!(
+                result.unwrap_err(),
+                ValidationError::InvalidMipmapCount { .. }
+            ),
             "Expected InvalidMipmapCount error"
         );
     }
@@ -617,7 +657,10 @@ fn test_sampler_invalid_lod_range() {
 
     let result = device.new_sampler_state_validated(&desc);
 
-    assert!(result.is_err(), "Expected sampler creation to fail with invalid LOD range");
+    assert!(
+        result.is_err(),
+        "Expected sampler creation to fail with invalid LOD range"
+    );
     assert!(
         matches!(result.unwrap_err(), ValidationError::InvalidLodRange { .. }),
         "Expected InvalidLodRange error"
@@ -635,7 +678,10 @@ fn test_sampler_invalid_anisotropy() {
 
     let result = device.new_sampler_state_validated(&desc);
 
-    assert!(result.is_err(), "Expected sampler creation to fail with invalid anisotropy");
+    assert!(
+        result.is_err(),
+        "Expected sampler creation to fail with invalid anisotropy"
+    );
     assert!(
         matches!(result.unwrap_err(), ValidationError::InvalidAnisotropy(_)),
         "Expected InvalidAnisotropy error"
@@ -652,7 +698,10 @@ fn test_heap_zero_size() {
 
     let result = device.new_heap_validated(&desc);
 
-    assert!(result.is_err(), "Expected heap creation to fail with zero size");
+    assert!(
+        result.is_err(),
+        "Expected heap creation to fail with zero size"
+    );
     assert!(
         matches!(result.unwrap_err(), ValidationError::InvalidHeapSize),
         "Expected InvalidHeapSize error"
@@ -668,7 +717,10 @@ fn test_valid_texture_creation() {
 
     if let Some(desc) = desc {
         let result = device.new_texture_with_descriptor(&desc);
-        assert!(result.is_ok(), "Valid texture should be created successfully");
+        assert!(
+            result.is_ok(),
+            "Valid texture should be created successfully"
+        );
 
         let texture = result.unwrap();
         assert_eq!(texture.width(), 256);
@@ -686,7 +738,10 @@ fn test_valid_sampler_creation() {
     desc.set_max_anisotropy(16); // Power of 2
 
     let result = device.new_sampler_state_validated(&desc);
-    assert!(result.is_ok(), "Valid sampler should be created successfully");
+    assert!(
+        result.is_ok(),
+        "Valid sampler should be created successfully"
+    );
 }
 
 #[test]

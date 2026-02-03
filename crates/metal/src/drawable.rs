@@ -70,11 +70,7 @@ impl Drawable {
     /// * `duration` - The minimum duration before presenting.
     pub fn present_after_minimum_duration(&self, duration: TimeInterval) {
         unsafe {
-            let _: () = msg_send_1(
-                self.as_ptr(),
-                sel!(presentAfterMinimumDuration:),
-                duration,
-            );
+            let _: () = msg_send_1(self.as_ptr(), sel!(presentAfterMinimumDuration:), duration);
         }
     }
 

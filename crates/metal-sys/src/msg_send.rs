@@ -214,14 +214,7 @@ pub unsafe fn msg_send_3<R, A, B, C>(obj: *const c_void, sel: Sel, a: A, b: B, c
 ///
 /// See `msg_send_0` for safety requirements.
 #[inline]
-pub unsafe fn msg_send_4<R, A, B, C, D>(
-    obj: *const c_void,
-    sel: Sel,
-    a: A,
-    b: B,
-    c: C,
-    d: D,
-) -> R {
+pub unsafe fn msg_send_4<R, A, B, C, D>(obj: *const c_void, sel: Sel, a: A, b: B, c: C, d: D) -> R {
     #[cfg(any(target_arch = "x86_64", target_arch = "x86"))]
     if is_float::<R>() {
         let f: unsafe extern "C" fn(*const c_void, Sel, A, B, C, D) -> R =
@@ -479,21 +472,8 @@ pub unsafe fn msg_send_10<R, A, B, C, D, E, F, G, H, I, J>(
     #[cfg(not(target_arch = "aarch64"))]
     if requires_stret::<R>() {
         let mut result = std::mem::MaybeUninit::<R>::uninit();
-        let func: unsafe extern "C" fn(
-            *mut R,
-            *const c_void,
-            Sel,
-            A,
-            B,
-            C,
-            D,
-            E,
-            F,
-            G,
-            H,
-            I,
-            J,
-        ) = unsafe { std::mem::transmute(objc_msgSend_stret as *const c_void) };
+        let func: unsafe extern "C" fn(*mut R, *const c_void, Sel, A, B, C, D, E, F, G, H, I, J) =
+            unsafe { std::mem::transmute(objc_msgSend_stret as *const c_void) };
         unsafe {
             func(
                 result.as_mut_ptr(),

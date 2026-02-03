@@ -6,7 +6,9 @@ use std::ffi::c_void;
 use std::ptr::NonNull;
 
 use metal_foundation::{Referencing, UInteger};
-use metal_sys::{msg_send_0, msg_send_1, msg_send_2, msg_send_3, msg_send_4, msg_send_5, msg_send_6, sel};
+use metal_sys::{
+    msg_send_0, msg_send_1, msg_send_2, msg_send_3, msg_send_4, msg_send_5, msg_send_6, sel,
+};
 
 use crate::enums::{AccelerationStructureRefitOptions, DataType, ResourceUsage};
 use crate::{Buffer, Fence, Heap};
@@ -418,4 +420,3 @@ impl std::fmt::Debug for AccelerationStructureCommandEncoder {
             .finish()
     }
 }
-

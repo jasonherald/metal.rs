@@ -353,12 +353,10 @@ impl CommandBuffer {
         F: Fn(&CommandBuffer) + Send + 'static,
     {
         // Use heap-allocated block to ensure it outlives this function
-        let block = metal_sys::HeapOneArgBlock::from_fn(move |cmd_buf: *mut c_void| {
-            unsafe {
-                if let Some(buf) = CommandBuffer::from_raw(cmd_buf) {
-                    handler(&buf);
-                    std::mem::forget(buf);
-                }
+        let block = metal_sys::HeapOneArgBlock::from_fn(move |cmd_buf: *mut c_void| unsafe {
+            if let Some(buf) = CommandBuffer::from_raw(cmd_buf) {
+                handler(&buf);
+                std::mem::forget(buf);
             }
         });
 
@@ -476,11 +474,7 @@ impl CommandBuffer {
     /// The residency_set pointer must be valid.
     pub unsafe fn use_residency_set(&self, residency_set: *const c_void) {
         unsafe {
-            msg_send_1::<(), *const c_void>(
-                self.as_ptr(),
-                sel!(useResidencySet:),
-                residency_set,
-            );
+            msg_send_1::<(), *const c_void>(self.as_ptr(), sel!(useResidencySet:), residency_set);
         }
     }
 

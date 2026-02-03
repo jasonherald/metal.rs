@@ -61,11 +61,7 @@ impl Buffer {
     pub fn contents(&self) -> Option<*mut c_void> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(contents));
-            if ptr.is_null() {
-                None
-            } else {
-                Some(ptr)
-            }
+            if ptr.is_null() { None } else { Some(ptr) }
         }
     }
 
@@ -79,11 +75,7 @@ impl Buffer {
     pub fn did_modify_range(&self, location: UInteger, length: UInteger) {
         unsafe {
             let range = metal_foundation::Range::new(location, length);
-            msg_send_1::<(), metal_foundation::Range>(
-                self.as_ptr(),
-                sel!(didModifyRange:),
-                range,
-            );
+            msg_send_1::<(), metal_foundation::Range>(self.as_ptr(), sel!(didModifyRange:), range);
         }
     }
 

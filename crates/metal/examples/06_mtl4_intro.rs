@@ -102,8 +102,8 @@ fn main() {
     // =======================================================================
     println!("\n--- Part 4: Command Queue with Descriptor ---");
 
-    let queue_desc = metal::mtl4::CommandQueueDescriptor::new()
-        .expect("Failed to create queue descriptor");
+    let queue_desc =
+        metal::mtl4::CommandQueueDescriptor::new().expect("Failed to create queue descriptor");
     queue_desc.set_label("Custom MTL4 Queue");
 
     let custom_queue = device

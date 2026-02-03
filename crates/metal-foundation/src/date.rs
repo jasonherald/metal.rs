@@ -89,6 +89,9 @@ mod tests {
 
     #[test]
     fn test_date_size() {
-        assert_eq!(std::mem::size_of::<Date>(), std::mem::size_of::<*mut c_void>());
+        assert_eq!(
+            std::mem::size_of::<Date>(),
+            std::mem::size_of::<*mut c_void>()
+        );
     }
 }

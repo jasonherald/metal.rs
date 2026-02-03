@@ -147,8 +147,11 @@ impl SpatialScalerDescriptor {
     /// C++ equivalent: `SpatialScaler* newSpatialScaler(const MTL::Device*) const`
     pub fn new_spatial_scaler(&self, device: &metal::Device) -> Option<SpatialScaler> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(self.as_ptr(), sel!(newSpatialScalerWithDevice:), device.as_ptr());
+            let ptr: *mut c_void = msg_send_1(
+                self.as_ptr(),
+                sel!(newSpatialScalerWithDevice:),
+                device.as_ptr(),
+            );
             SpatialScaler::from_raw(ptr)
         }
     }

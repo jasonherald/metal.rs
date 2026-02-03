@@ -15,10 +15,10 @@ use std::ffi::c_void;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::enums::{BarrierScope, RenderStages, ResourceUsage};
-use crate::types::VertexAmplificationViewMapping;
 use crate::Buffer;
 use crate::Texture;
+use crate::enums::{BarrierScope, RenderStages, ResourceUsage};
+use crate::types::VertexAmplificationViewMapping;
 
 use super::RenderCommandEncoder;
 
@@ -407,7 +407,10 @@ impl RenderCommandEncoder {
         buffer_index: UInteger,
     ) {
         unsafe {
-            self.set_vertex_acceleration_structure_ptr(acceleration_structure.as_ptr(), buffer_index)
+            self.set_vertex_acceleration_structure_ptr(
+                acceleration_structure.as_ptr(),
+                buffer_index,
+            )
         };
     }
 
@@ -444,7 +447,10 @@ impl RenderCommandEncoder {
         buffer_index: UInteger,
     ) {
         unsafe {
-            self.set_fragment_acceleration_structure_ptr(acceleration_structure.as_ptr(), buffer_index)
+            self.set_fragment_acceleration_structure_ptr(
+                acceleration_structure.as_ptr(),
+                buffer_index,
+            )
         };
     }
 

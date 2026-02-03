@@ -7,9 +7,9 @@ use std::ffi::c_void;
 use metal_foundation::Referencing;
 use metal_sys::{msg_send_1, sel};
 
+use super::Device;
 use crate::error::ValidationError;
 use crate::heap::{Heap, HeapDescriptor};
-use super::Device;
 
 impl Device {
     // =========================================================================
@@ -48,10 +48,7 @@ impl Device {
     ///     Err(e) => { /* handle other errors */ }
     /// }
     /// ```
-    pub fn new_heap_validated(
-        &self,
-        descriptor: &HeapDescriptor,
-    ) -> Result<Heap, ValidationError> {
+    pub fn new_heap_validated(&self, descriptor: &HeapDescriptor) -> Result<Heap, ValidationError> {
         // Validate size
         if descriptor.size() == 0 {
             return Err(ValidationError::InvalidHeapSize);
@@ -71,11 +68,8 @@ impl Device {
     /// The descriptor pointer must be valid.
     pub unsafe fn new_heap_with_ptr(&self, descriptor: *const c_void) -> Option<Heap> {
         unsafe {
-            let ptr: *mut c_void = msg_send_1(
-                self.as_ptr(),
-                sel!(newHeapWithDescriptor:),
-                descriptor,
-            );
+            let ptr: *mut c_void =
+                msg_send_1(self.as_ptr(), sel!(newHeapWithDescriptor:), descriptor);
             Heap::from_raw(ptr)
         }
     }

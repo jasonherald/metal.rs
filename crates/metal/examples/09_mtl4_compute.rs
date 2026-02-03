@@ -18,7 +18,7 @@
 //! Note: Metal 4 requires macOS 15+ or iOS 18+. This example will
 //! gracefully exit on older systems.
 
-use metal::{device, mtl4, ComputeCommandEncoder, ComputePipelineState, ResourceOptions, Size};
+use metal::{ComputeCommandEncoder, ComputePipelineState, ResourceOptions, Size, device, mtl4};
 
 /// Metal Shading Language (MSL) source code for our compute kernel.
 /// This kernel adds two arrays element-wise: output[i] = a[i] + b[i]
@@ -121,8 +121,8 @@ fn main() {
     };
 
     // Create MTL4 LibraryFunctionDescriptor to demonstrate MTL4 function reference
-    let func_desc = mtl4::LibraryFunctionDescriptor::new()
-        .expect("Failed to create LibraryFunctionDescriptor");
+    let func_desc =
+        mtl4::LibraryFunctionDescriptor::new().expect("Failed to create LibraryFunctionDescriptor");
     func_desc.set_library(&library);
     func_desc.set_name("vector_add");
 
@@ -215,7 +215,7 @@ fn main() {
     // Calculate dispatch configuration
     let thread_execution_width = pipeline.thread_execution_width();
     let threads_per_threadgroup = Size::new(thread_execution_width, 1, 1);
-    let threadgroup_count = (element_count + thread_execution_width - 1) / thread_execution_width;
+    let threadgroup_count = element_count.div_ceil(thread_execution_width);
     let threadgroups_per_grid = Size::new(threadgroup_count, 1, 1);
 
     println!("Dispatch configuration:");
@@ -261,13 +261,22 @@ fn main() {
     // Print timing info
     let gpu_start = command_buffer.gpu_start_time();
     let gpu_end = command_buffer.gpu_end_time();
-    println!("\nGPU execution time: {:.6} ms", (gpu_end - gpu_start) * 1000.0);
+    println!(
+        "\nGPU execution time: {:.6} ms",
+        (gpu_end - gpu_start) * 1000.0
+    );
 
     // Demonstrate allocator memory management
     println!("\n--- MTL4 Allocator Memory ---");
-    println!("Allocated size before reset: {} bytes", allocator.allocated_size());
+    println!(
+        "Allocated size before reset: {} bytes",
+        allocator.allocated_size()
+    );
     allocator.reset();
-    println!("Allocated size after reset: {} bytes", allocator.allocated_size());
+    println!(
+        "Allocated size after reset: {} bytes",
+        allocator.allocated_size()
+    );
 
     // Summary of MTL4 features demonstrated
     println!("\n=== MTL4 Features Demonstrated ===");

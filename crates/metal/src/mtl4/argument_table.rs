@@ -198,7 +198,10 @@ impl std::fmt::Debug for ArgumentTableDescriptor {
             .field("label", &self.label())
             .field("max_buffer_bind_count", &self.max_buffer_bind_count())
             .field("max_texture_bind_count", &self.max_texture_bind_count())
-            .field("max_sampler_state_bind_count", &self.max_sampler_state_bind_count())
+            .field(
+                "max_sampler_state_bind_count",
+                &self.max_sampler_state_bind_count(),
+            )
             .finish()
     }
 }

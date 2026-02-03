@@ -40,8 +40,11 @@ impl Url {
     #[inline]
     pub fn file_url_with_path(path: &String) -> Option<Self> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(class!(NSURL).as_ptr(), sel!(fileURLWithPath:), path.as_ptr());
+            let ptr: *mut c_void = msg_send_1(
+                class!(NSURL).as_ptr(),
+                sel!(fileURLWithPath:),
+                path.as_ptr(),
+            );
             Self::from_ptr(ptr)
         }
     }
@@ -165,6 +168,9 @@ mod tests {
     #[test]
     fn test_url_size() {
         // URL should be pointer-sized
-        assert_eq!(std::mem::size_of::<Url>(), std::mem::size_of::<*mut c_void>());
+        assert_eq!(
+            std::mem::size_of::<Url>(),
+            std::mem::size_of::<*mut c_void>()
+        );
     }
 }

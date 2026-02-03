@@ -5,8 +5,8 @@
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::enums::{GPUFamily, FeatureSet, CounterSamplingPoint};
 use super::Device;
+use crate::enums::{CounterSamplingPoint, FeatureSet, GPUFamily};
 
 impl Device {
     // =========================================================================
@@ -78,7 +78,13 @@ impl Device {
     /// C++ equivalent: `bool supportsTextureSampleCount(NS::UInteger sampleCount)`
     #[inline]
     pub fn supports_texture_sample_count(&self, sample_count: UInteger) -> bool {
-        unsafe { msg_send_1(self.as_ptr(), sel!(supportsTextureSampleCount:), sample_count) }
+        unsafe {
+            msg_send_1(
+                self.as_ptr(),
+                sel!(supportsTextureSampleCount:),
+                sample_count,
+            )
+        }
     }
 
     /// Check if vertex amplification is supported for a given count.
@@ -86,7 +92,13 @@ impl Device {
     /// C++ equivalent: `bool supportsVertexAmplificationCount(NS::UInteger count)`
     #[inline]
     pub fn supports_vertex_amplification_count(&self, count: UInteger) -> bool {
-        unsafe { msg_send_1(self.as_ptr(), sel!(supportsVertexAmplificationCount:), count) }
+        unsafe {
+            msg_send_1(
+                self.as_ptr(),
+                sel!(supportsVertexAmplificationCount:),
+                count,
+            )
+        }
     }
 
     /// Check if query texture LOD is supported.
@@ -224,7 +236,13 @@ impl Device {
     /// C++ equivalent: `bool supportsCounterSampling(MTL::CounterSamplingPoint samplingPoint)`
     #[inline]
     pub fn supports_counter_sampling(&self, sampling_point: CounterSamplingPoint) -> bool {
-        unsafe { msg_send_1(self.as_ptr(), sel!(supportsCounterSampling:), sampling_point) }
+        unsafe {
+            msg_send_1(
+                self.as_ptr(),
+                sel!(supportsCounterSampling:),
+                sampling_point,
+            )
+        }
     }
 }
 

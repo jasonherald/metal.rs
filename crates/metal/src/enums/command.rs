@@ -304,7 +304,10 @@ mod tests {
     fn test_command_buffer_error_values() {
         assert_eq!(CommandBufferError::NONE.0, 0);
         assert_eq!(CommandBufferError::TIMEOUT.0, 2);
-        assert_eq!(CommandBufferError::BLACKLISTED.0, CommandBufferError::ACCESS_REVOKED.0);
+        assert_eq!(
+            CommandBufferError::BLACKLISTED.0,
+            CommandBufferError::ACCESS_REVOKED.0
+        );
     }
 
     #[test]

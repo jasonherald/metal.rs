@@ -288,8 +288,12 @@ impl HeapOneArgBlock {
             unsafe { ((*block).closure)(arg) }
         }
 
-        let boxed: Box<OneArgBlock> =
-            unsafe { RcBlock::new_heap(Box::new(f) as Box<dyn Fn(*mut c_void) + Send>, invoke as *const c_void) };
+        let boxed: Box<OneArgBlock> = unsafe {
+            RcBlock::new_heap(
+                Box::new(f) as Box<dyn Fn(*mut c_void) + Send>,
+                invoke as *const c_void,
+            )
+        };
         HeapOneArgBlock {
             inner: Box::into_raw(boxed),
         }
@@ -530,7 +534,9 @@ impl LogHandlerBlock {
     {
         #[allow(clippy::type_complexity)]
         unsafe extern "C" fn invoke(
-            block: *mut BlockLiteral<Box<dyn Fn(*mut c_void, *mut c_void, isize, *mut c_void) + Send>>,
+            block: *mut BlockLiteral<
+                Box<dyn Fn(*mut c_void, *mut c_void, isize, *mut c_void) + Send>,
+            >,
             subsystem: *mut c_void,
             category: *mut c_void,
             level: isize,

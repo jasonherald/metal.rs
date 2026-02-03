@@ -18,8 +18,8 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::enums::{CounterSampleBufferError, StorageMode};
 use crate::Device;
+use crate::enums::{CounterSampleBufferError, StorageMode};
 
 // ============================================================================
 // Counter Result Structures
@@ -250,8 +250,7 @@ impl CounterSet {
             if array.is_null() {
                 return None;
             }
-            let ptr: *mut c_void =
-                msg_send_1(array as *const c_void, sel!(objectAtIndex:), index);
+            let ptr: *mut c_void = msg_send_1(array as *const c_void, sel!(objectAtIndex:), index);
             if ptr.is_null() {
                 return None;
             }
@@ -570,11 +569,7 @@ impl CounterSampleBuffer {
             let range = metal_foundation::Range::new(location, length);
             // Note: This method can throw an exception in ObjC, but we handle
             // the error case by checking if the result is null
-            let ptr: *mut c_void = msg_send_1(
-                self.as_ptr(),
-                sel!(resolveCounterRange:),
-                range,
-            );
+            let ptr: *mut c_void = msg_send_1(self.as_ptr(), sel!(resolveCounterRange:), range);
             if ptr.is_null() {
                 Err(CounterSampleBufferError::INVALID)
             } else {

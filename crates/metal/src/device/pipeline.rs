@@ -7,6 +7,7 @@ use std::ffi::c_void;
 use metal_foundation::Referencing;
 use metal_sys::{msg_send_0, msg_send_2, msg_send_3, sel};
 
+use super::Device;
 use crate::error::ValidationError;
 use crate::library::Function;
 use crate::pipeline::{
@@ -14,7 +15,6 @@ use crate::pipeline::{
     MeshRenderPipelineDescriptor, RenderPipelineDescriptor, RenderPipelineReflection,
     RenderPipelineState, TileRenderPipelineDescriptor,
 };
-use super::Device;
 
 impl Device {
     // =========================================================================
@@ -47,14 +47,15 @@ impl Device {
                     return Err(metal_foundation::Error::from_ptr(error)
                         .expect("error pointer should be valid"));
                 }
-                return Err(
-                    metal_foundation::Error::error(std::ptr::null_mut(), -1, std::ptr::null_mut())
-                        .expect("failed to create error object"),
-                );
+                return Err(metal_foundation::Error::error(
+                    std::ptr::null_mut(),
+                    -1,
+                    std::ptr::null_mut(),
+                )
+                .expect("failed to create error object"));
             }
 
-            Ok(RenderPipelineState::from_raw(ptr)
-                .expect("render pipeline state should be valid"))
+            Ok(RenderPipelineState::from_raw(ptr).expect("render pipeline state should be valid"))
         }
     }
 
@@ -132,14 +133,15 @@ impl Device {
                     return Err(metal_foundation::Error::from_ptr(error)
                         .expect("error pointer should be valid"));
                 }
-                return Err(
-                    metal_foundation::Error::error(std::ptr::null_mut(), -1, std::ptr::null_mut())
-                        .expect("failed to create error object"),
-                );
+                return Err(metal_foundation::Error::error(
+                    std::ptr::null_mut(),
+                    -1,
+                    std::ptr::null_mut(),
+                )
+                .expect("failed to create error object"));
             }
 
-            Ok(RenderPipelineState::from_raw(ptr)
-                .expect("render pipeline state should be valid"))
+            Ok(RenderPipelineState::from_raw(ptr).expect("render pipeline state should be valid"))
         }
     }
 
@@ -169,14 +171,18 @@ impl Device {
                     return Err(metal_foundation::Error::from_ptr(error)
                         .expect("error pointer should be valid"));
                 }
-                return Err(
-                    metal_foundation::Error::error(std::ptr::null_mut(), -1, std::ptr::null_mut())
-                        .expect("failed to create error object"),
-                );
+                return Err(metal_foundation::Error::error(
+                    std::ptr::null_mut(),
+                    -1,
+                    std::ptr::null_mut(),
+                )
+                .expect("failed to create error object"));
             }
 
-            Ok(ComputePipelineState::from_raw(ptr)
-                .expect("compute pipeline state should be valid"))
+            Ok(
+                ComputePipelineState::from_raw(ptr)
+                    .expect("compute pipeline state should be valid"),
+            )
         }
     }
 
@@ -210,14 +216,18 @@ impl Device {
                     return Err(metal_foundation::Error::from_ptr(error)
                         .expect("error pointer should be valid"));
                 }
-                return Err(
-                    metal_foundation::Error::error(std::ptr::null_mut(), -1, std::ptr::null_mut())
-                        .expect("failed to create error object"),
-                );
+                return Err(metal_foundation::Error::error(
+                    std::ptr::null_mut(),
+                    -1,
+                    std::ptr::null_mut(),
+                )
+                .expect("failed to create error object"));
             }
 
-            Ok(ComputePipelineState::from_raw(ptr)
-                .expect("compute pipeline state should be valid"))
+            Ok(
+                ComputePipelineState::from_raw(ptr)
+                    .expect("compute pipeline state should be valid"),
+            )
         }
     }
 
@@ -291,14 +301,18 @@ impl Device {
                     return Err(metal_foundation::Error::from_ptr(error)
                         .expect("error pointer should be valid"));
                 }
-                return Err(
-                    metal_foundation::Error::error(std::ptr::null_mut(), -1, std::ptr::null_mut())
-                        .expect("failed to create error object"),
-                );
+                return Err(metal_foundation::Error::error(
+                    std::ptr::null_mut(),
+                    -1,
+                    std::ptr::null_mut(),
+                )
+                .expect("failed to create error object"));
             }
 
-            Ok(ComputePipelineState::from_raw(ptr)
-                .expect("compute pipeline state should be valid"))
+            Ok(
+                ComputePipelineState::from_raw(ptr)
+                    .expect("compute pipeline state should be valid"),
+            )
         }
     }
 
@@ -318,8 +332,8 @@ impl Device {
     ) where
         F: Fn(Option<RenderPipelineState>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let state = if state_ptr.is_null() {
                     None
                 } else {
@@ -333,8 +347,7 @@ impl Device {
                 };
 
                 completion_handler(state, error);
-            },
-        );
+            });
 
         unsafe {
             msg_send_2::<(), *const c_void, *const c_void>(
@@ -367,9 +380,7 @@ impl Device {
             + 'static,
     {
         let block = metal_sys::ThreeArgBlock::from_fn(
-            move |state_ptr: *mut c_void,
-                  reflection_ptr: *mut c_void,
-                  err_ptr: *mut c_void| {
+            move |state_ptr: *mut c_void, reflection_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let state = if state_ptr.is_null() {
                     None
                 } else {
@@ -422,9 +433,7 @@ impl Device {
             + 'static,
     {
         let block = metal_sys::ThreeArgBlock::from_fn(
-            move |state_ptr: *mut c_void,
-                  reflection_ptr: *mut c_void,
-                  err_ptr: *mut c_void| {
+            move |state_ptr: *mut c_void, reflection_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let state = if state_ptr.is_null() {
                     None
                 } else {
@@ -477,9 +486,7 @@ impl Device {
             + 'static,
     {
         let block = metal_sys::ThreeArgBlock::from_fn(
-            move |state_ptr: *mut c_void,
-                  reflection_ptr: *mut c_void,
-                  err_ptr: *mut c_void| {
+            move |state_ptr: *mut c_void, reflection_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let state = if state_ptr.is_null() {
                     None
                 } else {
@@ -529,8 +536,8 @@ impl Device {
     ) where
         F: Fn(Option<ComputePipelineState>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let state = if state_ptr.is_null() {
                     None
                 } else {
@@ -544,8 +551,7 @@ impl Device {
                 };
 
                 completion_handler(state, error);
-            },
-        );
+            });
 
         unsafe {
             msg_send_2::<(), *const c_void, *const c_void>(
@@ -576,9 +582,7 @@ impl Device {
             + 'static,
     {
         let block = metal_sys::ThreeArgBlock::from_fn(
-            move |state_ptr: *mut c_void,
-                  reflection_ptr: *mut c_void,
-                  err_ptr: *mut c_void| {
+            move |state_ptr: *mut c_void, reflection_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let state = if state_ptr.is_null() {
                     None
                 } else {
@@ -631,9 +635,7 @@ impl Device {
             + 'static,
     {
         let block = metal_sys::ThreeArgBlock::from_fn(
-            move |state_ptr: *mut c_void,
-                  reflection_ptr: *mut c_void,
-                  err_ptr: *mut c_void| {
+            move |state_ptr: *mut c_void, reflection_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let state = if state_ptr.is_null() {
                     None
                 } else {

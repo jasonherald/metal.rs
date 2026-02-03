@@ -51,7 +51,12 @@ impl AccelerationStructureGeometryDescriptor {
     /// C++ equivalent: `bool allowDuplicateIntersectionFunctionInvocation() const`
     #[inline]
     pub fn allow_duplicate_intersection_function_invocation(&self) -> bool {
-        unsafe { msg_send_0(self.as_ptr(), sel!(allowDuplicateIntersectionFunctionInvocation)) }
+        unsafe {
+            msg_send_0(
+                self.as_ptr(),
+                sel!(allowDuplicateIntersectionFunctionInvocation),
+            )
+        }
     }
 
     /// Set whether duplicate intersection function invocation is allowed.

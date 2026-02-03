@@ -166,7 +166,11 @@ impl StencilDescriptor {
     #[inline]
     pub fn set_stencil_compare_function(&self, func: CompareFunction) {
         unsafe {
-            msg_send_1::<(), CompareFunction>(self.as_ptr(), sel!(setStencilCompareFunction:), func);
+            msg_send_1::<(), CompareFunction>(
+                self.as_ptr(),
+                sel!(setStencilCompareFunction:),
+                func,
+            );
         }
     }
 
@@ -184,7 +188,11 @@ impl StencilDescriptor {
     #[inline]
     pub fn set_stencil_failure_operation(&self, op: StencilOperation) {
         unsafe {
-            msg_send_1::<(), StencilOperation>(self.as_ptr(), sel!(setStencilFailureOperation:), op);
+            msg_send_1::<(), StencilOperation>(
+                self.as_ptr(),
+                sel!(setStencilFailureOperation:),
+                op,
+            );
         }
     }
 

@@ -9,7 +9,7 @@ use std::ffi::c_void;
 use std::ptr::NonNull;
 
 use metal_foundation::{Referencing, UInteger};
-use metal_sys::{msg_send_0, msg_send_1, sel, Class};
+use metal_sys::{Class, msg_send_0, msg_send_1, sel};
 
 use crate::enums::LogLevel;
 

@@ -85,8 +85,14 @@ mod tests {
     #[test]
     fn test_type_sizes() {
         assert_eq!(std::mem::size_of::<Integer>(), std::mem::size_of::<isize>());
-        assert_eq!(std::mem::size_of::<UInteger>(), std::mem::size_of::<usize>());
-        assert_eq!(std::mem::size_of::<TimeInterval>(), std::mem::size_of::<f64>());
+        assert_eq!(
+            std::mem::size_of::<UInteger>(),
+            std::mem::size_of::<usize>()
+        );
+        assert_eq!(
+            std::mem::size_of::<TimeInterval>(),
+            std::mem::size_of::<f64>()
+        );
     }
 
     #[test]

@@ -16,7 +16,7 @@
 //! }
 //! ```
 
-use crate::types::{Integer, INTEGER_MAX};
+use crate::types::{INTEGER_MAX, Integer};
 
 /// Result of a comparison operation.
 ///

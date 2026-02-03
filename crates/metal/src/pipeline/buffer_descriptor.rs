@@ -209,4 +209,3 @@ impl std::fmt::Debug for PipelineBufferDescriptorArray {
         f.debug_struct("PipelineBufferDescriptorArray").finish()
     }
 }
-

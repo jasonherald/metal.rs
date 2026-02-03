@@ -49,7 +49,9 @@ impl BlitPassDescriptor {
     /// Get the sample buffer attachments array.
     ///
     /// C++ equivalent: `BlitPassSampleBufferAttachmentDescriptorArray* sampleBufferAttachments() const`
-    pub fn sample_buffer_attachments(&self) -> Option<BlitPassSampleBufferAttachmentDescriptorArray> {
+    pub fn sample_buffer_attachments(
+        &self,
+    ) -> Option<BlitPassSampleBufferAttachmentDescriptorArray> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(sampleBufferAttachments));
             BlitPassSampleBufferAttachmentDescriptorArray::from_raw(ptr)

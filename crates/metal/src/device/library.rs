@@ -7,8 +7,8 @@ use std::ffi::c_void;
 use metal_foundation::Referencing;
 use metal_sys::{msg_send_0, msg_send_2, msg_send_3, sel};
 
-use crate::library::{CompileOptions, Library};
 use super::Device;
+use crate::library::{CompileOptions, Library};
 
 impl Device {
     // =========================================================================
@@ -51,14 +51,15 @@ impl Device {
                     return Err(metal_foundation::Error::from_ptr(error)
                         .expect("error pointer should be valid"));
                 }
-                return Err(
-                    metal_foundation::Error::error(std::ptr::null_mut(), -1, std::ptr::null_mut())
-                        .expect("failed to create error object"),
-                );
+                return Err(metal_foundation::Error::error(
+                    std::ptr::null_mut(),
+                    -1,
+                    std::ptr::null_mut(),
+                )
+                .expect("failed to create error object"));
             }
 
-            Ok(Library::from_raw(ptr)
-                .expect("library should be valid"))
+            Ok(Library::from_raw(ptr).expect("library should be valid"))
         }
     }
 
@@ -91,14 +92,15 @@ impl Device {
                     return Err(metal_foundation::Error::from_ptr(error)
                         .expect("error pointer should be valid"));
                 }
-                return Err(
-                    metal_foundation::Error::error(std::ptr::null_mut(), -1, std::ptr::null_mut())
-                        .expect("failed to create error object"),
-                );
+                return Err(metal_foundation::Error::error(
+                    std::ptr::null_mut(),
+                    -1,
+                    std::ptr::null_mut(),
+                )
+                .expect("failed to create error object"));
             }
 
-            Ok(Library::from_raw(ptr)
-                .expect("library should be valid"))
+            Ok(Library::from_raw(ptr).expect("library should be valid"))
         }
     }
 
@@ -128,14 +130,15 @@ impl Device {
                     return Err(metal_foundation::Error::from_ptr(error)
                         .expect("error pointer should be valid"));
                 }
-                return Err(
-                    metal_foundation::Error::error(std::ptr::null_mut(), -1, std::ptr::null_mut())
-                        .expect("failed to create error object"),
-                );
+                return Err(metal_foundation::Error::error(
+                    std::ptr::null_mut(),
+                    -1,
+                    std::ptr::null_mut(),
+                )
+                .expect("failed to create error object"));
             }
 
-            Ok(Library::from_raw(ptr)
-                .expect("library should be valid"))
+            Ok(Library::from_raw(ptr).expect("library should be valid"))
         }
     }
 
@@ -165,14 +168,15 @@ impl Device {
                     return Err(metal_foundation::Error::from_ptr(error)
                         .expect("error pointer should be valid"));
                 }
-                return Err(
-                    metal_foundation::Error::error(std::ptr::null_mut(), -1, std::ptr::null_mut())
-                        .expect("failed to create error object"),
-                );
+                return Err(metal_foundation::Error::error(
+                    std::ptr::null_mut(),
+                    -1,
+                    std::ptr::null_mut(),
+                )
+                .expect("failed to create error object"));
             }
 
-            Ok(Library::from_raw(ptr)
-                .expect("library should be valid"))
+            Ok(Library::from_raw(ptr).expect("library should be valid"))
         }
     }
 
@@ -202,14 +206,15 @@ impl Device {
                     return Err(metal_foundation::Error::from_ptr(error)
                         .expect("error pointer should be valid"));
                 }
-                return Err(
-                    metal_foundation::Error::error(std::ptr::null_mut(), -1, std::ptr::null_mut())
-                        .expect("failed to create error object"),
-                );
+                return Err(metal_foundation::Error::error(
+                    std::ptr::null_mut(),
+                    -1,
+                    std::ptr::null_mut(),
+                )
+                .expect("failed to create error object"));
             }
 
-            Ok(Library::from_raw(ptr)
-                .expect("library should be valid"))
+            Ok(Library::from_raw(ptr).expect("library should be valid"))
         }
     }
 
@@ -239,8 +244,8 @@ impl Device {
             return;
         };
 
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |lib_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |lib_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let library = if lib_ptr.is_null() {
                     None
                 } else {
@@ -254,8 +259,7 @@ impl Device {
                 };
 
                 completion_handler(library, error);
-            },
-        );
+            });
 
         unsafe {
             msg_send_3::<(), *const c_void, *const c_void, *const c_void>(
@@ -284,8 +288,8 @@ impl Device {
     ) where
         F: Fn(Option<Library>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |lib_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |lib_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let library = if lib_ptr.is_null() {
                     None
                 } else {
@@ -299,8 +303,7 @@ impl Device {
                 };
 
                 completion_handler(library, error);
-            },
-        );
+            });
 
         unsafe {
             msg_send_2::<(), *const c_void, *const c_void>(
@@ -335,7 +338,11 @@ mod tests {
         "#;
 
         let result = device.new_library_with_source(source, None);
-        assert!(result.is_ok(), "Failed to compile shader: {:?}", result.err());
+        assert!(
+            result.is_ok(),
+            "Failed to compile shader: {:?}",
+            result.err()
+        );
 
         let library = result.unwrap();
         let names = library.function_names();

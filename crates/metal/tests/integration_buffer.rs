@@ -3,7 +3,7 @@
 //! These tests verify that buffer operations work correctly with the Metal GPU.
 //! They test real GPU operations, not just struct layouts or selector existence.
 
-use metal::{device, ResourceOptions};
+use metal::{ResourceOptions, device};
 
 /// Get the default Metal device or skip the test.
 fn get_device() -> metal::Device {
@@ -52,9 +52,9 @@ fn test_create_buffer_various_sizes() {
     for size in sizes {
         let buffer = device
             .new_buffer(size, ResourceOptions::STORAGE_MODE_SHARED)
-            .expect(&format!("Failed to create buffer of size {}", size));
+            .unwrap_or_else(|| panic!("Failed to create buffer of size {}", size));
 
-        assert_eq!(buffer.length(), size as usize);
+        assert_eq!(buffer.length(), size);
     }
 }
 
@@ -246,7 +246,8 @@ fn test_buffer_gpu_address() {
 fn test_buffer_resource_options() {
     let device = get_device();
 
-    let options = ResourceOptions::STORAGE_MODE_SHARED | ResourceOptions::CPU_CACHE_MODE_DEFAULT_CACHE;
+    let options =
+        ResourceOptions::STORAGE_MODE_SHARED | ResourceOptions::CPU_CACHE_MODE_DEFAULT_CACHE;
     let buffer = device
         .new_buffer(1024, options)
         .expect("Failed to create buffer");
@@ -334,17 +335,17 @@ fn test_large_buffer() {
         .new_buffer(size, ResourceOptions::STORAGE_MODE_SHARED)
         .expect("Failed to create 16MB buffer");
 
-    assert_eq!(buffer.length(), size as usize);
+    assert_eq!(buffer.length(), size);
 
     // Write to beginning, middle, and end
     let contents = buffer.contents().expect("contents") as *mut u8;
     unsafe {
         *contents = 1;
-        *contents.add(size as usize / 2) = 2;
-        *contents.add(size as usize - 1) = 3;
+        *contents.add(size / 2) = 2;
+        *contents.add(size - 1) = 3;
 
         assert_eq!(*contents, 1);
-        assert_eq!(*contents.add(size as usize / 2), 2);
-        assert_eq!(*contents.add(size as usize - 1), 3);
+        assert_eq!(*contents.add(size / 2), 2);
+        assert_eq!(*contents.add(size - 1), 3);
     }
 }

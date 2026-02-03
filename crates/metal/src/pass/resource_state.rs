@@ -6,7 +6,7 @@ use std::ffi::c_void;
 use std::ptr::NonNull;
 
 use metal_foundation::{Referencing, UInteger};
-use metal_sys::{msg_send_0, msg_send_1, msg_send_2, sel, Class};
+use metal_sys::{Class, msg_send_0, msg_send_1, msg_send_2, sel};
 
 use crate::counter::CounterSampleBuffer;
 
@@ -142,8 +142,14 @@ unsafe impl Sync for ResourceStatePassSampleBufferAttachmentDescriptor {}
 impl std::fmt::Debug for ResourceStatePassSampleBufferAttachmentDescriptor {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ResourceStatePassSampleBufferAttachmentDescriptor")
-            .field("start_of_encoder_sample_index", &self.start_of_encoder_sample_index())
-            .field("end_of_encoder_sample_index", &self.end_of_encoder_sample_index())
+            .field(
+                "start_of_encoder_sample_index",
+                &self.start_of_encoder_sample_index(),
+            )
+            .field(
+                "end_of_encoder_sample_index",
+                &self.end_of_encoder_sample_index(),
+            )
             .finish()
     }
 }
@@ -174,9 +180,13 @@ impl ResourceStatePassSampleBufferAttachmentDescriptorArray {
     /// Get the descriptor at the specified index.
     ///
     /// C++ equivalent: `ResourceStatePassSampleBufferAttachmentDescriptor* object(NS::UInteger)`
-    pub fn object(&self, index: UInteger) -> Option<ResourceStatePassSampleBufferAttachmentDescriptor> {
+    pub fn object(
+        &self,
+        index: UInteger,
+    ) -> Option<ResourceStatePassSampleBufferAttachmentDescriptor> {
         unsafe {
-            let ptr: *mut c_void = msg_send_1(self.as_ptr(), sel!(objectAtIndexedSubscript:), index);
+            let ptr: *mut c_void =
+                msg_send_1(self.as_ptr(), sel!(objectAtIndexedSubscript:), index);
             if ptr.is_null() {
                 None
             } else {
@@ -189,10 +199,19 @@ impl ResourceStatePassSampleBufferAttachmentDescriptorArray {
     /// Set the descriptor at the specified index.
     ///
     /// C++ equivalent: `void setObject(const ResourceStatePassSampleBufferAttachmentDescriptor*, NS::UInteger)`
-    pub fn set_object(&self, descriptor: Option<&ResourceStatePassSampleBufferAttachmentDescriptor>, index: UInteger) {
+    pub fn set_object(
+        &self,
+        descriptor: Option<&ResourceStatePassSampleBufferAttachmentDescriptor>,
+        index: UInteger,
+    ) {
         unsafe {
             let ptr = descriptor.map_or(std::ptr::null(), |d| d.as_ptr());
-            let _: () = msg_send_2(self.as_ptr(), sel!(setObject: atIndexedSubscript:), ptr, index);
+            let _: () = msg_send_2(
+                self.as_ptr(),
+                sel!(setObject: atIndexedSubscript:),
+                ptr,
+                index,
+            );
         }
     }
 }
@@ -273,7 +292,9 @@ impl ResourceStatePassDescriptor {
     /// Get the sample buffer attachments array.
     ///
     /// C++ equivalent: `ResourceStatePassSampleBufferAttachmentDescriptorArray* sampleBufferAttachments() const`
-    pub fn sample_buffer_attachments(&self) -> Option<ResourceStatePassSampleBufferAttachmentDescriptorArray> {
+    pub fn sample_buffer_attachments(
+        &self,
+    ) -> Option<ResourceStatePassSampleBufferAttachmentDescriptorArray> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(sampleBufferAttachments));
             if ptr.is_null() {

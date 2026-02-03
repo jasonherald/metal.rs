@@ -32,8 +32,7 @@ impl AccelerationStructureCurveGeometryDescriptor {
     /// Create a new curve geometry descriptor.
     pub fn new() -> Option<Self> {
         unsafe {
-            let class =
-                metal_sys::Class::get("MTL4AccelerationStructureCurveGeometryDescriptor")?;
+            let class = metal_sys::Class::get("MTL4AccelerationStructureCurveGeometryDescriptor")?;
             let ptr: *mut c_void = msg_send_0(class.as_ptr(), sel!(alloc));
             if ptr.is_null() {
                 return None;

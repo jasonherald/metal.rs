@@ -28,9 +28,9 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, Url};
 use metal_sys::{msg_send_0, msg_send_1, msg_send_2, sel};
 
-use crate::enums::{CaptureDestination, CaptureError};
 use crate::CommandQueue;
 use crate::Device;
+use crate::enums::{CaptureDestination, CaptureError};
 
 // ============================================================================
 // CaptureDescriptor
@@ -91,11 +91,7 @@ impl CaptureDescriptor {
     pub fn capture_object(&self) -> Option<*mut c_void> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(captureObject));
-            if ptr.is_null() {
-                None
-            } else {
-                Some(ptr)
-            }
+            if ptr.is_null() { None } else { Some(ptr) }
         }
     }
 

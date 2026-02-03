@@ -178,7 +178,11 @@ impl TemporalScalerDescriptor {
     /// Set input content properties enabled.
     pub fn set_input_content_properties_enabled(&self, enabled: bool) {
         unsafe {
-            let _: () = msg_send_1(self.as_ptr(), sel!(setInputContentPropertiesEnabled:), enabled);
+            let _: () = msg_send_1(
+                self.as_ptr(),
+                sel!(setInputContentPropertiesEnabled:),
+                enabled,
+            );
         }
     }
 
@@ -241,8 +245,11 @@ impl TemporalScalerDescriptor {
     /// Create a new temporal scaler.
     pub fn new_temporal_scaler(&self, device: &metal::Device) -> Option<TemporalScaler> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(self.as_ptr(), sel!(newTemporalScalerWithDevice:), device.as_ptr());
+            let ptr: *mut c_void = msg_send_1(
+                self.as_ptr(),
+                sel!(newTemporalScalerWithDevice:),
+                device.as_ptr(),
+            );
             TemporalScaler::from_raw(ptr)
         }
     }

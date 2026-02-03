@@ -138,8 +138,7 @@ impl Device {
             if array.is_null() {
                 return None;
             }
-            let ptr: *mut c_void =
-                msg_send_1(array as *const c_void, sel!(objectAtIndex:), index);
+            let ptr: *mut c_void = msg_send_1(array as *const c_void, sel!(objectAtIndex:), index);
             if ptr.is_null() {
                 return None;
             }

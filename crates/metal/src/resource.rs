@@ -7,8 +7,10 @@
 //! and Texture already have these methods as inherent methods, so this
 //! trait serves primarily for documentation and generic programming.
 
-use crate::enums::{CPUCacheMode, HazardTrackingMode, PurgeableState, ResourceOptions, StorageMode};
 use crate::Device;
+use crate::enums::{
+    CPUCacheMode, HazardTrackingMode, PurgeableState, ResourceOptions, StorageMode,
+};
 use crate::heap::Heap;
 use metal_foundation::UInteger;
 

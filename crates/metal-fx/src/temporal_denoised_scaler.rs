@@ -392,8 +392,11 @@ impl TemporalDenoisedScalerDescriptor {
     /// Create a new temporal denoised scaler.
     pub fn new_temporal_denoised_scaler(&self, device: &Device) -> Option<TemporalDenoisedScaler> {
         unsafe {
-            let ptr: *mut c_void =
-                msg_send_1(self.as_ptr(), sel!(newTemporalDenoisedScaler:), device.as_ptr());
+            let ptr: *mut c_void = msg_send_1(
+                self.as_ptr(),
+                sel!(newTemporalDenoisedScaler:),
+                device.as_ptr(),
+            );
             TemporalDenoisedScaler::from_raw(ptr)
         }
     }
@@ -653,8 +656,11 @@ impl TemporalDenoisedScaler {
     /// Set the diffuse albedo texture.
     pub fn set_diffuse_albedo_texture(&self, texture: &Texture) {
         unsafe {
-            let _: () =
-                msg_send_1(self.as_ptr(), sel!(setDiffuseAlbedoTexture:), texture.as_ptr());
+            let _: () = msg_send_1(
+                self.as_ptr(),
+                sel!(setDiffuseAlbedoTexture:),
+                texture.as_ptr(),
+            );
         }
     }
 
@@ -805,8 +811,11 @@ impl TemporalDenoisedScaler {
     /// Set the reactive mask texture.
     pub fn set_reactive_mask_texture(&self, texture: &Texture) {
         unsafe {
-            let _: () =
-                msg_send_1(self.as_ptr(), sel!(setReactiveMaskTexture:), texture.as_ptr());
+            let _: () = msg_send_1(
+                self.as_ptr(),
+                sel!(setReactiveMaskTexture:),
+                texture.as_ptr(),
+            );
         }
     }
 

@@ -9,8 +9,8 @@
 //! Run with: cargo run --example 04_blit_operations
 
 use metal::{
-    device, BlitCommandEncoder, Origin, PixelFormat, Region, ResourceOptions, Size,
-    StorageMode, TextureDescriptor, TextureUsage,
+    BlitCommandEncoder, Origin, PixelFormat, Region, ResourceOptions, Size, StorageMode,
+    TextureDescriptor, TextureUsage, device,
 };
 use metal_foundation::Referencing;
 
@@ -46,12 +46,12 @@ fn main() {
     let mut source_data = vec![0u8; buffer_size];
     for y in 0..height {
         for x in 0..width {
-            let offset = (y * bytes_per_row + x * bytes_per_pixel) as usize;
+            let offset = y * bytes_per_row + x * bytes_per_pixel;
             // Create a simple gradient pattern
-            source_data[offset] = (x * 4) as u8;     // B
+            source_data[offset] = (x * 4) as u8; // B
             source_data[offset + 1] = (y * 4) as u8; // G
-            source_data[offset + 2] = 128;           // R
-            source_data[offset + 3] = 255;           // A
+            source_data[offset + 2] = 128; // R
+            source_data[offset + 3] = 255; // A
         }
     }
 
@@ -62,13 +62,9 @@ fn main() {
     println!("Created source buffer: {} bytes", source_buffer.length());
 
     // Create destination texture
-    let texture_desc = TextureDescriptor::texture_2d_descriptor(
-        PixelFormat::BGRA8_UNORM,
-        width,
-        height,
-        false,
-    )
-    .expect("Failed to create texture descriptor");
+    let texture_desc =
+        TextureDescriptor::texture_2d_descriptor(PixelFormat::BGRA8_UNORM, width, height, false)
+            .expect("Failed to create texture descriptor");
     texture_desc.set_usage(TextureUsage::SHADER_READ | TextureUsage::SHADER_WRITE);
     texture_desc.set_storage_mode(StorageMode::SHARED);
 
@@ -78,17 +74,24 @@ fn main() {
             .expect("Failed to create texture 1")
     };
 
-    println!("Created texture1: {}x{}", texture1.width(), texture1.height());
+    println!(
+        "Created texture1: {}x{}",
+        texture1.width(),
+        texture1.height()
+    );
 
     // Create command queue and buffer
-    let command_queue = device.new_command_queue().expect("Failed to create command queue");
-    let command_buffer = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
+    let command_buffer = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     // Encode blit commands
     let encoder_ptr = command_buffer.blit_command_encoder();
-    let encoder = unsafe {
-        BlitCommandEncoder::from_raw(encoder_ptr)
-    }.expect("Failed to create blit encoder");
+    let encoder = unsafe { BlitCommandEncoder::from_raw(encoder_ptr) }
+        .expect("Failed to create blit encoder");
 
     // Copy buffer to texture
     let source_size = Size::new(width, height, 1);
@@ -130,7 +133,10 @@ fn main() {
             break;
         }
     }
-    println!("  Data verification: {}", if matches { "PASSED" } else { "FAILED" });
+    println!(
+        "  Data verification: {}",
+        if matches { "PASSED" } else { "FAILED" }
+    );
 
     // =======================================================================
     // Part 2: Texture to Texture Copy
@@ -143,13 +149,18 @@ fn main() {
             .new_texture(texture_desc.as_ptr())
             .expect("Failed to create texture 2")
     };
-    println!("Created texture2: {}x{}", texture2.width(), texture2.height());
+    println!(
+        "Created texture2: {}x{}",
+        texture2.width(),
+        texture2.height()
+    );
 
-    let command_buffer2 = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer2 = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let encoder_ptr2 = command_buffer2.blit_command_encoder();
-    let encoder2 = unsafe {
-        BlitCommandEncoder::from_raw(encoder_ptr2)
-    }.expect("Failed to create blit encoder");
+    let encoder2 = unsafe { BlitCommandEncoder::from_raw(encoder_ptr2) }
+        .expect("Failed to create blit encoder");
 
     // Copy texture1 to texture2
     encoder2.copy_from_texture_to_texture_region(
@@ -188,7 +199,10 @@ fn main() {
             break;
         }
     }
-    println!("  Data verification: {}", if matches { "PASSED" } else { "FAILED" });
+    println!(
+        "  Data verification: {}",
+        if matches { "PASSED" } else { "FAILED" }
+    );
 
     // =======================================================================
     // Part 3: Texture to Buffer Copy
@@ -201,11 +215,12 @@ fn main() {
         .expect("Failed to create destination buffer");
     println!("Created destination buffer: {} bytes", dest_buffer.length());
 
-    let command_buffer3 = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer3 = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let encoder_ptr3 = command_buffer3.blit_command_encoder();
-    let encoder3 = unsafe {
-        BlitCommandEncoder::from_raw(encoder_ptr3)
-    }.expect("Failed to create blit encoder");
+    let encoder3 = unsafe { BlitCommandEncoder::from_raw(encoder_ptr3) }
+        .expect("Failed to create blit encoder");
 
     // Copy texture2 to buffer
     encoder3.copy_from_texture_to_buffer(
@@ -237,9 +252,14 @@ fn main() {
             break;
         }
     }
-    println!("  Data verification: {}", if matches { "PASSED" } else { "FAILED" });
-    println!("  Round-trip (buffer -> texture -> texture -> buffer): {}",
-             if matches { "SUCCESSFUL" } else { "FAILED" });
+    println!(
+        "  Data verification: {}",
+        if matches { "PASSED" } else { "FAILED" }
+    );
+    println!(
+        "  Round-trip (buffer -> texture -> texture -> buffer): {}",
+        if matches { "SUCCESSFUL" } else { "FAILED" }
+    );
 
     // =======================================================================
     // Part 4: Mipmap Generation
@@ -263,14 +283,19 @@ fn main() {
             .expect("Failed to create mipmap texture")
     };
 
-    println!("Created mipmap texture: {}x{} with {} mip levels",
-             mip_texture.width(), mip_texture.height(), mip_texture.mipmap_level_count());
+    println!(
+        "Created mipmap texture: {}x{} with {} mip levels",
+        mip_texture.width(),
+        mip_texture.height(),
+        mip_texture.mipmap_level_count()
+    );
 
-    let command_buffer4 = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer4 = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let encoder_ptr4 = command_buffer4.blit_command_encoder();
-    let encoder4 = unsafe {
-        BlitCommandEncoder::from_raw(encoder_ptr4)
-    }.expect("Failed to create blit encoder");
+    let encoder4 = unsafe { BlitCommandEncoder::from_raw(encoder_ptr4) }
+        .expect("Failed to create blit encoder");
 
     // Generate mipmaps
     encoder4.generate_mipmaps(&mip_texture);
@@ -292,11 +317,12 @@ fn main() {
         .expect("Failed to create fill buffer");
     println!("Created fill buffer: {} bytes", fill_buffer.length());
 
-    let command_buffer5 = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_buffer5 = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
     let encoder_ptr5 = command_buffer5.blit_command_encoder();
-    let encoder5 = unsafe {
-        BlitCommandEncoder::from_raw(encoder_ptr5)
-    }.expect("Failed to create blit encoder");
+    let encoder5 = unsafe { BlitCommandEncoder::from_raw(encoder_ptr5) }
+        .expect("Failed to create blit encoder");
 
     // Fill buffer with pattern byte
     encoder5.fill_buffer(&fill_buffer, 0, 1024, 0xAB);
@@ -312,7 +338,10 @@ fn main() {
     let fill_data = unsafe { std::slice::from_raw_parts(fill_ptr, 1024) };
 
     let all_filled = fill_data.iter().all(|&b| b == 0xAB);
-    println!("  Data verification: {}", if all_filled { "PASSED" } else { "FAILED" });
+    println!(
+        "  Data verification: {}",
+        if all_filled { "PASSED" } else { "FAILED" }
+    );
 
     // =======================================================================
     // Summary

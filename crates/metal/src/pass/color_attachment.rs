@@ -6,9 +6,9 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
+use crate::Texture;
 use crate::enums::{LoadAction, StoreAction};
 use crate::types::ClearColor;
-use crate::Texture;
 
 /// A color attachment descriptor for a render pass.
 ///

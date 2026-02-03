@@ -8,9 +8,9 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::Size;
 use super::enums::IndirectCommandBufferSupportState;
 use super::{FunctionDescriptor, PipelineOptions, StaticLinkingDescriptor};
+use crate::Size;
 
 // ============================================================
 // ComputePipelineDescriptor
@@ -216,7 +216,11 @@ impl ComputePipelineDescriptor {
     /// C++ equivalent: `void setSupportIndirectCommandBuffers(MTL4::IndirectCommandBufferSupportState)`
     pub fn set_support_indirect_command_buffers(&self, state: IndirectCommandBufferSupportState) {
         unsafe {
-            let _: () = msg_send_1(self.as_ptr(), sel!(setSupportIndirectCommandBuffers:), state);
+            let _: () = msg_send_1(
+                self.as_ptr(),
+                sel!(setSupportIndirectCommandBuffers:),
+                state,
+            );
         }
     }
 
@@ -224,7 +228,12 @@ impl ComputePipelineDescriptor {
     ///
     /// C++ equivalent: `bool threadGroupSizeIsMultipleOfThreadExecutionWidth() const`
     pub fn thread_group_size_is_multiple_of_thread_execution_width(&self) -> bool {
-        unsafe { msg_send_0(self.as_ptr(), sel!(threadGroupSizeIsMultipleOfThreadExecutionWidth)) }
+        unsafe {
+            msg_send_0(
+                self.as_ptr(),
+                sel!(threadGroupSizeIsMultipleOfThreadExecutionWidth),
+            )
+        }
     }
 
     /// Set whether threadgroup size is a multiple of thread execution width.

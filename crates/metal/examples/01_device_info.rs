@@ -15,7 +15,9 @@ fn main() {
     let device = match device::system_default() {
         Some(device) => device,
         None => {
-            eprintln!("Error: No Metal device found. Metal requires macOS or iOS with compatible hardware.");
+            eprintln!(
+                "Error: No Metal device found. Metal requires macOS or iOS with compatible hardware."
+            );
             std::process::exit(1);
         }
     };
@@ -38,37 +40,94 @@ fn main() {
 
     // Memory
     println!("\nMemory:");
-    println!("  Currently Allocated:     {} bytes", device.current_allocated_size());
-    println!("  Recommended Working Set: {} bytes", device.recommended_max_working_set_size());
-    println!("  Max Buffer Length:       {} bytes", device.max_buffer_length());
+    println!(
+        "  Currently Allocated:     {} bytes",
+        device.current_allocated_size()
+    );
+    println!(
+        "  Recommended Working Set: {} bytes",
+        device.recommended_max_working_set_size()
+    );
+    println!(
+        "  Max Buffer Length:       {} bytes",
+        device.max_buffer_length()
+    );
 
     // Thread Limits
     let max_threads = device.max_threads_per_threadgroup();
     // Copy fields from packed struct to avoid unaligned reference
     let (width, height, depth) = (max_threads.width, max_threads.height, max_threads.depth);
     println!("\nCompute Limits:");
-    println!("  Max Threads Per Threadgroup: {} x {} x {}", width, height, depth);
-    println!("  Max Threadgroup Memory:      {} bytes", device.max_threadgroup_memory_length());
+    println!(
+        "  Max Threads Per Threadgroup: {} x {} x {}",
+        width, height, depth
+    );
+    println!(
+        "  Max Threadgroup Memory:      {} bytes",
+        device.max_threadgroup_memory_length()
+    );
 
     // Feature Support
     println!("\nFeature Support:");
-    println!("  Ray Tracing:               {}", device.supports_raytracing());
-    println!("  Dynamic Libraries:         {}", device.supports_dynamic_libraries());
-    println!("  Function Pointers:         {}", device.supports_function_pointers());
-    println!("  Pull Model Interpolation:  {}", device.supports_pull_model_interpolation());
-    println!("  32-bit Float Filtering:    {}", device.supports_32bit_float_filtering());
-    println!("  32-bit MSAA:               {}", device.supports_32bit_msaa());
-    println!("  BC Texture Compression:    {}", device.supports_bc_texture_compression());
-    println!("  Query Texture LOD:         {}", device.supports_query_texture_lod());
-    println!("  Barycentric Coordinates:   {}", device.supports_shader_barycentric_coordinates());
-    println!("  Programmable Sample Pos:   {}", device.are_programmable_sample_positions_supported());
-    println!("  Raster Order Groups:       {}", device.are_raster_order_groups_supported());
+    println!(
+        "  Ray Tracing:               {}",
+        device.supports_raytracing()
+    );
+    println!(
+        "  Dynamic Libraries:         {}",
+        device.supports_dynamic_libraries()
+    );
+    println!(
+        "  Function Pointers:         {}",
+        device.supports_function_pointers()
+    );
+    println!(
+        "  Pull Model Interpolation:  {}",
+        device.supports_pull_model_interpolation()
+    );
+    println!(
+        "  32-bit Float Filtering:    {}",
+        device.supports_32bit_float_filtering()
+    );
+    println!(
+        "  32-bit MSAA:               {}",
+        device.supports_32bit_msaa()
+    );
+    println!(
+        "  BC Texture Compression:    {}",
+        device.supports_bc_texture_compression()
+    );
+    println!(
+        "  Query Texture LOD:         {}",
+        device.supports_query_texture_lod()
+    );
+    println!(
+        "  Barycentric Coordinates:   {}",
+        device.supports_shader_barycentric_coordinates()
+    );
+    println!(
+        "  Programmable Sample Pos:   {}",
+        device.are_programmable_sample_positions_supported()
+    );
+    println!(
+        "  Raster Order Groups:       {}",
+        device.are_raster_order_groups_supported()
+    );
 
     // Texture Support
     println!("\nTexture Support:");
-    println!("  Read/Write Texture Tier:   {:?}", device.read_write_texture_support());
-    println!("  Argument Buffers Tier:     {:?}", device.argument_buffers_support());
-    println!("  Sparse Tile Size:          {} bytes", device.sparse_tile_size_in_bytes());
+    println!(
+        "  Read/Write Texture Tier:   {:?}",
+        device.read_write_texture_support()
+    );
+    println!(
+        "  Argument Buffers Tier:     {:?}",
+        device.argument_buffers_support()
+    );
+    println!(
+        "  Sparse Tile Size:          {} bytes",
+        device.sparse_tile_size_in_bytes()
+    );
 
     // Sample counts
     println!("\nSupported Sample Counts:");
@@ -110,15 +169,24 @@ fn main() {
 
     // Performance
     println!("\nPerformance:");
-    println!("  Max Transfer Rate:                {} bytes/sec", device.max_transfer_rate());
-    println!("  Max Concurrent Compilation Tasks: {}", device.maximum_concurrent_compilation_task_count());
+    println!(
+        "  Max Transfer Rate:                {} bytes/sec",
+        device.max_transfer_rate()
+    );
+    println!(
+        "  Max Concurrent Compilation Tasks: {}",
+        device.maximum_concurrent_compilation_task_count()
+    );
 
     // Timestamps
     let (cpu_timestamp, gpu_timestamp) = device.sample_timestamps();
     println!("\nTimestamps:");
     println!("  CPU Timestamp: {}", cpu_timestamp);
     println!("  GPU Timestamp: {}", gpu_timestamp);
-    println!("  Timestamp Frequency: {} Hz", device.query_timestamp_frequency());
+    println!(
+        "  Timestamp Frequency: {} Hz",
+        device.query_timestamp_frequency()
+    );
 
     // List all available devices (macOS only)
     #[cfg(target_os = "macos")]
@@ -130,7 +198,12 @@ fn main() {
             println!("  No devices found");
         } else {
             for (i, dev) in devices.iter().enumerate() {
-                println!("  [{}] {} (Registry ID: {})", i, dev.name(), dev.registry_id());
+                println!(
+                    "  [{}] {} (Registry ID: {})",
+                    i,
+                    dev.name(),
+                    dev.registry_id()
+                );
             }
         }
     }

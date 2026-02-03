@@ -1,6 +1,6 @@
 //! Instance acceleration structure descriptors.
 //!
-//! Contains `InstanceAccelerationStructureDescriptor` and 
+//! Contains `InstanceAccelerationStructureDescriptor` and
 //! `IndirectInstanceAccelerationStructureDescriptor`.
 
 use std::ffi::c_void;
@@ -9,8 +9,11 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::enums::{AccelerationStructureInstanceDescriptorType, AccelerationStructureUsage, MatrixLayout, TransformType};
 use crate::Buffer;
+use crate::enums::{
+    AccelerationStructureInstanceDescriptorType, AccelerationStructureUsage, MatrixLayout,
+    TransformType,
+};
 
 pub struct InstanceAccelerationStructureDescriptor(pub(crate) NonNull<c_void>);
 
@@ -797,4 +800,3 @@ impl Referencing for IndirectInstanceAccelerationStructureDescriptor {
 
 unsafe impl Send for IndirectInstanceAccelerationStructureDescriptor {}
 unsafe impl Sync for IndirectInstanceAccelerationStructureDescriptor {}
-

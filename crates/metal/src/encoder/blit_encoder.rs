@@ -8,10 +8,10 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::enums::BlitOption;
-use crate::types::{Origin, Region, Size};
 use crate::Buffer;
 use crate::Texture;
+use crate::enums::BlitOption;
+use crate::types::{Origin, Region, Size};
 
 /// A command encoder for data transfer operations.
 ///
@@ -831,7 +831,13 @@ impl BlitCommandEncoder {
     ) {
         let range = metal_foundation::Range::new(source_offset, source_length);
         unsafe {
-            metal_sys::msg_send_4::<(), *const c_void, metal_foundation::Range, *const c_void, UInteger>(
+            metal_sys::msg_send_4::<
+                (),
+                *const c_void,
+                metal_foundation::Range,
+                *const c_void,
+                UInteger,
+            >(
                 self.as_ptr(),
                 sel!(copyIndirectCommandBuffer: sourceRange: destination: destinationIndex:),
                 source,

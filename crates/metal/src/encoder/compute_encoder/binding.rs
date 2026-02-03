@@ -140,7 +140,12 @@ impl ComputeCommandEncoder {
     ) {
         let range = metal_foundation::Range::new(range_location, range_length);
         unsafe {
-            metal_sys::msg_send_3::<(), *const *const c_void, *const UInteger, metal_foundation::Range>(
+            metal_sys::msg_send_3::<
+                (),
+                *const *const c_void,
+                *const UInteger,
+                metal_foundation::Range,
+            >(
                 self.as_ptr(),
                 sel!(setBuffers: offsets: withRange:),
                 buffers,
@@ -168,7 +173,13 @@ impl ComputeCommandEncoder {
     ) {
         let range = metal_foundation::Range::new(range_location, range_length);
         unsafe {
-            metal_sys::msg_send_4::<(), *const *const c_void, *const UInteger, *const UInteger, metal_foundation::Range>(
+            metal_sys::msg_send_4::<
+                (),
+                *const *const c_void,
+                *const UInteger,
+                *const UInteger,
+                metal_foundation::Range,
+            >(
                 self.as_ptr(),
                 sel!(setBuffers: offsets: attributeStrides: withRange:),
                 buffers,
@@ -308,7 +319,13 @@ impl ComputeCommandEncoder {
     ) {
         let range = metal_foundation::Range::new(range_location, range_length);
         unsafe {
-            metal_sys::msg_send_4::<(), *const *const c_void, *const f32, *const f32, metal_foundation::Range>(
+            metal_sys::msg_send_4::<
+                (),
+                *const *const c_void,
+                *const f32,
+                *const f32,
+                metal_foundation::Range,
+            >(
                 self.as_ptr(),
                 sel!(setSamplerStates: lodMinClamps: lodMaxClamps: withRange:),
                 samplers,

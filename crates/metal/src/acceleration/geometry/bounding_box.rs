@@ -52,7 +52,12 @@ impl AccelerationStructureBoundingBoxGeometryDescriptor {
     /// Get whether duplicate intersection function invocation is allowed.
     #[inline]
     pub fn allow_duplicate_intersection_function_invocation(&self) -> bool {
-        unsafe { msg_send_0(self.as_ptr(), sel!(allowDuplicateIntersectionFunctionInvocation)) }
+        unsafe {
+            msg_send_0(
+                self.as_ptr(),
+                sel!(allowDuplicateIntersectionFunctionInvocation),
+            )
+        }
     }
 
     /// Set whether duplicate intersection function invocation is allowed.

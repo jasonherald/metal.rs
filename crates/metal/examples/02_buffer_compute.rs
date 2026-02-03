@@ -10,7 +10,7 @@
 //!
 //! Run with: cargo run --example 02_buffer_compute
 
-use metal::{device, ComputeCommandEncoder, ComputePipelineState, ResourceOptions, Size};
+use metal::{ComputeCommandEncoder, ComputePipelineState, ResourceOptions, Size, device};
 
 /// Metal Shading Language (MSL) source code for our compute kernel.
 /// This kernel multiplies each element in the buffer by 2.
@@ -43,7 +43,7 @@ fn main() {
     };
 
     // Step 2: Create input data and a buffer
-    let element_count = 16;
+    let element_count: usize = 16;
     let data: Vec<f32> = (0..element_count).map(|i| i as f32).collect();
     println!("\nInput data: {:?}", data);
 
@@ -81,18 +81,27 @@ fn main() {
         .expect("Failed to create compute pipeline");
 
     println!("Pipeline created");
-    println!("  Max threads per threadgroup: {}", pipeline.max_total_threads_per_threadgroup());
-    println!("  Thread execution width: {}", pipeline.thread_execution_width());
+    println!(
+        "  Max threads per threadgroup: {}",
+        pipeline.max_total_threads_per_threadgroup()
+    );
+    println!(
+        "  Thread execution width: {}",
+        pipeline.thread_execution_width()
+    );
 
     // Step 5: Create a command queue and encode commands
-    let command_queue = device.new_command_queue().expect("Failed to create command queue");
-    let command_buffer = command_queue.command_buffer().expect("Failed to create command buffer");
+    let command_queue = device
+        .new_command_queue()
+        .expect("Failed to create command queue");
+    let command_buffer = command_queue
+        .command_buffer()
+        .expect("Failed to create command buffer");
 
     // Get a compute command encoder
     let compute_encoder_ptr = command_buffer.compute_command_encoder();
-    let compute_encoder = unsafe {
-        ComputeCommandEncoder::from_raw(compute_encoder_ptr)
-    }.expect("Failed to create compute encoder");
+    let compute_encoder = unsafe { ComputeCommandEncoder::from_raw(compute_encoder_ptr) }
+        .expect("Failed to create compute encoder");
 
     // Set up the compute pass
     compute_encoder.set_compute_pipeline_state(&pipeline);
@@ -103,7 +112,7 @@ fn main() {
     let threads_per_threadgroup = Size::new(thread_execution_width, 1, 1);
 
     // Calculate how many threadgroups we need
-    let threadgroup_count = (element_count + thread_execution_width - 1) / thread_execution_width;
+    let threadgroup_count = element_count.div_ceil(thread_execution_width);
     let threadgroups_per_grid = Size::new(threadgroup_count, 1, 1);
 
     println!("\nDispatching compute kernel:");
@@ -124,9 +133,8 @@ fn main() {
 
     // Step 6: Read results back
     let result_ptr = buffer.contents().expect("Buffer contents is null") as *const f32;
-    let result: Vec<f32> = unsafe {
-        std::slice::from_raw_parts(result_ptr, element_count).to_vec()
-    };
+    let result: Vec<f32> =
+        unsafe { std::slice::from_raw_parts(result_ptr, element_count).to_vec() };
 
     println!("\nOutput data: {:?}", result);
 
@@ -149,7 +157,10 @@ fn main() {
 
     println!("\nTiming:");
     println!("  GPU time: {:.6} ms", (gpu_end - gpu_start) * 1000.0);
-    println!("  Kernel time: {:.6} ms", (kernel_end - kernel_start) * 1000.0);
+    println!(
+        "  Kernel time: {:.6} ms",
+        (kernel_end - kernel_start) * 1000.0
+    );
 
     println!("\nCompute example completed successfully!");
 }

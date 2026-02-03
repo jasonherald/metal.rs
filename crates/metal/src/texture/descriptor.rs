@@ -377,7 +377,11 @@ impl TextureDescriptor {
     #[inline]
     pub fn set_placement_sparse_page_size(&self, size: SparsePageSize) {
         unsafe {
-            msg_send_1::<(), SparsePageSize>(self.as_ptr(), sel!(setPlacementSparsePageSize:), size);
+            msg_send_1::<(), SparsePageSize>(
+                self.as_ptr(),
+                sel!(setPlacementSparsePageSize:),
+                size,
+            );
         }
     }
 }

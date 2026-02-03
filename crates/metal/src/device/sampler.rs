@@ -7,9 +7,9 @@ use std::ffi::c_void;
 use metal_foundation::Referencing;
 use metal_sys::{msg_send_1, sel};
 
+use super::Device;
 use crate::error::ValidationError;
 use crate::sampler::{SamplerDescriptor, SamplerState};
-use super::Device;
 
 impl Device {
     // =========================================================================
@@ -57,7 +57,10 @@ impl Device {
         let min_lod = descriptor.lod_min_clamp();
         let max_lod = descriptor.lod_max_clamp();
         if min_lod > max_lod {
-            return Err(ValidationError::InvalidLodRange { min: min_lod, max: max_lod });
+            return Err(ValidationError::InvalidLodRange {
+                min: min_lod,
+                max: max_lod,
+            });
         }
 
         // Validate anisotropy

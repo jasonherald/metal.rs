@@ -22,7 +22,9 @@ pub use color_attachment::{
 };
 pub use compute_descriptor::ComputePipelineDescriptor;
 pub use compute_state::ComputePipelineState;
-pub use functions_descriptor::{LogicalToPhysicalColorAttachmentMap, RenderPipelineFunctionsDescriptor};
+pub use functions_descriptor::{
+    LogicalToPhysicalColorAttachmentMap, RenderPipelineFunctionsDescriptor,
+};
 pub use mesh_pipeline::MeshRenderPipelineDescriptor;
 pub use reflection::{ComputePipelineReflection, RenderPipelineReflection};
 pub use render_descriptor::RenderPipelineDescriptor;

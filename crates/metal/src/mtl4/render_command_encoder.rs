@@ -6,13 +6,15 @@ use std::ffi::c_void;
 use std::ptr::NonNull;
 
 use metal_foundation::{Referencing, UInteger};
-use metal_sys::{msg_send_0, msg_send_1, msg_send_2, msg_send_3, msg_send_4, msg_send_5, msg_send_6, sel};
+use metal_sys::{
+    msg_send_0, msg_send_1, msg_send_2, msg_send_3, msg_send_4, msg_send_5, msg_send_6, sel,
+};
 
+use super::enums::VisibilityOptions;
 use crate::{
     CullMode, DepthClipMode, DepthStencilState, Device, PrimitiveType, RenderPipelineState,
     RenderStages, ScissorRect, Size, TriangleFillMode, Viewport, Winding,
 };
-use super::enums::VisibilityOptions;
 
 // ============================================================
 // RenderCommandEncoder
@@ -206,7 +208,12 @@ impl RenderCommandEncoder {
     /// C++ equivalent: `void setVertexTexture(const MTL::Texture*, NS::UInteger)`
     pub fn set_vertex_texture(&self, texture: *const c_void, index: UInteger) {
         unsafe {
-            let _: () = msg_send_2(self.as_ptr(), sel!(setVertexTexture:atIndex:), texture, index);
+            let _: () = msg_send_2(
+                self.as_ptr(),
+                sel!(setVertexTexture:atIndex:),
+                texture,
+                index,
+            );
         }
     }
 

@@ -9,10 +9,10 @@ use std::ffi::c_void;
 use std::ptr::NonNull;
 
 use metal_foundation::{Referencing, UInteger};
-use metal_sys::{msg_send_0, msg_send_1, msg_send_2, sel, Class};
+use metal_sys::{Class, msg_send_0, msg_send_1, msg_send_2, sel};
 
-use crate::types::{Coordinate2D, Size, SizeAndAlign};
 use crate::Buffer;
+use crate::types::{Coordinate2D, Size, SizeAndAlign};
 
 // ============================================================================
 // RasterizationRateSampleArray
@@ -64,7 +64,12 @@ impl RasterizationRateSampleArray {
     /// C++ equivalent: `void setObject(const NS::Number* value, NS::UInteger index)`
     pub fn set_object_raw(&self, value: *const c_void, index: UInteger) {
         unsafe {
-            let _: () = msg_send_2(self.as_ptr(), sel!(setObject:atIndexedSubscript:), value, index);
+            let _: () = msg_send_2(
+                self.as_ptr(),
+                sel!(setObject:atIndexedSubscript:),
+                value,
+                index,
+            );
         }
     }
 }

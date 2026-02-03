@@ -8,8 +8,8 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, msg_send_2, msg_send_3, msg_send_4, sel};
 
-use crate::{Device, Drawable, Event, ResidencySet};
 use super::{CommandBuffer, CommitFeedback};
+use crate::{Device, Drawable, Event, ResidencySet};
 
 /// Dispatch queue type (opaque).
 pub type DispatchQueue = *mut c_void;
@@ -371,11 +371,7 @@ impl CommandQueue {
     /// Commit command buffers with options.
     ///
     /// C++ equivalent: `void commit(const MTL4::CommandBuffer* const[], NS::UInteger, const MTL4::CommitOptions*)`
-    pub fn commit_with_options(
-        &self,
-        command_buffers: &[&CommandBuffer],
-        options: &CommitOptions,
-    ) {
+    pub fn commit_with_options(&self, command_buffers: &[&CommandBuffer], options: &CommitOptions) {
         let ptrs: Vec<*const c_void> = command_buffers.iter().map(|c| c.as_ptr()).collect();
         unsafe {
             let _: () = msg_send_3(
@@ -395,7 +391,12 @@ impl CommandQueue {
     /// C++ equivalent: `void signalEvent(const MTL::Event*, uint64_t value)`
     pub fn signal_event(&self, event: &Event, value: u64) {
         unsafe {
-            let _: () = msg_send_2(self.as_ptr(), sel!(signalEvent:value:), event.as_ptr(), value);
+            let _: () = msg_send_2(
+                self.as_ptr(),
+                sel!(signalEvent:value:),
+                event.as_ptr(),
+                value,
+            );
         }
     }
 

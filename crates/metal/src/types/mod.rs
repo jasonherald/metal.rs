@@ -445,7 +445,12 @@ pub struct PackedFloat4x3 {
 impl PackedFloat4x3 {
     /// Create a new PackedFloat4x3.
     #[inline]
-    pub const fn new(col0: PackedFloat3, col1: PackedFloat3, col2: PackedFloat3, col3: PackedFloat3) -> Self {
+    pub const fn new(
+        col0: PackedFloat3,
+        col1: PackedFloat3,
+        col2: PackedFloat3,
+        col3: PackedFloat3,
+    ) -> Self {
         Self {
             columns: [col0, col1, col2, col3],
         }
@@ -910,13 +915,19 @@ mod tests {
     #[test]
     fn test_acceleration_structure_instance_descriptor_size() {
         // PackedFloat4x3 (48) + options (4) + mask (4) + offset (4) + index (4) = 64
-        assert_eq!(std::mem::size_of::<AccelerationStructureInstanceDescriptor>(), 64);
+        assert_eq!(
+            std::mem::size_of::<AccelerationStructureInstanceDescriptor>(),
+            64
+        );
     }
 
     #[test]
     fn test_acceleration_structure_user_id_instance_descriptor_size() {
         // PackedFloat4x3 (48) + options (4) + mask (4) + offset (4) + index (4) + user_id (4) = 68
-        assert_eq!(std::mem::size_of::<AccelerationStructureUserIDInstanceDescriptor>(), 68);
+        assert_eq!(
+            std::mem::size_of::<AccelerationStructureUserIDInstanceDescriptor>(),
+            68
+        );
     }
 
     #[test]

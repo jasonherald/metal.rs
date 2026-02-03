@@ -44,7 +44,9 @@ impl ComputeCommandEncoder {
         acceleration_structure: &crate::AccelerationStructure,
         buffer_index: UInteger,
     ) {
-        unsafe { self.set_acceleration_structure_ptr(acceleration_structure.as_ptr(), buffer_index) };
+        unsafe {
+            self.set_acceleration_structure_ptr(acceleration_structure.as_ptr(), buffer_index)
+        };
     }
 
     // =========================================================================

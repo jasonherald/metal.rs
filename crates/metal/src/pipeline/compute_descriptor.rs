@@ -489,4 +489,3 @@ impl std::fmt::Debug for ComputePipelineDescriptor {
             .finish()
     }
 }
-

@@ -37,8 +37,8 @@
 use std::ffi::c_void;
 use std::ptr::NonNull;
 
-use metal_sys::{msg_send_0, msg_send_1, sel, Sel, Class};
 use crate::types::UInteger;
+use metal_sys::{Class, Sel, msg_send_0, msg_send_1, sel};
 
 /// Base trait for all Objective-C objects that support reference counting.
 ///
@@ -233,6 +233,9 @@ mod tests {
     #[test]
     fn test_object_size() {
         // Object should be pointer-sized
-        assert_eq!(std::mem::size_of::<Object>(), std::mem::size_of::<*mut c_void>());
+        assert_eq!(
+            std::mem::size_of::<Object>(),
+            std::mem::size_of::<*mut c_void>()
+        );
     }
 }

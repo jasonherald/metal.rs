@@ -8,8 +8,8 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
-use crate::enums::{AttributeFormat, CurveBasis, CurveEndCaps, CurveType, IndexType};
 use crate::Buffer;
+use crate::enums::{AttributeFormat, CurveBasis, CurveEndCaps, CurveType, IndexType};
 
 pub struct AccelerationStructureCurveGeometryDescriptor(pub(crate) NonNull<c_void>);
 
@@ -50,7 +50,12 @@ impl AccelerationStructureCurveGeometryDescriptor {
     /// Get whether duplicate intersection function invocation is allowed.
     #[inline]
     pub fn allow_duplicate_intersection_function_invocation(&self) -> bool {
-        unsafe { msg_send_0(self.as_ptr(), sel!(allowDuplicateIntersectionFunctionInvocation)) }
+        unsafe {
+            msg_send_0(
+                self.as_ptr(),
+                sel!(allowDuplicateIntersectionFunctionInvocation),
+            )
+        }
     }
 
     /// Set whether duplicate intersection function invocation is allowed.
@@ -556,4 +561,3 @@ impl Referencing for AccelerationStructureCurveGeometryDescriptor {
 
 unsafe impl Send for AccelerationStructureCurveGeometryDescriptor {}
 unsafe impl Sync for AccelerationStructureCurveGeometryDescriptor {}
-

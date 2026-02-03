@@ -40,7 +40,6 @@ use std::ptr::NonNull;
 
 use metal_sys::{msg_send_0, sel};
 
-
 /// A smart pointer that automatically manages the reference count of an Objective-C object.
 ///
 /// C++ equivalent: `NS::SharedPtr<_Class>`
@@ -190,9 +189,7 @@ impl<T> Eq for SharedPtr<T> {}
 
 impl<T> std::fmt::Debug for SharedPtr<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("SharedPtr")
-            .field("ptr", &self.ptr)
-            .finish()
+        f.debug_struct("SharedPtr").field("ptr", &self.ptr).finish()
     }
 }
 

@@ -50,7 +50,10 @@ mod tests {
 
     #[test]
     fn test_type_size() {
-        assert_eq!(std::mem::size_of::<Type>(), std::mem::size_of::<*mut c_void>());
+        assert_eq!(
+            std::mem::size_of::<Type>(),
+            std::mem::size_of::<*mut c_void>()
+        );
     }
 
     #[test]

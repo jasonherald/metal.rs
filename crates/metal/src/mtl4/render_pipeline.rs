@@ -8,12 +8,12 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, msg_send_2, sel};
 
-use crate::{BlendFactor, BlendOperation, ColorWriteMask, PixelFormat, PrimitiveTopologyClass};
 use super::enums::{
     AlphaToCoverageState, AlphaToOneState, BlendState, IndirectCommandBufferSupportState,
     LogicalToPhysicalColorAttachmentMappingState,
 };
 use super::{FunctionDescriptor, PipelineOptions, StaticLinkingDescriptor};
+use crate::{BlendFactor, BlendOperation, ColorWriteMask, PixelFormat, PrimitiveTopologyClass};
 
 // ============================================================
 // RenderPipelineColorAttachmentDescriptor
@@ -787,7 +787,11 @@ impl RenderPipelineDescriptor {
     /// Set whether fragment binary linking is supported.
     pub fn set_support_fragment_binary_linking(&self, support: bool) {
         unsafe {
-            let _: () = msg_send_1(self.as_ptr(), sel!(setSupportFragmentBinaryLinking:), support);
+            let _: () = msg_send_1(
+                self.as_ptr(),
+                sel!(setSupportFragmentBinaryLinking:),
+                support,
+            );
         }
     }
 
@@ -801,7 +805,11 @@ impl RenderPipelineDescriptor {
     /// Set the indirect command buffer support state.
     pub fn set_support_indirect_command_buffers(&self, state: IndirectCommandBufferSupportState) {
         unsafe {
-            let _: () = msg_send_1(self.as_ptr(), sel!(setSupportIndirectCommandBuffers:), state);
+            let _: () = msg_send_1(
+                self.as_ptr(),
+                sel!(setSupportIndirectCommandBuffers:),
+                state,
+            );
         }
     }
 

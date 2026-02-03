@@ -7,8 +7,8 @@ use std::ffi::c_void;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_1, sel};
 
-use crate::acceleration::{AccelerationStructure, AccelerationStructureSizes};
 use super::Device;
+use crate::acceleration::{AccelerationStructure, AccelerationStructureSizes};
 
 impl Device {
     // =========================================================================
@@ -39,13 +39,13 @@ impl Device {
     /// Create an acceleration structure with the given size.
     ///
     /// C++ equivalent: `AccelerationStructure* newAccelerationStructure(NS::UInteger size)`
-    pub fn new_acceleration_structure_with_size(&self, size: UInteger) -> Option<AccelerationStructure> {
+    pub fn new_acceleration_structure_with_size(
+        &self,
+        size: UInteger,
+    ) -> Option<AccelerationStructure> {
         unsafe {
-            let ptr: *mut c_void = msg_send_1(
-                self.as_ptr(),
-                sel!(newAccelerationStructureWithSize:),
-                size,
-            );
+            let ptr: *mut c_void =
+                msg_send_1(self.as_ptr(), sel!(newAccelerationStructureWithSize:), size);
             AccelerationStructure::from_raw(ptr)
         }
     }
@@ -73,13 +73,12 @@ impl Device {
             )
         }
     }
-
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::device::system_default;
     use crate::acceleration::PrimitiveAccelerationStructureDescriptor;
+    use crate::device::system_default;
 
     #[test]
     fn test_supports_raytracing() {
@@ -97,15 +96,24 @@ mod tests {
             return;
         }
 
-        let desc = PrimitiveAccelerationStructureDescriptor::new()
-            .expect("failed to create descriptor");
+        let desc =
+            PrimitiveAccelerationStructureDescriptor::new().expect("failed to create descriptor");
 
         unsafe {
             let sizes = device.acceleration_structure_sizes_with_descriptor(desc.as_raw());
             // Empty descriptor should have 0 sizes
-            println!("Acceleration structure size: {}", sizes.acceleration_structure_size);
-            println!("Build scratch buffer size: {}", sizes.build_scratch_buffer_size);
-            println!("Refit scratch buffer size: {}", sizes.refit_scratch_buffer_size);
+            println!(
+                "Acceleration structure size: {}",
+                sizes.acceleration_structure_size
+            );
+            println!(
+                "Build scratch buffer size: {}",
+                sizes.build_scratch_buffer_size
+            );
+            println!(
+                "Refit scratch buffer size: {}",
+                sizes.refit_scratch_buffer_size
+            );
         }
     }
 

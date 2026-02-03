@@ -189,7 +189,11 @@ impl ParallelRenderCommandEncoder {
     ///
     /// C++ equivalent: `void setColorStoreAction(StoreAction, NS::UInteger)`
     #[inline]
-    pub fn set_color_store_action(&self, store_action: StoreAction, color_attachment_index: UInteger) {
+    pub fn set_color_store_action(
+        &self,
+        store_action: StoreAction,
+        color_attachment_index: UInteger,
+    ) {
         unsafe {
             metal_sys::msg_send_2::<(), StoreAction, UInteger>(
                 self.as_ptr(),
@@ -249,7 +253,11 @@ impl ParallelRenderCommandEncoder {
     #[inline]
     pub fn set_stencil_store_action(&self, store_action: StoreAction) {
         unsafe {
-            msg_send_1::<(), StoreAction>(self.as_ptr(), sel!(setStencilStoreAction:), store_action);
+            msg_send_1::<(), StoreAction>(
+                self.as_ptr(),
+                sel!(setStencilStoreAction:),
+                store_action,
+            );
         }
     }
 

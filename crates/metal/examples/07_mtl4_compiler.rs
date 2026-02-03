@@ -73,7 +73,10 @@ fn main() {
     if let Some(label) = allocator.label() {
         println!("  Label: {}", label);
     }
-    println!("  Initial allocated size: {} bytes", allocator.allocated_size());
+    println!(
+        "  Initial allocated size: {} bytes",
+        allocator.allocated_size()
+    );
 
     // =======================================================================
     // Part 3: MTL4 Compiler
@@ -81,8 +84,8 @@ fn main() {
     println!("\n--- Part 3: MTL4 Compiler ---");
 
     // Create compiler descriptor
-    let compiler_desc = metal::mtl4::CompilerDescriptor::new()
-        .expect("Failed to create compiler descriptor");
+    let compiler_desc =
+        metal::mtl4::CompilerDescriptor::new().expect("Failed to create compiler descriptor");
     compiler_desc.set_label("Example Compiler");
 
     match device.new_compiler(&compiler_desc) {
@@ -108,10 +111,12 @@ fn main() {
     println!("\n--- Part 4: Counter Heap for GPU Timing ---");
 
     // Check counter heap entry size
-    let timestamp_entry_size = device.size_of_counter_heap_entry(
-        metal::mtl4::CounterHeapType::TIMESTAMP
+    let timestamp_entry_size =
+        device.size_of_counter_heap_entry(metal::mtl4::CounterHeapType::TIMESTAMP);
+    println!(
+        "Timestamp counter heap entry size: {} bytes",
+        timestamp_entry_size
     );
-    println!("Timestamp counter heap entry size: {} bytes", timestamp_entry_size);
 
     // Create a counter heap for timestamps
     let counter_heap_desc = metal::mtl4::CounterHeapDescriptor::new()
@@ -155,7 +160,10 @@ fn main() {
     // =======================================================================
     println!("\n--- Part 6: Allocator Memory Management ---");
 
-    println!("Allocator size before reset: {} bytes", allocator.allocated_size());
+    println!(
+        "Allocator size before reset: {} bytes",
+        allocator.allocated_size()
+    );
 
     // Reset frees all allocated memory
     allocator.reset();

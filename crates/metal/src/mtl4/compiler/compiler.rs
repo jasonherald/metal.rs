@@ -6,13 +6,13 @@ use std::ptr::NonNull;
 use metal_foundation::Referencing;
 use metal_sys::{msg_send_0, msg_send_2, msg_send_3, msg_send_4, sel};
 
-use crate::{ComputePipelineState, Device, DynamicLibrary, Library, RenderPipelineState};
 use crate::mtl4::{
     BinaryFunction, BinaryFunctionDescriptor, CompilerTask, ComputePipelineDescriptor,
     LibraryDescriptor, MachineLearningPipelineDescriptor, MachineLearningPipelineState,
-    PipelineDataSetSerializer, PipelineDescriptor,
-    PipelineStageDynamicLinkingDescriptor, RenderPipelineDynamicLinkingDescriptor,
+    PipelineDataSetSerializer, PipelineDescriptor, PipelineStageDynamicLinkingDescriptor,
+    RenderPipelineDynamicLinkingDescriptor,
 };
+use crate::{ComputePipelineState, Device, DynamicLibrary, Library, RenderPipelineState};
 
 use super::CompilerTaskOptions;
 
@@ -107,9 +107,7 @@ impl Compiler {
                     return Err(err);
                 }
             }
-            Library::from_raw(ptr).ok_or_else(|| {
-                generic_error()
-            })
+            Library::from_raw(ptr).ok_or_else(|| generic_error())
         }
     }
 
@@ -138,9 +136,7 @@ impl Compiler {
                     return Err(err);
                 }
             }
-            BinaryFunction::from_raw(ptr).ok_or_else(|| {
-                generic_error()
-            })
+            BinaryFunction::from_raw(ptr).ok_or_else(|| generic_error())
         }
     }
 
@@ -169,9 +165,7 @@ impl Compiler {
                     return Err(err);
                 }
             }
-            ComputePipelineState::from_raw(ptr).ok_or_else(|| {
-                generic_error()
-            })
+            ComputePipelineState::from_raw(ptr).ok_or_else(|| generic_error())
         }
     }
 
@@ -200,9 +194,7 @@ impl Compiler {
                     return Err(err);
                 }
             }
-            ComputePipelineState::from_raw(ptr).ok_or_else(|| {
-                generic_error()
-            })
+            ComputePipelineState::from_raw(ptr).ok_or_else(|| generic_error())
         }
     }
 
@@ -231,9 +223,7 @@ impl Compiler {
                     return Err(err);
                 }
             }
-            RenderPipelineState::from_raw(ptr).ok_or_else(|| {
-                generic_error()
-            })
+            RenderPipelineState::from_raw(ptr).ok_or_else(|| generic_error())
         }
     }
 
@@ -262,9 +252,7 @@ impl Compiler {
                     return Err(err);
                 }
             }
-            RenderPipelineState::from_raw(ptr).ok_or_else(|| {
-                generic_error()
-            })
+            RenderPipelineState::from_raw(ptr).ok_or_else(|| generic_error())
         }
     }
 
@@ -290,9 +278,7 @@ impl Compiler {
                     return Err(err);
                 }
             }
-            RenderPipelineState::from_raw(ptr).ok_or_else(|| {
-                generic_error()
-            })
+            RenderPipelineState::from_raw(ptr).ok_or_else(|| generic_error())
         }
     }
 
@@ -365,8 +351,8 @@ impl Compiler {
     where
         F: Fn(Option<Library>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |lib_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |lib_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let library = if lib_ptr.is_null() {
                     None
                 } else {
@@ -380,8 +366,7 @@ impl Compiler {
                 };
 
                 completion_handler(library, error);
-            },
-        );
+            });
 
         unsafe {
             let ptr: *mut c_void = msg_send_2(
@@ -410,8 +395,8 @@ impl Compiler {
     where
         F: Fn(Option<BinaryFunction>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |fn_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |fn_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let function = if fn_ptr.is_null() {
                     None
                 } else {
@@ -425,8 +410,7 @@ impl Compiler {
                 };
 
                 completion_handler(function, error);
-            },
-        );
+            });
 
         let options_ptr = options.map_or(std::ptr::null(), |o| o.as_ptr());
 
@@ -458,8 +442,8 @@ impl Compiler {
     where
         F: Fn(Option<ComputePipelineState>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let state = if state_ptr.is_null() {
                     None
                 } else {
@@ -473,8 +457,7 @@ impl Compiler {
                 };
 
                 completion_handler(state, error);
-            },
-        );
+            });
 
         let options_ptr = options.map_or(std::ptr::null(), |o| o.as_ptr());
 
@@ -506,8 +489,8 @@ impl Compiler {
     where
         F: Fn(Option<RenderPipelineState>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let state = if state_ptr.is_null() {
                     None
                 } else {
@@ -521,8 +504,7 @@ impl Compiler {
                 };
 
                 completion_handler(state, error);
-            },
-        );
+            });
 
         let options_ptr = options.map_or(std::ptr::null(), |o| o.as_ptr());
 
@@ -552,8 +534,8 @@ impl Compiler {
     where
         F: Fn(Option<RenderPipelineState>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let state = if state_ptr.is_null() {
                     None
                 } else {
@@ -567,8 +549,7 @@ impl Compiler {
                 };
 
                 completion_handler(state, error);
-            },
-        );
+            });
 
         unsafe {
             let ptr: *mut c_void = msg_send_3(
@@ -597,8 +578,8 @@ impl Compiler {
     where
         F: Fn(Option<DynamicLibrary>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |lib_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |lib_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let dynamic_lib = if lib_ptr.is_null() {
                     None
                 } else {
@@ -612,8 +593,7 @@ impl Compiler {
                 };
 
                 completion_handler(dynamic_lib, error);
-            },
-        );
+            });
 
         unsafe {
             let ptr: *mut c_void = msg_send_2(
@@ -643,8 +623,8 @@ impl Compiler {
     where
         F: Fn(Option<DynamicLibrary>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |lib_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |lib_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let dynamic_lib = if lib_ptr.is_null() {
                     None
                 } else {
@@ -658,8 +638,7 @@ impl Compiler {
                 };
 
                 completion_handler(dynamic_lib, error);
-            },
-        );
+            });
 
         unsafe {
             let ptr: *mut c_void = msg_send_2(
@@ -689,8 +668,8 @@ impl Compiler {
     where
         F: Fn(Option<ComputePipelineState>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let state = if state_ptr.is_null() {
                     None
                 } else {
@@ -704,8 +683,7 @@ impl Compiler {
                 };
 
                 completion_handler(state, error);
-            },
-        );
+            });
 
         let options_ptr = options.map_or(std::ptr::null(), |o| o.as_ptr());
 
@@ -737,8 +715,8 @@ impl Compiler {
     where
         F: Fn(Option<RenderPipelineState>, Option<metal_foundation::Error>) + Send + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let state = if state_ptr.is_null() {
                     None
                 } else {
@@ -752,8 +730,7 @@ impl Compiler {
                 };
 
                 completion_handler(state, error);
-            },
-        );
+            });
 
         let options_ptr = options.map_or(std::ptr::null(), |o| o.as_ptr());
 
@@ -811,10 +788,12 @@ impl Compiler {
         completion_handler: F,
     ) -> Option<CompilerTask>
     where
-        F: Fn(Option<MachineLearningPipelineState>, Option<metal_foundation::Error>) + Send + 'static,
+        F: Fn(Option<MachineLearningPipelineState>, Option<metal_foundation::Error>)
+            + Send
+            + 'static,
     {
-        let block = metal_sys::TwoArgBlock::from_fn(
-            move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
+        let block =
+            metal_sys::TwoArgBlock::from_fn(move |state_ptr: *mut c_void, err_ptr: *mut c_void| {
                 let state = if state_ptr.is_null() {
                     None
                 } else {
@@ -828,8 +807,7 @@ impl Compiler {
                 };
 
                 completion_handler(state, error);
-            },
-        );
+            });
 
         let options_ptr = options.map_or(std::ptr::null(), |o| o.as_ptr());
 

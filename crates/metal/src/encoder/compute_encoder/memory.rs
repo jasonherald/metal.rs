@@ -5,9 +5,9 @@ use std::ffi::c_void;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_1, sel};
 
-use crate::enums::{BarrierScope, ResourceUsage};
 use crate::Buffer;
 use crate::Texture;
+use crate::enums::{BarrierScope, ResourceUsage};
 
 use super::ComputeCommandEncoder;
 

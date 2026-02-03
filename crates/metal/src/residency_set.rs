@@ -231,7 +231,12 @@ impl ResidencySet {
     /// C++ equivalent: `void addAllocations(const MTL::Allocation* const[], NS::UInteger)`
     pub fn add_allocations_ptr(&self, allocations: *const *const c_void, count: UInteger) {
         unsafe {
-            let _: () = msg_send_2(self.as_ptr(), sel!(addAllocations:count:), allocations, count);
+            let _: () = msg_send_2(
+                self.as_ptr(),
+                sel!(addAllocations:count:),
+                allocations,
+                count,
+            );
         }
     }
 
@@ -249,7 +254,12 @@ impl ResidencySet {
     /// C++ equivalent: `void removeAllocations(const MTL::Allocation* const[], NS::UInteger)`
     pub fn remove_allocations_ptr(&self, allocations: *const *const c_void, count: UInteger) {
         unsafe {
-            let _: () = msg_send_2(self.as_ptr(), sel!(removeAllocations:count:), allocations, count);
+            let _: () = msg_send_2(
+                self.as_ptr(),
+                sel!(removeAllocations:count:),
+                allocations,
+                count,
+            );
         }
     }
 

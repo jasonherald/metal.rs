@@ -44,7 +44,8 @@ mod tests {
 
     #[test]
     fn test_texture_2d_descriptor() {
-        let desc = TextureDescriptor::texture_2d_descriptor(PixelFormat::RGBA8_UNORM, 256, 256, true);
+        let desc =
+            TextureDescriptor::texture_2d_descriptor(PixelFormat::RGBA8_UNORM, 256, 256, true);
         assert!(desc.is_some());
 
         let desc = desc.unwrap();

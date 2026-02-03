@@ -8,11 +8,11 @@ use std::ptr::NonNull;
 use metal_foundation::{Referencing, UInteger};
 use metal_sys::{msg_send_0, msg_send_1, sel};
 
+use crate::Buffer;
+use crate::Texture;
 use crate::enums::SparseTextureMappingMode;
 use crate::sync::Fence;
 use crate::types::{Origin, Region, Size};
-use crate::Buffer;
-use crate::Texture;
 
 /// Arguments for indirect texture mapping operations.
 ///
@@ -205,7 +205,14 @@ impl ResourceStateCommandEncoder {
         slice: UInteger,
     ) {
         unsafe {
-            metal_sys::msg_send_5::<(), *const c_void, SparseTextureMappingMode, Region, UInteger, UInteger>(
+            metal_sys::msg_send_5::<
+                (),
+                *const c_void,
+                SparseTextureMappingMode,
+                Region,
+                UInteger,
+                UInteger,
+            >(
                 self.as_ptr(),
                 sel!(updateTextureMapping: mode: region: mipLevel: slice:),
                 texture.as_ptr(),
@@ -228,7 +235,13 @@ impl ResourceStateCommandEncoder {
         indirect_buffer_offset: UInteger,
     ) {
         unsafe {
-            metal_sys::msg_send_4::<(), *const c_void, SparseTextureMappingMode, *const c_void, UInteger>(
+            metal_sys::msg_send_4::<
+                (),
+                *const c_void,
+                SparseTextureMappingMode,
+                *const c_void,
+                UInteger,
+            >(
                 self.as_ptr(),
                 sel!(updateTextureMapping: mode: indirectBuffer: indirectBufferOffset:),
                 texture.as_ptr(),

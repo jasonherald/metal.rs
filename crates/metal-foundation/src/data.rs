@@ -94,6 +94,9 @@ mod tests {
     #[test]
     fn test_data_size() {
         // Data should be pointer-sized
-        assert_eq!(std::mem::size_of::<Data>(), std::mem::size_of::<*mut c_void>());
+        assert_eq!(
+            std::mem::size_of::<Data>(),
+            std::mem::size_of::<*mut c_void>()
+        );
     }
 }
