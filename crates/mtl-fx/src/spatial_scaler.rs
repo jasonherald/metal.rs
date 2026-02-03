@@ -53,24 +53,24 @@ impl SpatialScalerDescriptor {
     // ========== Texture Formats ==========
 
     /// Get the color texture format.
-    pub fn color_texture_format(&self) -> mtl::PixelFormat {
+    pub fn color_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(colorTextureFormat)) }
     }
 
     /// Set the color texture format.
-    pub fn set_color_texture_format(&self, format: mtl::PixelFormat) {
+    pub fn set_color_texture_format(&self, format: mtl_gpu::PixelFormat) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setColorTextureFormat:), format);
         }
     }
 
     /// Get the output texture format.
-    pub fn output_texture_format(&self) -> mtl::PixelFormat {
+    pub fn output_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(outputTextureFormat)) }
     }
 
     /// Set the output texture format.
-    pub fn set_output_texture_format(&self, format: mtl::PixelFormat) {
+    pub fn set_output_texture_format(&self, format: mtl_gpu::PixelFormat) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setOutputTextureFormat:), format);
         }
@@ -145,7 +145,7 @@ impl SpatialScalerDescriptor {
     /// Create a new spatial scaler.
     ///
     /// C++ equivalent: `SpatialScaler* newSpatialScaler(const MTL::Device*) const`
-    pub fn new_spatial_scaler(&self, device: &mtl::Device) -> Option<SpatialScaler> {
+    pub fn new_spatial_scaler(&self, device: &mtl_gpu::Device) -> Option<SpatialScaler> {
         unsafe {
             let ptr: *mut c_void = msg_send_1(
                 self.as_ptr(),
@@ -161,7 +161,7 @@ impl SpatialScalerDescriptor {
     /// Check if a device supports spatial scaling.
     ///
     /// C++ equivalent: `static bool supportsDevice(const MTL::Device*)`
-    pub fn supports_device(device: &mtl::Device) -> bool {
+    pub fn supports_device(device: &mtl_gpu::Device) -> bool {
         unsafe {
             let class = match mtl_sys::Class::get("MTLFXSpatialScalerDescriptor") {
                 Some(c) => c,
@@ -228,12 +228,12 @@ impl SpatialScaler {
     // ========== Texture Usage ==========
 
     /// Get the required texture usage for the color texture.
-    pub fn color_texture_usage(&self) -> mtl::TextureUsage {
+    pub fn color_texture_usage(&self) -> mtl_gpu::TextureUsage {
         unsafe { msg_send_0(self.as_ptr(), sel!(colorTextureUsage)) }
     }
 
     /// Get the required texture usage for the output texture.
-    pub fn output_texture_usage(&self) -> mtl::TextureUsage {
+    pub fn output_texture_usage(&self) -> mtl_gpu::TextureUsage {
         unsafe { msg_send_0(self.as_ptr(), sel!(outputTextureUsage)) }
     }
 
@@ -266,30 +266,30 @@ impl SpatialScaler {
     // ========== Textures ==========
 
     /// Get the color texture.
-    pub fn color_texture(&self) -> Option<mtl::Texture> {
+    pub fn color_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(colorTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the color texture.
-    pub fn set_color_texture(&self, texture: &mtl::Texture) {
+    pub fn set_color_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setColorTexture:), texture.as_ptr());
         }
     }
 
     /// Get the output texture.
-    pub fn output_texture(&self) -> Option<mtl::Texture> {
+    pub fn output_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(outputTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the output texture.
-    pub fn set_output_texture(&self, texture: &mtl::Texture) {
+    pub fn set_output_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setOutputTexture:), texture.as_ptr());
         }
@@ -298,12 +298,12 @@ impl SpatialScaler {
     // ========== Read-Only Properties ==========
 
     /// Get the color texture format.
-    pub fn color_texture_format(&self) -> mtl::PixelFormat {
+    pub fn color_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(colorTextureFormat)) }
     }
 
     /// Get the output texture format.
-    pub fn output_texture_format(&self) -> mtl::PixelFormat {
+    pub fn output_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(outputTextureFormat)) }
     }
 
@@ -335,15 +335,15 @@ impl SpatialScaler {
     // ========== Fence ==========
 
     /// Get the fence.
-    pub fn fence(&self) -> Option<mtl::Fence> {
+    pub fn fence(&self) -> Option<mtl_gpu::Fence> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(fence));
-            mtl::Fence::from_raw(ptr)
+            mtl_gpu::Fence::from_raw(ptr)
         }
     }
 
     /// Set the fence.
-    pub fn set_fence(&self, fence: &mtl::Fence) {
+    pub fn set_fence(&self, fence: &mtl_gpu::Fence) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setFence:), fence.as_ptr());
         }
@@ -354,7 +354,7 @@ impl SpatialScaler {
     /// Encode the scaling operation to a command buffer.
     ///
     /// C++ equivalent: `void encodeToCommandBuffer(MTL::CommandBuffer*)`
-    pub fn encode_to_command_buffer(&self, command_buffer: &mtl::CommandBuffer) {
+    pub fn encode_to_command_buffer(&self, command_buffer: &mtl_gpu::CommandBuffer) {
         unsafe {
             let _: () = msg_send_1(
                 self.as_ptr(),
@@ -369,7 +369,7 @@ impl SpatialScaler {
     /// C++ equivalent: `void encodeToCommandBuffer(MTL4::CommandBuffer*)`
     ///
     /// This is the MTL4FX variant that works with Metal 4 command buffers.
-    pub fn encode_to_mtl4_command_buffer(&self, command_buffer: &mtl::mtl4::CommandBuffer) {
+    pub fn encode_to_mtl4_command_buffer(&self, command_buffer: &mtl_gpu::mtl4::CommandBuffer) {
         unsafe {
             let _: () = msg_send_1(
                 self.as_ptr(),

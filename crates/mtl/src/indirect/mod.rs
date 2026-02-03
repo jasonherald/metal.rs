@@ -8,7 +8,7 @@
 //! # Example
 //!
 //! ```ignore
-//! use mtl::{device, IndirectCommandBufferDescriptor, IndirectCommandType};
+//! use mtl_gpu::{device, IndirectCommandBufferDescriptor, IndirectCommandType};
 //!
 //! let device = device::system_default().expect("no Metal device");
 //!

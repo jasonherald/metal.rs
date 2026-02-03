@@ -14,7 +14,7 @@
 //! Note: Metal 4 requires macOS 15+ or iOS 18+. This example will
 //! gracefully exit on older systems.
 
-use mtl::device;
+use mtl_gpu::device;
 
 fn main() {
     println!("Metal 4 Introduction Example");
@@ -84,7 +84,7 @@ fn main() {
     let mtl4_device = mtl4_queue.device().expect("Queue should have device");
 
     // Create command allocator descriptor with custom settings
-    let alloc_desc = mtl::mtl4::CommandAllocatorDescriptor::new()
+    let alloc_desc = mtl_gpu::mtl4::CommandAllocatorDescriptor::new()
         .expect("Failed to create allocator descriptor");
     alloc_desc.set_label("Example Allocator");
 
@@ -103,7 +103,7 @@ fn main() {
     println!("\n--- Part 4: Command Queue with Descriptor ---");
 
     let queue_desc =
-        mtl::mtl4::CommandQueueDescriptor::new().expect("Failed to create queue descriptor");
+        mtl_gpu::mtl4::CommandQueueDescriptor::new().expect("Failed to create queue descriptor");
     queue_desc.set_label("Custom MTL4 Queue");
 
     let custom_queue = device

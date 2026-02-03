@@ -14,7 +14,7 @@ edition = "2024"
 authors = ["Jason Herald <jason.herald@gmail.com>"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/jasonherald/metal.rs"
-documentation = "https://jasonherald.github.io/metal.rs/mtl/"
+documentation = "https://jasonherald.github.io/metal.rs/mtl_gpu/"
 rust-version = "1.85"
 keywords = ["metal", "gpu", "graphics", "apple", "macos"]
 categories = ["api-bindings", "rendering", "graphics"]
@@ -22,7 +22,7 @@ categories = ["api-bindings", "rendering", "graphics"]
 [workspace.dependencies]
 mtl-sys = { path = "crates/mtl-sys", version = "1.0.0" }
 mtl-foundation = { path = "crates/mtl-foundation", version = "1.0.0" }
-mtl = { path = "crates/mtl", version = "1.0.0" }
+mtl-gpu = { path = "crates/mtl", version = "1.0.0" }
 mtl-fx = { path = "crates/mtl-fx", version = "1.0.0" }
 mtl-quartz-core = { path = "crates/mtl-quartz-core", version = "1.0.0" }
 

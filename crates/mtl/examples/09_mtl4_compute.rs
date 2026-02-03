@@ -18,7 +18,7 @@
 //! Note: Metal 4 requires macOS 15+ or iOS 18+. This example will
 //! gracefully exit on older systems.
 
-use mtl::{ComputeCommandEncoder, ComputePipelineState, ResourceOptions, Size, device, mtl4};
+use mtl_gpu::{ComputeCommandEncoder, ComputePipelineState, ResourceOptions, Size, device, mtl4};
 
 /// Metal Shading Language (MSL) source code for our compute kernel.
 /// This kernel adds two arrays element-wise: output[i] = a[i] + b[i]

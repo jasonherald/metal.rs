@@ -17,6 +17,6 @@ default = []
 [dependencies]
 mtl-sys.workspace = true
 mtl-foundation.workspace = true
-mtl.workspace = true
+mtl-gpu.workspace = true
 
 [dev-dependencies]

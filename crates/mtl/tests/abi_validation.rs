@@ -11,7 +11,7 @@
 
 use std::mem::{offset_of, size_of};
 
-use mtl::{
+use mtl_gpu::{
     ClearColor, DispatchThreadgroupsIndirectArguments, DispatchThreadsIndirectArguments,
     DrawIndexedPrimitivesIndirectArguments, DrawPatchIndirectArguments,
     DrawPrimitivesIndirectArguments, Origin, Region, ResourceID, SamplePosition, ScissorRect, Size,

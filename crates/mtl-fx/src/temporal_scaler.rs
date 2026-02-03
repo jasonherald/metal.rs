@@ -47,60 +47,60 @@ impl TemporalScalerDescriptor {
     // ========== Texture Formats ==========
 
     /// Get the color texture format.
-    pub fn color_texture_format(&self) -> mtl::PixelFormat {
+    pub fn color_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(colorTextureFormat)) }
     }
 
     /// Set the color texture format.
-    pub fn set_color_texture_format(&self, format: mtl::PixelFormat) {
+    pub fn set_color_texture_format(&self, format: mtl_gpu::PixelFormat) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setColorTextureFormat:), format);
         }
     }
 
     /// Get the depth texture format.
-    pub fn depth_texture_format(&self) -> mtl::PixelFormat {
+    pub fn depth_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(depthTextureFormat)) }
     }
 
     /// Set the depth texture format.
-    pub fn set_depth_texture_format(&self, format: mtl::PixelFormat) {
+    pub fn set_depth_texture_format(&self, format: mtl_gpu::PixelFormat) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setDepthTextureFormat:), format);
         }
     }
 
     /// Get the motion texture format.
-    pub fn motion_texture_format(&self) -> mtl::PixelFormat {
+    pub fn motion_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(motionTextureFormat)) }
     }
 
     /// Set the motion texture format.
-    pub fn set_motion_texture_format(&self, format: mtl::PixelFormat) {
+    pub fn set_motion_texture_format(&self, format: mtl_gpu::PixelFormat) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setMotionTextureFormat:), format);
         }
     }
 
     /// Get the output texture format.
-    pub fn output_texture_format(&self) -> mtl::PixelFormat {
+    pub fn output_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(outputTextureFormat)) }
     }
 
     /// Set the output texture format.
-    pub fn set_output_texture_format(&self, format: mtl::PixelFormat) {
+    pub fn set_output_texture_format(&self, format: mtl_gpu::PixelFormat) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setOutputTextureFormat:), format);
         }
     }
 
     /// Get the reactive mask texture format.
-    pub fn reactive_mask_texture_format(&self) -> mtl::PixelFormat {
+    pub fn reactive_mask_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(reactiveMaskTextureFormat)) }
     }
 
     /// Set the reactive mask texture format.
-    pub fn set_reactive_mask_texture_format(&self, format: mtl::PixelFormat) {
+    pub fn set_reactive_mask_texture_format(&self, format: mtl_gpu::PixelFormat) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setReactiveMaskTextureFormat:), format);
         }
@@ -243,7 +243,7 @@ impl TemporalScalerDescriptor {
     // ========== Factory Methods ==========
 
     /// Create a new temporal scaler.
-    pub fn new_temporal_scaler(&self, device: &mtl::Device) -> Option<TemporalScaler> {
+    pub fn new_temporal_scaler(&self, device: &mtl_gpu::Device) -> Option<TemporalScaler> {
         unsafe {
             let ptr: *mut c_void = msg_send_1(
                 self.as_ptr(),
@@ -257,7 +257,7 @@ impl TemporalScalerDescriptor {
     // ========== Static Methods ==========
 
     /// Check if a device supports temporal scaling.
-    pub fn supports_device(device: &mtl::Device) -> bool {
+    pub fn supports_device(device: &mtl_gpu::Device) -> bool {
         unsafe {
             let class = match mtl_sys::Class::get("MTLFXTemporalScalerDescriptor") {
                 Some(c) => c,
@@ -324,27 +324,27 @@ impl TemporalScaler {
     // ========== Texture Usage ==========
 
     /// Get the required texture usage for the color texture.
-    pub fn color_texture_usage(&self) -> mtl::TextureUsage {
+    pub fn color_texture_usage(&self) -> mtl_gpu::TextureUsage {
         unsafe { msg_send_0(self.as_ptr(), sel!(colorTextureUsage)) }
     }
 
     /// Get the required texture usage for the depth texture.
-    pub fn depth_texture_usage(&self) -> mtl::TextureUsage {
+    pub fn depth_texture_usage(&self) -> mtl_gpu::TextureUsage {
         unsafe { msg_send_0(self.as_ptr(), sel!(depthTextureUsage)) }
     }
 
     /// Get the required texture usage for the motion texture.
-    pub fn motion_texture_usage(&self) -> mtl::TextureUsage {
+    pub fn motion_texture_usage(&self) -> mtl_gpu::TextureUsage {
         unsafe { msg_send_0(self.as_ptr(), sel!(motionTextureUsage)) }
     }
 
     /// Get the required texture usage for the output texture.
-    pub fn output_texture_usage(&self) -> mtl::TextureUsage {
+    pub fn output_texture_usage(&self) -> mtl_gpu::TextureUsage {
         unsafe { msg_send_0(self.as_ptr(), sel!(outputTextureUsage)) }
     }
 
     /// Get the required texture usage for the reactive mask texture.
-    pub fn reactive_texture_usage(&self) -> mtl::TextureUsage {
+    pub fn reactive_texture_usage(&self) -> mtl_gpu::TextureUsage {
         unsafe { msg_send_0(self.as_ptr(), sel!(reactiveTextureUsage)) }
     }
 
@@ -377,90 +377,90 @@ impl TemporalScaler {
     // ========== Textures ==========
 
     /// Get the color texture.
-    pub fn color_texture(&self) -> Option<mtl::Texture> {
+    pub fn color_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(colorTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the color texture.
-    pub fn set_color_texture(&self, texture: &mtl::Texture) {
+    pub fn set_color_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setColorTexture:), texture.as_ptr());
         }
     }
 
     /// Get the depth texture.
-    pub fn depth_texture(&self) -> Option<mtl::Texture> {
+    pub fn depth_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(depthTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the depth texture.
-    pub fn set_depth_texture(&self, texture: &mtl::Texture) {
+    pub fn set_depth_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setDepthTexture:), texture.as_ptr());
         }
     }
 
     /// Get the motion texture.
-    pub fn motion_texture(&self) -> Option<mtl::Texture> {
+    pub fn motion_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(motionTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the motion texture.
-    pub fn set_motion_texture(&self, texture: &mtl::Texture) {
+    pub fn set_motion_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setMotionTexture:), texture.as_ptr());
         }
     }
 
     /// Get the output texture.
-    pub fn output_texture(&self) -> Option<mtl::Texture> {
+    pub fn output_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(outputTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the output texture.
-    pub fn set_output_texture(&self, texture: &mtl::Texture) {
+    pub fn set_output_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setOutputTexture:), texture.as_ptr());
         }
     }
 
     /// Get the exposure texture.
-    pub fn exposure_texture(&self) -> Option<mtl::Texture> {
+    pub fn exposure_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(exposureTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the exposure texture.
-    pub fn set_exposure_texture(&self, texture: &mtl::Texture) {
+    pub fn set_exposure_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setExposureTexture:), texture.as_ptr());
         }
     }
 
     /// Get the reactive mask texture.
-    pub fn reactive_mask_texture(&self) -> Option<mtl::Texture> {
+    pub fn reactive_mask_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(reactiveMaskTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the reactive mask texture.
-    pub fn set_reactive_mask_texture(&self, texture: &mtl::Texture) {
+    pub fn set_reactive_mask_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(
                 self.as_ptr(),
@@ -565,27 +565,27 @@ impl TemporalScaler {
     // ========== Read-Only Properties ==========
 
     /// Get the color texture format.
-    pub fn color_texture_format(&self) -> mtl::PixelFormat {
+    pub fn color_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(colorTextureFormat)) }
     }
 
     /// Get the depth texture format.
-    pub fn depth_texture_format(&self) -> mtl::PixelFormat {
+    pub fn depth_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(depthTextureFormat)) }
     }
 
     /// Get the motion texture format.
-    pub fn motion_texture_format(&self) -> mtl::PixelFormat {
+    pub fn motion_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(motionTextureFormat)) }
     }
 
     /// Get the reactive texture format.
-    pub fn reactive_texture_format(&self) -> mtl::PixelFormat {
+    pub fn reactive_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(reactiveTextureFormat)) }
     }
 
     /// Get the output texture format.
-    pub fn output_texture_format(&self) -> mtl::PixelFormat {
+    pub fn output_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(outputTextureFormat)) }
     }
 
@@ -622,15 +622,15 @@ impl TemporalScaler {
     // ========== Fence ==========
 
     /// Get the fence.
-    pub fn fence(&self) -> Option<mtl::Fence> {
+    pub fn fence(&self) -> Option<mtl_gpu::Fence> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(fence));
-            mtl::Fence::from_raw(ptr)
+            mtl_gpu::Fence::from_raw(ptr)
         }
     }
 
     /// Set the fence.
-    pub fn set_fence(&self, fence: &mtl::Fence) {
+    pub fn set_fence(&self, fence: &mtl_gpu::Fence) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setFence:), fence.as_ptr());
         }
@@ -639,7 +639,7 @@ impl TemporalScaler {
     // ========== Encoding ==========
 
     /// Encode the scaling operation to a command buffer.
-    pub fn encode_to_command_buffer(&self, command_buffer: &mtl::CommandBuffer) {
+    pub fn encode_to_command_buffer(&self, command_buffer: &mtl_gpu::CommandBuffer) {
         unsafe {
             let _: () = msg_send_1(
                 self.as_ptr(),
@@ -654,7 +654,7 @@ impl TemporalScaler {
     /// C++ equivalent: `void encodeToCommandBuffer(MTL4::CommandBuffer*)`
     ///
     /// This is the MTL4FX variant that works with Metal 4 command buffers.
-    pub fn encode_to_mtl4_command_buffer(&self, command_buffer: &mtl::mtl4::CommandBuffer) {
+    pub fn encode_to_mtl4_command_buffer(&self, command_buffer: &mtl_gpu::mtl4::CommandBuffer) {
         unsafe {
             let _: () = msg_send_1(
                 self.as_ptr(),

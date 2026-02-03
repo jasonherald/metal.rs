@@ -13,7 +13,7 @@
 //! Note: Metal 4 requires macOS 15+ or iOS 18+. This example will
 //! gracefully exit on older systems.
 
-use mtl::device;
+use mtl_gpu::device;
 
 fn main() {
     println!("Metal 4 Compiler and Counter Heap Example");
@@ -61,7 +61,7 @@ fn main() {
     println!("\n--- Part 2: Command Allocator Management ---");
 
     // Create allocator with descriptor for more control
-    let alloc_desc = mtl::mtl4::CommandAllocatorDescriptor::new()
+    let alloc_desc = mtl_gpu::mtl4::CommandAllocatorDescriptor::new()
         .expect("Failed to create allocator descriptor");
     alloc_desc.set_label("Example Allocator");
 
@@ -85,7 +85,7 @@ fn main() {
 
     // Create compiler descriptor
     let compiler_desc =
-        mtl::mtl4::CompilerDescriptor::new().expect("Failed to create compiler descriptor");
+        mtl_gpu::mtl4::CompilerDescriptor::new().expect("Failed to create compiler descriptor");
     compiler_desc.set_label("Example Compiler");
 
     match device.new_compiler(&compiler_desc) {
@@ -112,16 +112,16 @@ fn main() {
 
     // Check counter heap entry size
     let timestamp_entry_size =
-        device.size_of_counter_heap_entry(mtl::mtl4::CounterHeapType::TIMESTAMP);
+        device.size_of_counter_heap_entry(mtl_gpu::mtl4::CounterHeapType::TIMESTAMP);
     println!(
         "Timestamp counter heap entry size: {} bytes",
         timestamp_entry_size
     );
 
     // Create a counter heap for timestamps
-    let counter_heap_desc = mtl::mtl4::CounterHeapDescriptor::new()
+    let counter_heap_desc = mtl_gpu::mtl4::CounterHeapDescriptor::new()
         .expect("Failed to create counter heap descriptor");
-    counter_heap_desc.set_heap_type(mtl::mtl4::CounterHeapType::TIMESTAMP);
+    counter_heap_desc.set_heap_type(mtl_gpu::mtl4::CounterHeapType::TIMESTAMP);
     counter_heap_desc.set_count(1024); // 1024 entries
 
     match device.new_counter_heap(&counter_heap_desc) {

@@ -3,18 +3,18 @@
 //! These tests verify that blit operations work correctly with the Metal GPU.
 //! They test buffer copies, texture copies, fill operations, and synchronization.
 
-use mtl::{
+use mtl_gpu::{
     BlitCommandEncoder, Origin, PixelFormat, Region, ResourceOptions, Size, StorageMode,
     TextureDescriptor, TextureUsage, device,
 };
 
 /// Get the default Metal device or skip the test.
-fn get_device() -> mtl::Device {
+fn get_device() -> mtl_gpu::Device {
     device::system_default().expect("No Metal device available")
 }
 
 /// Helper to create a blit encoder from a command buffer.
-fn create_blit_encoder(command_buffer: &mtl::CommandBuffer) -> BlitCommandEncoder {
+fn create_blit_encoder(command_buffer: &mtl_gpu::CommandBuffer) -> BlitCommandEncoder {
     let encoder_ptr = command_buffer.blit_command_encoder();
     unsafe { BlitCommandEncoder::from_raw(encoder_ptr) }.expect("Failed to create blit encoder")
 }

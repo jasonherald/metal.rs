@@ -18,7 +18,7 @@
 //!
 //! ```ignore
 //! use metal_fx::{SpatialScalerDescriptor, SpatialScalerColorProcessingMode};
-//! use mtl::PixelFormat;
+//! use mtl_gpu::PixelFormat;
 //!
 //! // Create a spatial scaler descriptor
 //! let desc = SpatialScalerDescriptor::new().expect("failed to create descriptor");

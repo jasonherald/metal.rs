@@ -16,7 +16,7 @@
 //! Note: Metal 4 requires macOS 15+ or iOS 18+. This example will
 //! gracefully exit on older systems.
 
-use mtl::{ResourceOptions, device, mtl4};
+use mtl_gpu::{ResourceOptions, device, mtl4};
 
 fn main() {
     println!("Metal 4 ArgumentTable Example");

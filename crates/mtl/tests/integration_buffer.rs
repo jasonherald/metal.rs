@@ -3,10 +3,10 @@
 //! These tests verify that buffer operations work correctly with the Metal GPU.
 //! They test real GPU operations, not just struct layouts or selector existence.
 
-use mtl::{ResourceOptions, device};
+use mtl_gpu::{ResourceOptions, device};
 
 /// Get the default Metal device or skip the test.
-fn get_device() -> mtl::Device {
+fn get_device() -> mtl_gpu::Device {
     device::system_default().expect("No Metal device available")
 }
 

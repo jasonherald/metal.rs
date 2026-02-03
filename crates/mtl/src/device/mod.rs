@@ -9,7 +9,7 @@
 //! # Example
 //!
 //! ```ignore
-//! use mtl::device;
+//! use mtl_gpu::device;
 //!
 //! // Get the default GPU
 //! let device = device::system_default().expect("no Metal device");

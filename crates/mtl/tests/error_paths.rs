@@ -6,14 +6,14 @@
 //! - Resource creation failures are reported correctly
 //! - Command buffer errors are captured properly
 
-use mtl::{
+use mtl_gpu::{
     PixelFormat, ResourceOptions, StorageMode, TextureDescriptor, TextureUsage, ValidationError,
     device,
 };
 use mtl_foundation::Referencing;
 
 /// Get the default Metal device or skip the test.
-fn get_device() -> mtl::Device {
+fn get_device() -> mtl_gpu::Device {
     device::system_default().expect("No Metal device available")
 }
 
@@ -166,7 +166,7 @@ fn test_render_pipeline_missing_vertex_function() {
     let device = get_device();
 
     // Create a render pipeline descriptor without setting vertex function
-    let desc = mtl::RenderPipelineDescriptor::new().expect("Failed to create descriptor");
+    let desc = mtl_gpu::RenderPipelineDescriptor::new().expect("Failed to create descriptor");
 
     // Don't set vertex function - leave it as None
     desc.set_vertex_function(None);
@@ -197,7 +197,7 @@ fn test_render_pipeline_missing_vertex_function_unsafe() {
     // This test documents that the unsafe method WILL abort the process.
     // Use new_render_pipeline_state_with_descriptor() instead for safe behavior.
     let device = get_device();
-    let desc = mtl::RenderPipelineDescriptor::new().expect("Failed to create descriptor");
+    let desc = mtl_gpu::RenderPipelineDescriptor::new().expect("Failed to create descriptor");
     desc.set_vertex_function(None);
     let result = unsafe { device.new_render_pipeline_state(desc.as_ptr()) };
     assert!(result.is_err());
@@ -306,7 +306,7 @@ fn test_command_buffer_status_transitions() {
     let status = cmd_buffer.status();
     assert_eq!(
         status,
-        mtl::CommandBufferStatus::NOT_ENQUEUED,
+        mtl_gpu::CommandBufferStatus::NOT_ENQUEUED,
         "Initial status should be NotEnqueued"
     );
 
@@ -319,7 +319,7 @@ fn test_command_buffer_status_transitions() {
     let final_status = cmd_buffer.status();
     assert_eq!(
         final_status,
-        mtl::CommandBufferStatus::COMPLETED,
+        mtl_gpu::CommandBufferStatus::COMPLETED,
         "Final status should be Completed"
     );
 
@@ -438,7 +438,7 @@ fn test_heap_insufficient_size() {
     let device = get_device();
 
     // Create a small heap
-    let heap_desc = mtl::HeapDescriptor::new().expect("Failed to create heap descriptor");
+    let heap_desc = mtl_gpu::HeapDescriptor::new().expect("Failed to create heap descriptor");
     heap_desc.set_size(1024); // Very small heap
     heap_desc.set_storage_mode(StorageMode::PRIVATE);
 
@@ -469,7 +469,7 @@ fn test_compute_encoder_without_pipeline() {
         .expect("Failed to create command buffer");
 
     let encoder_ptr = cmd_buffer.compute_command_encoder();
-    let encoder = unsafe { mtl::ComputeCommandEncoder::from_raw(encoder_ptr) }
+    let encoder = unsafe { mtl_gpu::ComputeCommandEncoder::from_raw(encoder_ptr) }
         .expect("Failed to create encoder");
 
     // Don't set a pipeline state
@@ -480,7 +480,7 @@ fn test_compute_encoder_without_pipeline() {
     cmd_buffer.commit();
     cmd_buffer.wait_until_completed();
 
-    assert_eq!(cmd_buffer.status(), mtl::CommandBufferStatus::COMPLETED);
+    assert_eq!(cmd_buffer.status(), mtl_gpu::CommandBufferStatus::COMPLETED);
 }
 
 // =============================================================================
@@ -504,7 +504,7 @@ fn test_fill_buffer_with_various_values() {
             .command_buffer()
             .expect("Failed to create command buffer");
         let encoder_ptr = cmd_buffer.blit_command_encoder();
-        let encoder = unsafe { mtl::BlitCommandEncoder::from_raw(encoder_ptr) }
+        let encoder = unsafe { mtl_gpu::BlitCommandEncoder::from_raw(encoder_ptr) }
             .expect("Failed to create encoder");
 
         encoder.fill_buffer(&buffer, 0, 256, value);
@@ -575,7 +575,7 @@ fn test_multiple_command_buffers_sequential() {
 
         assert_eq!(
             cmd_buffer.status(),
-            mtl::CommandBufferStatus::COMPLETED,
+            mtl_gpu::CommandBufferStatus::COMPLETED,
             "Command buffer {} should complete successfully",
             i
         );
@@ -607,7 +607,7 @@ fn test_multiple_command_buffers_batch_commit() {
         buffer.wait_until_completed();
         assert_eq!(
             buffer.status(),
-            mtl::CommandBufferStatus::COMPLETED,
+            mtl_gpu::CommandBufferStatus::COMPLETED,
             "Batch buffer {} should complete successfully",
             i
         );
@@ -649,7 +649,7 @@ fn test_texture_invalid_mipmap_count() {
 fn test_sampler_invalid_lod_range() {
     let device = get_device();
 
-    let desc = mtl::SamplerDescriptor::new().expect("Failed to create descriptor");
+    let desc = mtl_gpu::SamplerDescriptor::new().expect("Failed to create descriptor");
 
     // Set invalid LOD range (min > max)
     desc.set_lod_min_clamp(10.0);
@@ -671,7 +671,7 @@ fn test_sampler_invalid_lod_range() {
 fn test_sampler_invalid_anisotropy() {
     let device = get_device();
 
-    let desc = mtl::SamplerDescriptor::new().expect("Failed to create descriptor");
+    let desc = mtl_gpu::SamplerDescriptor::new().expect("Failed to create descriptor");
 
     // Set invalid anisotropy (not a power of 2)
     desc.set_max_anisotropy(3);
@@ -692,7 +692,7 @@ fn test_sampler_invalid_anisotropy() {
 fn test_heap_zero_size() {
     let device = get_device();
 
-    let desc = mtl::HeapDescriptor::new().expect("Failed to create descriptor");
+    let desc = mtl_gpu::HeapDescriptor::new().expect("Failed to create descriptor");
     desc.set_size(0);
     desc.set_storage_mode(StorageMode::PRIVATE);
 
@@ -732,7 +732,7 @@ fn test_valid_texture_creation() {
 fn test_valid_sampler_creation() {
     let device = get_device();
 
-    let desc = mtl::SamplerDescriptor::new().expect("Failed to create descriptor");
+    let desc = mtl_gpu::SamplerDescriptor::new().expect("Failed to create descriptor");
     desc.set_lod_min_clamp(0.0);
     desc.set_lod_max_clamp(1000.0);
     desc.set_max_anisotropy(16); // Power of 2
@@ -748,7 +748,7 @@ fn test_valid_sampler_creation() {
 fn test_valid_heap_creation() {
     let device = get_device();
 
-    let desc = mtl::HeapDescriptor::new().expect("Failed to create descriptor");
+    let desc = mtl_gpu::HeapDescriptor::new().expect("Failed to create descriptor");
     desc.set_size(1024 * 1024); // 1 MB
     desc.set_storage_mode(StorageMode::PRIVATE);
 

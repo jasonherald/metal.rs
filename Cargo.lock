@@ -3,14 +3,6 @@
 version = 4
 
 [[package]]
-name = "mtl"
-version = "1.0.0"
-dependencies = [
- "mtl-foundation",
- "mtl-sys",
-]
-
-[[package]]
 name = "mtl-foundation"
 version = "1.0.0"
 dependencies = [
@@ -21,7 +13,15 @@ dependencies = [
 name = "mtl-fx"
 version = "1.0.0"
 dependencies = [
- "mtl",
+ "mtl-foundation",
+ "mtl-gpu",
+ "mtl-sys",
+]
+
+[[package]]
+name = "mtl-gpu"
+version = "1.0.0"
+dependencies = [
  "mtl-foundation",
  "mtl-sys",
 ]
@@ -30,8 +30,8 @@ dependencies = [
 name = "mtl-quartz-core"
 version = "1.0.0"
 dependencies = [
- "mtl",
  "mtl-foundation",
+ "mtl-gpu",
  "mtl-sys",
 ]
 

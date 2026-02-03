@@ -10,7 +10,7 @@
 //!
 //! Run with: cargo run --example 02_buffer_compute
 
-use mtl::{ComputeCommandEncoder, ComputePipelineState, ResourceOptions, Size, device};
+use mtl_gpu::{ComputeCommandEncoder, ComputePipelineState, ResourceOptions, Size, device};
 
 /// Metal Shading Language (MSL) source code for our compute kernel.
 /// This kernel multiplies each element in the buffer by 2.

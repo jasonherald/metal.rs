@@ -3,10 +3,10 @@
 //! These tests verify that compute pipeline operations work correctly with the Metal GPU.
 //! They test real GPU operations including shader compilation, pipeline creation, and dispatch.
 
-use mtl::{ComputeCommandEncoder, ComputePipelineState, ResourceOptions, Size, device};
+use mtl_gpu::{ComputeCommandEncoder, ComputePipelineState, ResourceOptions, Size, device};
 
 /// Get the default Metal device or skip the test.
-fn get_device() -> mtl::Device {
+fn get_device() -> mtl_gpu::Device {
     device::system_default().expect("No Metal device available")
 }
 

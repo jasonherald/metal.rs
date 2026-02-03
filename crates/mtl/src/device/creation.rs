@@ -31,7 +31,7 @@ pub type Timestamp = u64;
 /// # Example
 ///
 /// ```ignore
-/// use mtl::device;
+/// use mtl_gpu::device;
 ///
 /// let device = device::system_default().expect("no Metal device available");
 /// println!("GPU: {}", device.name());
@@ -55,7 +55,7 @@ pub fn system_default() -> Option<Device> {
 /// # Example
 ///
 /// ```ignore
-/// use mtl::device;
+/// use mtl_gpu::device;
 ///
 /// let devices = device::copy_all_devices();
 /// for device in devices {
@@ -125,7 +125,7 @@ impl DeviceObserver {
 /// # Example
 ///
 /// ```ignore
-/// use mtl::device;
+/// use mtl_gpu::device;
 ///
 /// let (devices, observer) = device::copy_all_devices_with_observer(|device, notification| {
 ///     println!("Device event: {:?}", notification);

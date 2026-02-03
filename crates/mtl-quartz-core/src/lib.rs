@@ -13,7 +13,7 @@
 //!
 //! ```ignore
 //! use quartz_core::MetalLayer;
-//! use mtl::device;
+//! use mtl_gpu::device;
 //!
 //! // Create a Metal layer
 //! let layer = MetalLayer::layer().expect("failed to create layer");

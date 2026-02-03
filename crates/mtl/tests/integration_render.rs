@@ -3,10 +3,10 @@
 //! These tests verify that render pipeline operations work correctly with the Metal GPU.
 //! They test real GPU operations including shader compilation, pipeline creation, and state.
 
-use mtl::{PixelFormat, RenderPipelineDescriptor, device};
+use mtl_gpu::{PixelFormat, RenderPipelineDescriptor, device};
 
 /// Get the default Metal device or skip the test.
-fn get_device() -> mtl::Device {
+fn get_device() -> mtl_gpu::Device {
     device::system_default().expect("No Metal device available")
 }
 
@@ -178,7 +178,7 @@ fn test_render_pipeline_missing_vertex_function() {
 
     // Verify we get the right error type
     match result {
-        Err(mtl::ValidationError::MissingVertexFunction) => (),
+        Err(mtl_gpu::ValidationError::MissingVertexFunction) => (),
         Err(e) => panic!("Expected MissingVertexFunction error, got: {:?}", e),
         Ok(_) => panic!("Expected error but got success"),
     }
@@ -357,7 +357,7 @@ fn test_render_pipeline_descriptor_size() {
 #[test]
 fn test_render_pipeline_state_size() {
     assert_eq!(
-        std::mem::size_of::<mtl::RenderPipelineState>(),
+        std::mem::size_of::<mtl_gpu::RenderPipelineState>(),
         std::mem::size_of::<*mut std::ffi::c_void>()
     );
 }

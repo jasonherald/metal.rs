@@ -47,60 +47,60 @@ impl FrameInterpolatorDescriptor {
     // ========== Texture Formats ==========
 
     /// Get the color texture format.
-    pub fn color_texture_format(&self) -> mtl::PixelFormat {
+    pub fn color_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(colorTextureFormat)) }
     }
 
     /// Set the color texture format.
-    pub fn set_color_texture_format(&self, format: mtl::PixelFormat) {
+    pub fn set_color_texture_format(&self, format: mtl_gpu::PixelFormat) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setColorTextureFormat:), format);
         }
     }
 
     /// Get the output texture format.
-    pub fn output_texture_format(&self) -> mtl::PixelFormat {
+    pub fn output_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(outputTextureFormat)) }
     }
 
     /// Set the output texture format.
-    pub fn set_output_texture_format(&self, format: mtl::PixelFormat) {
+    pub fn set_output_texture_format(&self, format: mtl_gpu::PixelFormat) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setOutputTextureFormat:), format);
         }
     }
 
     /// Get the depth texture format.
-    pub fn depth_texture_format(&self) -> mtl::PixelFormat {
+    pub fn depth_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(depthTextureFormat)) }
     }
 
     /// Set the depth texture format.
-    pub fn set_depth_texture_format(&self, format: mtl::PixelFormat) {
+    pub fn set_depth_texture_format(&self, format: mtl_gpu::PixelFormat) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setDepthTextureFormat:), format);
         }
     }
 
     /// Get the motion texture format.
-    pub fn motion_texture_format(&self) -> mtl::PixelFormat {
+    pub fn motion_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(motionTextureFormat)) }
     }
 
     /// Set the motion texture format.
-    pub fn set_motion_texture_format(&self, format: mtl::PixelFormat) {
+    pub fn set_motion_texture_format(&self, format: mtl_gpu::PixelFormat) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setMotionTextureFormat:), format);
         }
     }
 
     /// Get the UI texture format.
-    pub fn ui_texture_format(&self) -> mtl::PixelFormat {
+    pub fn ui_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(uiTextureFormat)) }
     }
 
     /// Set the UI texture format.
-    pub fn set_ui_texture_format(&self, format: mtl::PixelFormat) {
+    pub fn set_ui_texture_format(&self, format: mtl_gpu::PixelFormat) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setUITextureFormat:), format);
         }
@@ -185,7 +185,7 @@ impl FrameInterpolatorDescriptor {
     // ========== Factory Methods ==========
 
     /// Create a new frame interpolator.
-    pub fn new_frame_interpolator(&self, device: &mtl::Device) -> Option<FrameInterpolator> {
+    pub fn new_frame_interpolator(&self, device: &mtl_gpu::Device) -> Option<FrameInterpolator> {
         unsafe {
             let ptr: *mut c_void = msg_send_1(
                 self.as_ptr(),
@@ -199,7 +199,7 @@ impl FrameInterpolatorDescriptor {
     // ========== Static Methods ==========
 
     /// Check if a device supports frame interpolation.
-    pub fn supports_device(device: &mtl::Device) -> bool {
+    pub fn supports_device(device: &mtl_gpu::Device) -> bool {
         unsafe {
             let class = match mtl_sys::Class::get("MTLFXFrameInterpolatorDescriptor") {
                 Some(c) => c,
@@ -266,54 +266,54 @@ impl FrameInterpolator {
     // ========== Texture Usage ==========
 
     /// Get the required texture usage for the color texture.
-    pub fn color_texture_usage(&self) -> mtl::TextureUsage {
+    pub fn color_texture_usage(&self) -> mtl_gpu::TextureUsage {
         unsafe { msg_send_0(self.as_ptr(), sel!(colorTextureUsage)) }
     }
 
     /// Get the required texture usage for the output texture.
-    pub fn output_texture_usage(&self) -> mtl::TextureUsage {
+    pub fn output_texture_usage(&self) -> mtl_gpu::TextureUsage {
         unsafe { msg_send_0(self.as_ptr(), sel!(outputTextureUsage)) }
     }
 
     /// Get the required texture usage for the depth texture.
-    pub fn depth_texture_usage(&self) -> mtl::TextureUsage {
+    pub fn depth_texture_usage(&self) -> mtl_gpu::TextureUsage {
         unsafe { msg_send_0(self.as_ptr(), sel!(depthTextureUsage)) }
     }
 
     /// Get the required texture usage for the motion texture.
-    pub fn motion_texture_usage(&self) -> mtl::TextureUsage {
+    pub fn motion_texture_usage(&self) -> mtl_gpu::TextureUsage {
         unsafe { msg_send_0(self.as_ptr(), sel!(motionTextureUsage)) }
     }
 
     /// Get the required texture usage for the UI texture.
-    pub fn ui_texture_usage(&self) -> mtl::TextureUsage {
+    pub fn ui_texture_usage(&self) -> mtl_gpu::TextureUsage {
         unsafe { msg_send_0(self.as_ptr(), sel!(uiTextureUsage)) }
     }
 
     // ========== Read-Only Format Properties ==========
 
     /// Get the color texture format.
-    pub fn color_texture_format(&self) -> mtl::PixelFormat {
+    pub fn color_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(colorTextureFormat)) }
     }
 
     /// Get the depth texture format.
-    pub fn depth_texture_format(&self) -> mtl::PixelFormat {
+    pub fn depth_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(depthTextureFormat)) }
     }
 
     /// Get the motion texture format.
-    pub fn motion_texture_format(&self) -> mtl::PixelFormat {
+    pub fn motion_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(motionTextureFormat)) }
     }
 
     /// Get the output texture format.
-    pub fn output_texture_format(&self) -> mtl::PixelFormat {
+    pub fn output_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(outputTextureFormat)) }
     }
 
     /// Get the UI texture format.
-    pub fn ui_texture_format(&self) -> mtl::PixelFormat {
+    pub fn ui_texture_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(uiTextureFormat)) }
     }
 
@@ -342,90 +342,90 @@ impl FrameInterpolator {
     // ========== Textures ==========
 
     /// Get the color texture.
-    pub fn color_texture(&self) -> Option<mtl::Texture> {
+    pub fn color_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(colorTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the color texture.
-    pub fn set_color_texture(&self, texture: &mtl::Texture) {
+    pub fn set_color_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setColorTexture:), texture.as_ptr());
         }
     }
 
     /// Get the previous color texture.
-    pub fn prev_color_texture(&self) -> Option<mtl::Texture> {
+    pub fn prev_color_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(prevColorTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the previous color texture.
-    pub fn set_prev_color_texture(&self, texture: &mtl::Texture) {
+    pub fn set_prev_color_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setPrevColorTexture:), texture.as_ptr());
         }
     }
 
     /// Get the depth texture.
-    pub fn depth_texture(&self) -> Option<mtl::Texture> {
+    pub fn depth_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(depthTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the depth texture.
-    pub fn set_depth_texture(&self, texture: &mtl::Texture) {
+    pub fn set_depth_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setDepthTexture:), texture.as_ptr());
         }
     }
 
     /// Get the motion texture.
-    pub fn motion_texture(&self) -> Option<mtl::Texture> {
+    pub fn motion_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(motionTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the motion texture.
-    pub fn set_motion_texture(&self, texture: &mtl::Texture) {
+    pub fn set_motion_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setMotionTexture:), texture.as_ptr());
         }
     }
 
     /// Get the UI texture.
-    pub fn ui_texture(&self) -> Option<mtl::Texture> {
+    pub fn ui_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(uiTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the UI texture.
-    pub fn set_ui_texture(&self, texture: &mtl::Texture) {
+    pub fn set_ui_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setUITexture:), texture.as_ptr());
         }
     }
 
     /// Get the output texture.
-    pub fn output_texture(&self) -> Option<mtl::Texture> {
+    pub fn output_texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(outputTexture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 
     /// Set the output texture.
-    pub fn set_output_texture(&self, texture: &mtl::Texture) {
+    pub fn set_output_texture(&self, texture: &mtl_gpu::Texture) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setOutputTexture:), texture.as_ptr());
         }
@@ -590,15 +590,15 @@ impl FrameInterpolator {
     // ========== Fence ==========
 
     /// Get the fence.
-    pub fn fence(&self) -> Option<mtl::Fence> {
+    pub fn fence(&self) -> Option<mtl_gpu::Fence> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(fence));
-            mtl::Fence::from_raw(ptr)
+            mtl_gpu::Fence::from_raw(ptr)
         }
     }
 
     /// Set the fence.
-    pub fn set_fence(&self, fence: &mtl::Fence) {
+    pub fn set_fence(&self, fence: &mtl_gpu::Fence) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setFence:), fence.as_ptr());
         }
@@ -607,7 +607,7 @@ impl FrameInterpolator {
     // ========== Encoding ==========
 
     /// Encode the frame interpolation operation to a command buffer.
-    pub fn encode_to_command_buffer(&self, command_buffer: &mtl::CommandBuffer) {
+    pub fn encode_to_command_buffer(&self, command_buffer: &mtl_gpu::CommandBuffer) {
         unsafe {
             let _: () = msg_send_1(
                 self.as_ptr(),
@@ -622,7 +622,7 @@ impl FrameInterpolator {
     /// C++ equivalent: `void encodeToCommandBuffer(MTL4::CommandBuffer*)`
     ///
     /// This is the MTL4FX variant that works with Metal 4 command buffers.
-    pub fn encode_to_mtl4_command_buffer(&self, command_buffer: &mtl::mtl4::CommandBuffer) {
+    pub fn encode_to_mtl4_command_buffer(&self, command_buffer: &mtl_gpu::mtl4::CommandBuffer) {
         unsafe {
             let _: () = msg_send_1(
                 self.as_ptr(),

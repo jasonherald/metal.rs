@@ -59,10 +59,10 @@ impl MetalDrawable {
     ///
     /// This is the texture to render into. Once rendering is complete,
     /// call present() to display the content.
-    pub fn texture(&self) -> Option<mtl::Texture> {
+    pub fn texture(&self) -> Option<mtl_gpu::Texture> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(texture));
-            mtl::Texture::from_raw(ptr)
+            mtl_gpu::Texture::from_raw(ptr)
         }
     }
 

@@ -3,10 +3,10 @@
 //! These tests verify that Metal object lifecycle and memory management is correct.
 //! They test retain/release patterns, factory method ownership, and object cloning.
 
-use mtl::{ResourceOptions, device};
+use mtl_gpu::{ResourceOptions, device};
 
 /// Get the default Metal device or skip the test.
-fn get_device() -> mtl::Device {
+fn get_device() -> mtl_gpu::Device {
     device::system_default().expect("No Metal device available")
 }
 

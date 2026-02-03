@@ -8,7 +8,7 @@
 //!
 //! Run with: cargo run --example 04_blit_operations
 
-use mtl::{
+use mtl_gpu::{
     BlitCommandEncoder, Origin, PixelFormat, Region, ResourceOptions, Size, StorageMode,
     TextureDescriptor, TextureUsage, device,
 };

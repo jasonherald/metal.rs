@@ -5,7 +5,7 @@
 use std::ffi::c_void;
 use std::ptr::NonNull;
 
-use mtl::{Device, Fence, PixelFormat, Texture, TextureUsage};
+use mtl_gpu::{Device, Fence, PixelFormat, Texture, TextureUsage};
 use mtl_foundation::{Referencing, UInteger};
 use mtl_sys::{msg_send_0, msg_send_1, msg_send_2, sel};
 
@@ -405,7 +405,7 @@ impl TemporalDenoisedScalerDescriptor {
     pub fn new_mtl4_temporal_denoised_scaler(
         &self,
         device: &Device,
-        compiler: &mtl::mtl4::Compiler,
+        compiler: &mtl_gpu::mtl4::Compiler,
     ) -> Option<TemporalDenoisedScaler> {
         unsafe {
             let ptr: *mut c_void = msg_send_2(
@@ -1055,7 +1055,7 @@ impl TemporalDenoisedScaler {
     // ========== Encoding ==========
 
     /// Encode the scaling operation to a command buffer.
-    pub fn encode_to_command_buffer(&self, command_buffer: &mtl::CommandBuffer) {
+    pub fn encode_to_command_buffer(&self, command_buffer: &mtl_gpu::CommandBuffer) {
         unsafe {
             let _: () = msg_send_1(
                 self.as_ptr(),
@@ -1066,7 +1066,7 @@ impl TemporalDenoisedScaler {
     }
 
     /// Encode the scaling operation to a MTL4 command buffer.
-    pub fn encode_to_mtl4_command_buffer(&self, command_buffer: &mtl::mtl4::CommandBuffer) {
+    pub fn encode_to_mtl4_command_buffer(&self, command_buffer: &mtl_gpu::mtl4::CommandBuffer) {
         unsafe {
             let _: () = msg_send_1(
                 self.as_ptr(),

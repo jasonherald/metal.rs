@@ -5,7 +5,7 @@
 //!
 //! Run with: cargo run --example 01_device_info
 
-use mtl::device;
+use mtl_gpu::device;
 
 fn main() {
     println!("Metal Device Information");
@@ -138,7 +138,7 @@ fn main() {
     }
 
     // GPU Families
-    use mtl::GPUFamily;
+    use mtl_gpu::GPUFamily;
     println!("\nGPU Family Support:");
     let families = [
         (GPUFamily::COMMON1, "Common1"),

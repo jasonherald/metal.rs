@@ -28,7 +28,7 @@ jobs:
 
       - name: Add redirect to main crate
         run: |
-          echo '<meta http-equiv="refresh" content="0; url=mtl/index.html">' > target/doc/index.html
+          echo '<meta http-equiv="refresh" content="0; url=mtl_gpu/index.html">' > target/doc/index.html
           touch target/doc/.nojekyll
 
       - name: Upload artifact

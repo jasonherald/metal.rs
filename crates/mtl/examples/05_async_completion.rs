@@ -9,7 +9,7 @@
 //!
 //! Run with: cargo run --example 05_async_completion
 
-use mtl::{CommandBufferStatus, ResourceOptions, device};
+use mtl_gpu::{CommandBufferStatus, ResourceOptions, device};
 use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, AtomicU32, Ordering};
 use std::time::Duration;
@@ -208,7 +208,7 @@ fn main() {
 
     // Encode compute work
     let encoder_ptr = command_buffer4.compute_command_encoder();
-    let encoder = unsafe { mtl::ComputeCommandEncoder::from_raw(encoder_ptr) }
+    let encoder = unsafe { mtl_gpu::ComputeCommandEncoder::from_raw(encoder_ptr) }
         .expect("Failed to create compute encoder");
 
     encoder.set_compute_pipeline_state(&pipeline);
@@ -220,8 +220,8 @@ fn main() {
     let threadgroups = buffer_size.div_ceil(threads_per_group);
 
     encoder.dispatch_threadgroups(
-        mtl::Size::new(threadgroups, 1, 1),
-        mtl::Size::new(threads_per_group, 1, 1),
+        mtl_gpu::Size::new(threadgroups, 1, 1),
+        mtl_gpu::Size::new(threads_per_group, 1, 1),
     );
 
     encoder.end_encoding();

@@ -1,5 +1,5 @@
 [package]
-name = "mtl"
+name = "mtl-gpu"
 description = "Rust bindings to Apple's Metal framework"
 version.workspace = true
 edition.workspace = true

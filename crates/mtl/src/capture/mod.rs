@@ -8,8 +8,8 @@
 //! # Example
 //!
 //! ```ignore
-//! use mtl::capture::CaptureManager;
-//! use mtl::device::system_default;
+//! use mtl_gpu::capture::CaptureManager;
+//! use mtl_gpu::device::system_default;
 //!
 //! let device = system_default().expect("no Metal device");
 //! let manager = CaptureManager::shared();

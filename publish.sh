@@ -32,50 +32,40 @@ fi
 echo -e "${GREEN}✓${NC} Git working directory is clean"
 
 # Crates in dependency order (must publish in this order)
+# Note: mtl-sys and mtl-foundation are already published
 CRATES=(
-    "mtl-sys"
-    "mtl-foundation"
-    "mtl"
+    "mtl-gpu"
     "mtl-quartz-core"
     "mtl-fx"
 )
 
-# Step 1: Dry run first crate only (others will fail because deps aren't on crates.io yet)
-echo ""
-echo -e "${YELLOW}Step 1: Running dry-run for mtl-sys (base crate)...${NC}"
-echo ""
-
-if ! cargo publish -p mtl-sys --dry-run; then
-    echo -e "${RED}Dry-run failed for mtl-sys${NC}"
-    exit 1
-fi
-echo -e "${GREEN}✓${NC} mtl-sys passed dry-run"
-
-echo ""
-echo -e "${YELLOW}Note: Skipping dry-run for dependent crates (they can't verify until dependencies are published)${NC}"
-
-# Step 2: Ask for confirmation
+# Step 1: Ask for confirmation
 echo ""
 echo "========================================"
 echo "  Ready to publish the following crates:"
 echo "========================================"
 echo ""
+echo "  Already published:"
+echo "    - mtl-sys (v1.0.0) ✓"
+echo "    - mtl-foundation (v1.0.0) ✓"
+echo ""
+echo "  To be published:"
 for crate in "${CRATES[@]}"; do
-    echo "  - $crate (v1.0.0)"
+    echo "    - $crate (v1.0.0)"
 done
 echo ""
 echo -e "${YELLOW}WARNING: Once published, versions cannot be changed or deleted!${NC}"
 echo ""
-read -p "Type 'publish' to confirm and publish all crates: " confirmation
+read -p "Type 'publish' to confirm and publish remaining crates: " confirmation
 
 if [ "$confirmation" != "publish" ]; then
     echo -e "${RED}Aborted.${NC}"
     exit 1
 fi
 
-# Step 3: Publish each crate
+# Step 2: Publish each crate
 echo ""
-echo -e "${YELLOW}Step 2: Publishing crates...${NC}"
+echo -e "${YELLOW}Publishing crates...${NC}"
 echo ""
 
 for crate in "${CRATES[@]}"; do
@@ -101,7 +91,7 @@ echo ""
 echo "Your crates are now available at:"
 echo "  https://crates.io/crates/mtl-sys"
 echo "  https://crates.io/crates/mtl-foundation"
-echo "  https://crates.io/crates/mtl"
+echo "  https://crates.io/crates/mtl-gpu"
 echo "  https://crates.io/crates/mtl-quartz-core"
 echo "  https://crates.io/crates/mtl-fx"
 echo ""

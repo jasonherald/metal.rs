@@ -48,7 +48,7 @@
 //! Note: Metal 4 requires macOS 15+ or iOS 18+. This example demonstrates
 //! the API structure without requiring an actual neural network model.
 
-use mtl::device;
+use mtl_gpu::device;
 
 fn main() {
     println!("Metal 4 Machine Learning Pipeline Example");
@@ -89,7 +89,7 @@ fn main() {
     // =======================================================================
     println!("\n--- Part 2: MachineLearningPipelineDescriptor ---");
 
-    match mtl::mtl4::MachineLearningPipelineDescriptor::new() {
+    match mtl_gpu::mtl4::MachineLearningPipelineDescriptor::new() {
         Some(ml_desc) => {
             println!("Created MachineLearningPipelineDescriptor");
 
@@ -129,7 +129,7 @@ fn main() {
     println!("\n--- Part 3: ArgumentTable ---");
 
     // Create argument table descriptor
-    match mtl::mtl4::ArgumentTableDescriptor::new() {
+    match mtl_gpu::mtl4::ArgumentTableDescriptor::new() {
         Some(table_desc) => {
             println!("Created ArgumentTableDescriptor");
 
@@ -199,7 +199,7 @@ fn main() {
     // =======================================================================
     println!("\n--- Part 4: Compiler for ML Pipelines ---");
 
-    let compiler_desc = match mtl::mtl4::CompilerDescriptor::new() {
+    let compiler_desc = match mtl_gpu::mtl4::CompilerDescriptor::new() {
         Some(desc) => {
             desc.set_label("ML Pipeline Compiler");
             println!("Created CompilerDescriptor");
@@ -269,9 +269,9 @@ fn main() {
     println!("  4. encoder.dispatch_network(&heap);");
 
     // Create a sample heap to show the API
-    let heap_desc = mtl::HeapDescriptor::new().expect("Failed to create heap descriptor");
+    let heap_desc = mtl_gpu::HeapDescriptor::new().expect("Failed to create heap descriptor");
     heap_desc.set_size(1024 * 1024); // 1 MB placeholder
-    heap_desc.set_storage_mode(mtl::enums::StorageMode::PRIVATE);
+    heap_desc.set_storage_mode(mtl_gpu::enums::StorageMode::PRIVATE);
 
     match device.new_heap(&heap_desc) {
         Some(heap) => {
@@ -312,7 +312,7 @@ fn main() {
 
     println!("```rust");
     println!("// 1. Setup");
-    println!("let device = mtl::device::system_default().unwrap();");
+    println!("let device = mtl_gpu::device::system_default().unwrap();");
     println!("let queue = device.new_mtl4_command_queue().unwrap();");
     println!("let allocator = device.new_command_allocator().unwrap();");
     println!();

@@ -9,7 +9,7 @@
 //!
 //! Run with: cargo run --example 03_render_triangle
 
-use mtl::{
+use mtl_gpu::{
     ClearColor, LoadAction, PixelFormat, PrimitiveType, RenderCommandEncoder,
     RenderPipelineDescriptor, RenderPipelineState, StorageMode, StoreAction, TextureDescriptor,
     TextureUsage, device,
@@ -145,7 +145,7 @@ fn main() {
 
     // Step 5: Set up render pass descriptor
     let render_pass_desc =
-        mtl::RenderPassDescriptor::new().expect("Failed to create render pass descriptor");
+        mtl_gpu::RenderPassDescriptor::new().expect("Failed to create render pass descriptor");
 
     if let Some(color_attachments) = render_pass_desc.color_attachments() {
         if let Some(color_attachment) = color_attachments.object_at(0) {
@@ -164,7 +164,7 @@ fn main() {
     encoder.set_render_pipeline_state(&pipeline);
 
     // Set viewport
-    let viewport = mtl::Viewport {
+    let viewport = mtl_gpu::Viewport {
         origin_x: 0.0,
         origin_y: 0.0,
         width: texture_width as f64,
@@ -193,7 +193,7 @@ fn main() {
     let data_size = texture_height * bytes_per_row;
     let mut pixel_data = vec![0u8; data_size];
 
-    let region = mtl::Region::new_2d(0, 0, texture_width, texture_height);
+    let region = mtl_gpu::Region::new_2d(0, 0, texture_width, texture_height);
     unsafe {
         texture.get_bytes_simple(
             pixel_data.as_mut_ptr() as *mut std::ffi::c_void,

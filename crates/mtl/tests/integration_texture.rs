@@ -3,10 +3,10 @@
 //! These tests verify that texture operations work correctly with the Metal GPU.
 //! They test texture creation, pixel data read/write, and texture properties.
 
-use mtl::{PixelFormat, Region, StorageMode, TextureDescriptor, TextureUsage, device};
+use mtl_gpu::{PixelFormat, Region, StorageMode, TextureDescriptor, TextureUsage, device};
 
 /// Get the default Metal device or skip the test.
-fn get_device() -> mtl::Device {
+fn get_device() -> mtl_gpu::Device {
     device::system_default().expect("No Metal device available")
 }
 
@@ -112,7 +112,7 @@ fn test_texture_invalid_dimensions() {
     assert!(result.is_err(), "Should fail with zero width");
 
     match result {
-        Err(mtl::ValidationError::InvalidTextureDimensions { width, .. }) => {
+        Err(mtl_gpu::ValidationError::InvalidTextureDimensions { width, .. }) => {
             assert_eq!(width, 0);
         }
         Err(e) => panic!("Expected InvalidTextureDimensions, got: {:?}", e),
@@ -193,7 +193,7 @@ fn test_texture_3d_descriptor() {
     let device = get_device();
 
     let descriptor = TextureDescriptor::new().unwrap();
-    descriptor.set_texture_type(mtl::TextureType::TYPE_3D);
+    descriptor.set_texture_type(mtl_gpu::TextureType::TYPE_3D);
     descriptor.set_pixel_format(PixelFormat::RGBA8_UNORM);
     descriptor.set_width(16);
     descriptor.set_height(16);
@@ -219,7 +219,7 @@ fn test_texture_array() {
     let device = get_device();
 
     let descriptor = TextureDescriptor::new().unwrap();
-    descriptor.set_texture_type(mtl::TextureType::TYPE_2D_ARRAY);
+    descriptor.set_texture_type(mtl_gpu::TextureType::TYPE_2D_ARRAY);
     descriptor.set_pixel_format(PixelFormat::RGBA8_UNORM);
     descriptor.set_width(64);
     descriptor.set_height(64);
@@ -314,7 +314,7 @@ fn test_texture_descriptor_size() {
 #[test]
 fn test_texture_size() {
     assert_eq!(
-        std::mem::size_of::<mtl::Texture>(),
+        std::mem::size_of::<mtl_gpu::Texture>(),
         std::mem::size_of::<*mut std::ffi::c_void>()
     );
 }

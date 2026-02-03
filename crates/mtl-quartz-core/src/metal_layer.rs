@@ -51,17 +51,17 @@ impl MetalLayer {
     /// Get the Metal device used by this layer.
     ///
     /// C++ equivalent: `MTL::Device* device() const`
-    pub fn device(&self) -> Option<mtl::Device> {
+    pub fn device(&self) -> Option<mtl_gpu::Device> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(device));
-            mtl::Device::from_raw(ptr)
+            mtl_gpu::Device::from_raw(ptr)
         }
     }
 
     /// Set the Metal device for this layer.
     ///
     /// C++ equivalent: `void setDevice(MTL::Device* device)`
-    pub fn set_device(&self, device: &mtl::Device) {
+    pub fn set_device(&self, device: &mtl_gpu::Device) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setDevice:), device.as_ptr());
         }
@@ -70,14 +70,14 @@ impl MetalLayer {
     /// Get the pixel format of the layer's textures.
     ///
     /// C++ equivalent: `MTL::PixelFormat pixelFormat() const`
-    pub fn pixel_format(&self) -> mtl::PixelFormat {
+    pub fn pixel_format(&self) -> mtl_gpu::PixelFormat {
         unsafe { msg_send_0(self.as_ptr(), sel!(pixelFormat)) }
     }
 
     /// Set the pixel format of the layer's textures.
     ///
     /// C++ equivalent: `void setPixelFormat(MTL::PixelFormat pixelFormat)`
-    pub fn set_pixel_format(&self, pixel_format: mtl::PixelFormat) {
+    pub fn set_pixel_format(&self, pixel_format: mtl_gpu::PixelFormat) {
         unsafe {
             let _: () = msg_send_1(self.as_ptr(), sel!(setPixelFormat:), pixel_format);
         }
@@ -211,10 +211,10 @@ impl MetalLayer {
     /// Get the residency set used by this layer.
     ///
     /// C++ equivalent: `MTL::ResidencySet* residencySet() const`
-    pub fn residency_set(&self) -> Option<mtl::ResidencySet> {
+    pub fn residency_set(&self) -> Option<mtl_gpu::ResidencySet> {
         unsafe {
             let ptr: *mut c_void = msg_send_0(self.as_ptr(), sel!(residencySet));
-            mtl::ResidencySet::from_raw(ptr)
+            mtl_gpu::ResidencySet::from_raw(ptr)
         }
     }
 }
